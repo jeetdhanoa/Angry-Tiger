@@ -25,7 +25,7 @@ export function validEmail(email: string): boolean {
 const DUPLICATE = "23505";
 
 async function insertEmail(
-  table: "newsletter_signups" | "waitlist_signups",
+  table: "newsletter" | "waitlist",
   email: string
 ): Promise<SubmitResult> {
   if (!validEmail(email)) return { ok: false, error: "Enter a real email." };
@@ -46,11 +46,11 @@ async function insertEmail(
 }
 
 export function joinNewsletter(email: string): Promise<SubmitResult> {
-  return insertEmail("newsletter_signups", email);
+  return insertEmail("newsletter", email);
 }
 
 export function joinWaitlist(email: string): Promise<SubmitResult> {
-  return insertEmail("waitlist_signups", email);
+  return insertEmail("waitlist", email);
 }
 
 export async function submitContact(fields: {
@@ -63,18 +63,18 @@ export async function submitContact(fields: {
     return { ok: false, error: "Tell us the story. Logline first." };
   if (!supabaseConfigured) return { ok: false, error: NOT_CONFIGURED };
   try {
-    const { error } = await createClient().from("contact_submissions").insert({
+    const { error } = await createClient().from("contact").insert({
       name: fields.name.trim(),
       email: fields.email.trim().toLowerCase(),
       story: fields.story.trim(),
     });
     if (error) {
-      console.error("[contact_submissions]", error.message);
+      console.error("[contact]", error.message);
       return { ok: false, error: GENERIC_FAIL };
     }
     return { ok: true };
   } catch (e) {
-    console.error("[contact_submissions]", e);
+    console.error("[contact]", e);
     return { ok: false, error: GENERIC_FAIL };
   }
 }
