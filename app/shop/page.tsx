@@ -1,12 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
 import ImageSlot from "@/components/ImageSlot";
-import { useCart } from "@/lib/cart";
-
-const SIZES = ["S", "M", "L", "XL"];
+import { useCart, rupees } from "@/lib/cart";
+import { fetchProducts, FALLBACK_PRODUCTS, type Product } from "@/lib/products";
 
 const CATS: [string, string][] = [
   ["all", "All"],
@@ -17,29 +16,31 @@ const CATS: [string, string][] = [
   ["objects", "Objects"],
 ];
 
-const PRODUCTS = [
-  {
-    name: "The tiger tee.",
-    cat: "clothing",
-    catLabel: "Clothing",
-    price: "₹1,499",
-    tag: "Drop 001 · Pre-order",
-  },
-];
-
-// Design prop carried over from the prototype ("soldOut" tweak).
-const SOLD_OUT = false;
+const catLabel = (key: string) => (CATS.find(([k]) => k === key) ?? CATS[0])[1];
 
 export default function Shop() {
   const cart = useCart();
+  const [products, setProducts] = useState<Product[]>(FALLBACK_PRODUCTS);
   const [size, setSize] = useState("M");
   const [cat, setCat] = useState("all");
 
-  const products = PRODUCTS.filter((p) => cat === "all" || p.cat === cat);
-  const activeCatLabel = (CATS.find(([k]) => k === cat) || CATS[0])[1];
+  useEffect(() => {
+    fetchProducts().then(setProducts);
+  }, []);
+
+  // Drop 001 hero product; the seeded catalog row once Supabase answers.
+  const tee = products.find((p) => p.slug === "tiger-tee") ?? products[0];
+
+  const visible = products.filter((p) => cat === "all" || p.category === cat);
 
   const addToCart = () => {
-    cart.add({ id: "tee-" + size, name: "The tiger tee", size, price: 1499 });
+    cart.add({
+      productId: tee.id,
+      legacyId: "tee-" + size,
+      name: tee.name,
+      size,
+      price: tee.price,
+    });
   };
 
   return (
@@ -58,11 +59,11 @@ export default function Shop() {
             front and center. Made in India. One drop at a time, and when it&apos;s gone,
             it&apos;s gone.
           </p>
-          <span className="shop-drop__price">₹1,499</span>
+          <span className="shop-drop__price">{rupees(tee.price)}</span>
           <div className="shop-sizes">
             <span className="caption-label caption-label--white">Size</span>
             <div className="shop-sizes__row">
-              {SIZES.map((s) => (
+              {tee.sizes.map((s) => (
                 <button
                   key={s}
                   type="button"
@@ -75,7 +76,7 @@ export default function Shop() {
             </div>
           </div>
           <div className="shop-add">
-            {!SOLD_OUT ? (
+            {!tee.soldOut ? (
               <>
                 <Button variant="primary" size="lg" onClick={addToCart}>
                   Add to cart
@@ -108,21 +109,21 @@ export default function Shop() {
             </button>
           ))}
         </div>
-        {products.length > 0 ? (
+        {visible.length > 0 ? (
           <div className="shop-grid">
-            {products.map((p) => (
-              <div key={p.name} className="shop-card">
+            {visible.map((p) => (
+              <div key={p.slug} className="shop-card">
                 <span className="shop-card__meta">
-                  {p.catLabel} · {p.tag}
+                  {catLabel(p.category)} · {p.tag}
                 </span>
                 <span className="shop-card__name">{p.name}</span>
-                <span className="shop-card__price">{p.price}</span>
+                <span className="shop-card__price">{rupees(p.price)}</span>
               </div>
             ))}
           </div>
         ) : (
           <div className="shop-empty">
-            <p className="shop-empty__title">Nothing in {activeCatLabel} yet.</p>
+            <p className="shop-empty__title">Nothing in {catLabel(cat)} yet.</p>
             <p className="shop-empty__sub">
               Every release adds to the shelf. Sign up in the footer to hear first.
             </p>

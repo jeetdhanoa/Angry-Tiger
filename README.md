@@ -72,12 +72,21 @@ SQL Editor — it creates the tables with insert-only RLS (visitors can write,
 nothing is readable through the public API). Read submissions in
 Supabase → Table Editor. Duplicate newsletter/waitlist emails read as success.
 
+## Cart & catalog (Supabase)
+
+- **Products** load from the public `products` table (`lib/products.ts`), with a
+  built-in fallback so the shop renders even before Supabase answers.
+- **Cart** (`lib/cart.tsx`): signed-in users get rows in the `cart` table — the
+  cart follows them across devices. Guests keep a `localStorage["at-cart-v1"]`
+  cart; on sign-in it merges into the account cart (quantities add) and local
+  storage is cleared.
+
 ## Prototype state → production TODO
 
 Still front-end prototypes, carried over from the design intentionally:
 
-- **Cart** persists to `localStorage["at-cart-v1"]` — replace with a real cart
-  service / payments when commerce goes live
+- **Checkout** — the cart is real, but checkout still only shows the pre-order
+  note; payments (and writing `orders`) come with commerce
 - `<ImageSlot>` components mark where real photography goes (Home production
   still, Shop product shot, About B&W still). Art direction: B&W / red-duotone,
   grainy, a wide range of people on and off screen. Parents already apply the
