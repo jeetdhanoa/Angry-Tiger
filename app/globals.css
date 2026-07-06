@@ -2281,3 +2281,11 @@ button {
     font-size: clamp(56px, 21vw, 80px);
   }
 }
+
+/* Inline form feedback (footer signup, waitlist, contact form) */
+.form-error {
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  color: var(--at-red-bright);
+  flex-basis: 100%;
+}

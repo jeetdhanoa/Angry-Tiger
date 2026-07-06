@@ -3,10 +3,25 @@
 import Link from "next/link";
 import { useState } from "react";
 import Button from "@/components/Button";
+import { joinNewsletter } from "@/lib/submissions";
 
 export default function Footer() {
   const [joined, setJoined] = useState(false);
   const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  const signUp = async () => {
+    setError("");
+    setBusy(true);
+    const res = await joinNewsletter(email);
+    setBusy(false);
+    if (!res.ok) {
+      setError(res.error || "That didn't go through.");
+      return;
+    }
+    setJoined(true);
+  };
 
   return (
     <footer className="footer">
@@ -24,10 +39,14 @@ export default function Footer() {
               aria-label="Email address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") signUp();
+              }}
             />
-            <Button variant="primary" size="md" onClick={() => setJoined(true)}>
-              Sign up
+            <Button variant="primary" size="md" onClick={signUp} disabled={busy}>
+              {busy ? "Signing up…" : "Sign up"}
             </Button>
+            {error && <span className="form-error">{error}</span>}
           </div>
         ) : (
           <p className="footer__joined">You&apos;re on the list.</p>

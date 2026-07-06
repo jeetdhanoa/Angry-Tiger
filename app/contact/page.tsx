@@ -3,9 +3,27 @@
 import { useState } from "react";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
+import { submitContact } from "@/lib/submissions";
 
 export default function Contact() {
   const [sent, setSent] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [story, setStory] = useState("");
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  const send = async () => {
+    setError("");
+    setBusy(true);
+    const res = await submitContact({ name, email, story });
+    setBusy(false);
+    if (!res.ok) {
+      setError(res.error || "That didn't go through.");
+      return;
+    }
+    setSent(true);
+  };
 
   return (
     <div className="page">
@@ -65,24 +83,43 @@ export default function Contact() {
             <div className="contact-form__fields">
               <label className="field">
                 <span>Name</span>
-                <input type="text" className="input-dark" placeholder="Your name" />
+                <input
+                  type="text"
+                  className="input-dark"
+                  placeholder="Your name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
               </label>
               <label className="field">
                 <span>Email</span>
-                <input type="email" className="input-dark" placeholder="your@email.com" />
+                <input
+                  type="email"
+                  className="input-dark"
+                  placeholder="your@email.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </label>
               <label className="field">
                 <span>Your story</span>
-                <textarea className="input-dark" placeholder="Logline first." />
+                <textarea
+                  className="input-dark"
+                  placeholder="Logline first."
+                  value={story}
+                  onChange={(e) => setStory(e.target.value)}
+                />
               </label>
               <Button
                 variant="primary"
                 size="md"
                 style={{ alignSelf: "flex-start" }}
-                onClick={() => setSent(true)}
+                onClick={send}
+                disabled={busy}
               >
-                Send it
+                {busy ? "Sending…" : "Send it"}
               </Button>
+              {error && <span className="form-error">{error}</span>}
             </div>
           ) : (
             <div className="contact-form__sent">

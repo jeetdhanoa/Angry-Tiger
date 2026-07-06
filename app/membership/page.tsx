@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
+import { joinWaitlist } from "@/lib/submissions";
 
 // Design props carried over from the prototype.
 const PRICE = "₹999";
@@ -52,6 +53,20 @@ export default function Membership() {
   const [joined, setJoined] = useState(false);
   const [email, setEmail] = useState("");
   const [open, setOpen] = useState(-1);
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  const join = async () => {
+    setError("");
+    setBusy(true);
+    const res = await joinWaitlist(email);
+    setBusy(false);
+    if (!res.ok) {
+      setError(res.error || "That didn't go through.");
+      return;
+    }
+    setJoined(true);
+  };
 
   return (
     <div className="page">
@@ -128,10 +143,14 @@ export default function Membership() {
                 aria-label="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") join();
+                }}
               />
-              <Button variant="secondary" size="md" onClick={() => setJoined(true)}>
-                Join the waitlist
+              <Button variant="secondary" size="md" onClick={join} disabled={busy}>
+                {busy ? "Joining…" : "Join the waitlist"}
               </Button>
+              {error && <span className="form-error">{error}</span>}
             </div>
           ) : (
             <p className="mem-cta__joined">You&apos;re in The Ambush.</p>
