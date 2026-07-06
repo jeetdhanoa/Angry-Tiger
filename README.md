@@ -39,13 +39,36 @@ Brand spec: hard cuts and quick fades, 120–200ms, no springs.
 - Letter-hover (`data-letter-hover`): letters lift/scale in a 24ms cascade
 - Everything respects `prefers-reduced-motion`
 
+## Authentication (Supabase Auth)
+
+Account sign-in / sign-up runs on **Supabase Auth** (email + password), wired
+through `@supabase/ssr`:
+
+- `lib/supabase/client.ts` — browser client + `supabaseConfigured` flag
+- `lib/supabase/server.ts` — server client (Server Components / Route Handlers)
+- `lib/supabase/middleware.ts` + `middleware.ts` — refresh the session per request
+- `lib/auth.tsx` — `AuthProvider` / `useAuth()` (`signIn`, `signUp`, `signOut`, `user`)
+- The account drawer in `components/Nav.tsx` consumes `useAuth()`
+
+**Setup (required for auth to work):**
+
+1. Create a project at [supabase.com](https://supabase.com).
+2. Copy `.env.example` → `.env.local` and fill in `NEXT_PUBLIC_SUPABASE_URL` and
+   `NEXT_PUBLIC_SUPABASE_ANON_KEY` (Project Settings → API). Restart `npm run dev`.
+3. Add those same two vars in Vercel → Project → Settings → Environment Variables.
+4. (Optional) In Supabase → Authentication → Providers → Email, turn **off**
+   "Confirm email" for instant sign-in during testing, or leave it on to require
+   email confirmation (the UI handles both).
+
+Until the env vars are set, the app runs in a graceful **"sign-in isn't connected
+yet"** mode — every other part of the site works normally.
+
 ## Prototype state → production TODO
 
-These are front-end prototypes, carried over from the design intentionally:
+Still front-end prototypes, carried over from the design intentionally:
 
 - **Cart** persists to `localStorage["at-cart-v1"]` — replace with a real cart
   service / payments when commerce goes live
-- **Account** persists to `localStorage["at-account-v1"]` — replace with real auth
 - Newsletter, waitlist and contact forms only update local UI state — wire to a
   backend or form service
 - `<ImageSlot>` components mark where real photography goes (Home production

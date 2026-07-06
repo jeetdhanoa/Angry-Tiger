@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useCart, rupees } from "@/lib/cart";
+import { useAuth } from "@/lib/auth";
 
 const LINKS = [
   { key: "projects", label: "Projects", href: "/projects" },
@@ -26,11 +27,10 @@ const SEARCH_INDEX = [
   { label: "Submissions", sub: "Scripts, loglines, reels. Start with a logline", href: "/contact" },
 ];
 
-const ACCOUNT_KEY = "at-account-v1";
-
 export default function Nav() {
   const pathname = usePathname();
   const cart = useCart();
+  const auth = useAuth();
 
   const [searchOpen, setSearchOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
@@ -39,18 +39,13 @@ export default function Nav() {
 
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
-  const [authEmail, setAuthEmail] = useState("");
-  const [signInError, setSignInError] = useState(false);
+  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [authError, setAuthError] = useState("");
+  const [notice, setNotice] = useState("");
+  const [busy, setBusy] = useState(false);
   const [checkoutNote, setCheckoutNote] = useState(false);
 
   const searchRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    try {
-      const acc = JSON.parse(localStorage.getItem(ACCOUNT_KEY) || "null");
-      if (acc && acc.email) setAuthEmail(acc.email);
-    } catch {}
-  }, []);
 
   const closeAll = useCallback(() => {
     setSearchOpen(false);
@@ -96,26 +91,40 @@ export default function Nav() {
     setMenuOpen(true);
   };
 
-  const signIn = () => {
+  const submitAuth = async () => {
     const em = email.trim();
     if (!em || !pw) {
-      setSignInError(true);
+      setAuthError("Enter your email and password.");
       return;
     }
-    try {
-      localStorage.setItem(ACCOUNT_KEY, JSON.stringify({ email: em }));
-    } catch {}
-    setAuthEmail(em);
-    setSignInError(false);
+    setAuthError("");
+    setNotice("");
+    setBusy(true);
+    const res =
+      mode === "signup" ? await auth.signUp(em, pw) : await auth.signIn(em, pw);
+    setBusy(false);
+    if (res.error) {
+      setAuthError(res.error);
+      return;
+    }
     setPw("");
+    if (res.needsConfirmation) {
+      setNotice("Check your email to confirm your account, then sign in.");
+      setMode("signin");
+    }
+    // On success the auth listener flips the drawer to the signed-in view.
   };
 
-  const signOut = () => {
-    try {
-      localStorage.removeItem(ACCOUNT_KEY);
-    } catch {}
-    setAuthEmail("");
+  const signOut = async () => {
+    await auth.signOut();
     setEmail("");
+    setPw("");
+    setMode("signin");
+  };
+
+  const resetAuthForm = () => {
+    setAuthError("");
+    setNotice("");
   };
 
   const q = query.trim().toLowerCase();
@@ -327,16 +336,18 @@ export default function Nav() {
                 aria-label="Close account"
                 onClick={() => {
                   setAccountOpen(false);
-                  setSignInError(false);
+                  resetAuthForm();
                 }}
               >
                 ×
               </button>
             </div>
-            {!authEmail ? (
+            {!auth.user ? (
               <div className="account__body">
                 <p className="account__intro">
-                  Ambush members and shoppers sign in here. Your cart and orders follow you.
+                  {mode === "signup"
+                    ? "Create your account to join The Ambush and keep your cart and orders in one place."
+                    : "Ambush members and shoppers sign in here. Your cart and orders follow you."}
                 </p>
                 <label className="field">
                   <span>Email</span>
@@ -345,7 +356,9 @@ export default function Nav() {
                     className="input-dark"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && submitAuth()}
                     placeholder="your@email.com"
+                    autoComplete="email"
                   />
                 </label>
                 <label className="field">
@@ -355,15 +368,37 @@ export default function Nav() {
                     className="input-dark"
                     value={pw}
                     onChange={(e) => setPw(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && submitAuth()}
                     placeholder="••••••••"
+                    autoComplete={mode === "signup" ? "new-password" : "current-password"}
                   />
                 </label>
-                <button type="button" className="account__signin" onClick={signIn}>
-                  Sign in
+                <button
+                  type="button"
+                  className="account__signin"
+                  onClick={submitAuth}
+                  disabled={busy}
+                >
+                  {busy
+                    ? "One moment…"
+                    : mode === "signup"
+                      ? "Create account"
+                      : "Sign in"}
                 </button>
-                {signInError && (
-                  <span className="account__error">Enter your email and password.</span>
-                )}
+                {authError && <span className="account__error">{authError}</span>}
+                {notice && <span className="account__notice">{notice}</span>}
+                <button
+                  type="button"
+                  className="account__toggle"
+                  onClick={() => {
+                    setMode(mode === "signin" ? "signup" : "signin");
+                    resetAuthForm();
+                  }}
+                >
+                  {mode === "signin"
+                    ? "New here? Create an account →"
+                    : "Have an account? Sign in →"}
+                </button>
                 <Link href="/membership" className="account__join">
                   Not a member? Join The Ambush →
                 </Link>
@@ -375,7 +410,7 @@ export default function Nav() {
                 </p>
                 <div className="account__row">
                   <span className="account__row-label">Signed in as</span>
-                  <span className="account__row-value">{authEmail}</span>
+                  <span className="account__row-value">{auth.user.email}</span>
                 </div>
                 <div className="account__row">
                   <span className="account__row-label">Membership</span>

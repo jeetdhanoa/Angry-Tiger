@@ -925,6 +925,34 @@ button {
   color: var(--at-red);
 }
 
+.account__notice {
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  line-height: var(--leading-body);
+  color: var(--text-body);
+}
+
+.account__toggle {
+  align-self: flex-start;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--text-muted);
+  transition: color var(--duration-fast) var(--ease-cut);
+}
+
+.account__toggle:hover {
+  color: var(--at-red-bright);
+}
+
+.account__signin:disabled {
+  opacity: var(--disabled-opacity);
+  cursor: not-allowed;
+}
+
 .account__in {
   display: flex;
   flex-direction: column;
