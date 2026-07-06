@@ -38,7 +38,6 @@ export default function Splash() {
       {(phase === "show" || phase === "fade" || phase === "init") && (
         <div className="splash" style={{ opacity: phase === "fade" ? 0 : 1 }}>
           <img src="/logos/at-brand-symbol-red.png" alt="Angry Tiger" />
-          <span>Angry Tiger</span>
         </div>
       )}
     </>
