@@ -73,6 +73,16 @@ export default function Nav() {
     if (searchOpen) setTimeout(() => searchRef.current?.focus(), 60);
   }, [searchOpen]);
 
+  // The account dashboard's sign-in gate asks the nav to open the drawer.
+  useEffect(() => {
+    const open = () => {
+      closeAll();
+      setAccountOpen(true);
+    };
+    window.addEventListener("at-open-account", open);
+    return () => window.removeEventListener("at-open-account", open);
+  }, [closeAll]);
+
   const openSearch = () => {
     closeAll();
     setQuery("");
@@ -422,6 +432,14 @@ export default function Nav() {
                   <span className="account__row-label">Orders</span>
                   <span className="account__row-value">Nothing yet</span>
                 </div>
+                <Link
+                  href="/account"
+                  className="account__join"
+                  style={{ marginTop: 24 }}
+                  onClick={() => setAccountOpen(false)}
+                >
+                  Your account →
+                </Link>
                 <button type="button" className="account__signout" onClick={signOut}>
                   Sign out
                 </button>

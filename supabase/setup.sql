@@ -211,3 +211,49 @@ create policy "anon can insert" on public.waitlist
 grant insert on public.newsletter to anon, authenticated;
 grant insert on public.contact to anon, authenticated;
 grant insert on public.waitlist to anon, authenticated;
+
+-- ------------------------------------------------------------
+-- 6. Phase 9 — addresses & downloads (member dashboard)
+-- ------------------------------------------------------------
+create table if not exists public.addresses (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  user_id uuid not null references auth.users (id) on delete cascade,
+  label text not null default 'Home',
+  name text not null default '',
+  line1 text not null,
+  line2 text not null default '',
+  city text not null,
+  state text not null default '',
+  pincode text not null default '',
+  phone text not null default '',
+  is_default boolean not null default false
+);
+
+alter table public.addresses enable row level security;
+
+drop policy if exists "manage own addresses" on public.addresses;
+create policy "manage own addresses" on public.addresses
+  for all to authenticated
+  using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+grant select, insert, update, delete on public.addresses to authenticated;
+
+-- Digital goods granted to a user (screeners, wallpapers, drops).
+-- Rows are created from the dashboard; members can only read their own.
+create table if not exists public.downloads (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  user_id uuid not null references auth.users (id) on delete cascade,
+  name text not null,
+  note text not null default '',
+  url text not null
+);
+
+alter table public.downloads enable row level security;
+
+drop policy if exists "read own downloads" on public.downloads;
+create policy "read own downloads" on public.downloads
+  for select to authenticated using (auth.uid() = user_id);
+
+grant select on public.downloads to authenticated;
