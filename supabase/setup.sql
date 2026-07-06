@@ -267,3 +267,33 @@ grant select on public.downloads to authenticated;
 -- revoke insert on public.newsletter from anon, authenticated;
 -- revoke insert on public.contact from anon, authenticated;
 -- revoke insert on public.waitlist from anon, authenticated;
+
+-- ------------------------------------------------------------
+-- 8. Numbered waitlist — join_waitlist() returns your place in line.
+--    Runs as definer so visitors get a number without read access
+--    to the table. Rejoining returns the same number.
+-- ------------------------------------------------------------
+create or replace function public.join_waitlist(p_email text)
+returns integer
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  clean text := lower(trim(p_email));
+  pos integer;
+begin
+  if clean !~ '^[^\s@]+@[^\s@]+\.[^\s@]+$' or length(clean) > 254 then
+    raise exception 'invalid email';
+  end if;
+  insert into public.waitlist (email) values (clean)
+  on conflict (email) do nothing;
+  select count(*) into pos
+    from public.waitlist w
+    where w.created_at <= (select created_at from public.waitlist where email = clean);
+  return pos;
+end;
+$$;
+
+revoke all on function public.join_waitlist(text) from public;
+grant execute on function public.join_waitlist(text) to anon, authenticated;

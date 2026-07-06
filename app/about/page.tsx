@@ -49,7 +49,7 @@ export default function About() {
         </div>
         <div className="about-photo">
           <div className="about-photo__frame">
-            <ImageSlot placeholder="Drop a B&W production still. The work, not a portrait" />
+            <ImageSlot scene="On set" shot="003" />
           </div>
           <div className="about-photo__caption">
             <span className="about-photo__caption-label">

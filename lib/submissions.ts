@@ -4,7 +4,12 @@
    limits, checks the honeypot and (when configured) Turnstile before writing
    to Supabase. The forms keep the design's confirmation states. */
 
-export type SubmitResult = { ok: boolean; error?: string };
+export type SubmitResult = {
+  ok: boolean;
+  error?: string;
+  /** Waitlist only: the joiner's place in line. */
+  position?: number;
+};
 
 export type FormExtras = {
   /** Honeypot field value — real users never fill it. */
@@ -33,7 +38,7 @@ async function post(payload: Record<string, unknown>): Promise<SubmitResult> {
     if (!res.ok || !data?.ok) {
       return { ok: false, error: data?.error ?? GENERIC_FAIL };
     }
-    return { ok: true };
+    return { ok: true, position: typeof data.position === "number" ? data.position : undefined };
   } catch {
     return { ok: false, error: GENERIC_FAIL };
   }

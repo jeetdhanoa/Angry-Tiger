@@ -58,6 +58,7 @@ export default function Membership() {
   const [busy, setBusy] = useState(false);
   const [hp, setHp] = useState("");
   const [captcha, setCaptcha] = useState("");
+  const [position, setPosition] = useState<number | null>(null);
 
   const join = async () => {
     setError("");
@@ -68,6 +69,7 @@ export default function Membership() {
       setError(res.error || "That didn't go through.");
       return;
     }
+    setPosition(res.position ?? null);
     setJoined(true);
   };
 
@@ -167,7 +169,17 @@ export default function Membership() {
               {error && <span className="form-error">{error}</span>}
             </div>
           ) : (
-            <p className="mem-cta__joined">You&apos;re in The Ambush.</p>
+            <p className="mem-cta__joined">
+              You&apos;re in The Ambush.
+              {position !== null && (
+                <span className="mem-cta__joined-number">
+                  Nº {String(position).padStart(3, "0")} in line
+                </span>
+              )}
+              <span className="mem-cta__joined-sub">
+                Founding members go first. Watch your inbox.
+              </span>
+            </p>
           )}
         </div>
       </section>

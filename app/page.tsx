@@ -16,7 +16,7 @@ export default function Home() {
 
       <section className="home-story">
         <div className="home-story__photo">
-          <ImageSlot placeholder="Drop a production still, a wide range of people on and off screen" />
+          <ImageSlot scene="The house" shot="001" />
         </div>
         <div className="home-story__panel">
           <h2 className="display" data-letter-hover>

@@ -47,7 +47,7 @@ export default function Shop() {
     <div className="page">
       <section className="shop-drop">
         <div className="shop-drop__photo">
-          <ImageSlot placeholder="Drop a product shot, worn by a range of people" />
+          <ImageSlot scene="The tiger tee" shot="002" />
         </div>
         <div className="shop-drop__panel">
           <span className="caption-label caption-label--white">The shop · Drop 001</span>

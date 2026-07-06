@@ -1,17 +1,30 @@
-/* Placeholder for real photography. Art direction: B&W or red-duotone,
-   grainy, a wide range of people on and off screen. Swap the inner span
-   for an <img>/<Image> once shots exist — parents apply the duotone filter. */
+/* Where real photography will go. Until then: an in-world slate card —
+   tiger watermark over the dark surface, "Still to come." and a shot line,
+   like a leader frame from an unfinished print. Monochrome by design so it
+   survives the B&W/duotone filters some parents apply. */
 
 export default function ImageSlot({
-  placeholder,
-  style,
+  scene,
+  shot,
 }: {
-  placeholder: string;
-  style?: React.CSSProperties;
+  scene: string;
+  shot: string;
 }) {
   return (
-    <div className="image-slot" style={style}>
-      <span>{placeholder}</span>
+    <div className="image-slot" role="img" aria-label={`Production still coming soon — ${scene}`}>
+      <img
+        src="/logos/at-brand-symbol-white.png"
+        alt=""
+        className="image-slot__watermark"
+      />
+      <div className="image-slot__frame" />
+      <div className="image-slot__slate">
+        <span className="image-slot__eyebrow">Angry Tiger · Production still</span>
+        <span className="image-slot__title">Still to come.</span>
+        <span className="image-slot__line">
+          Scene: {scene} · Shot {shot}
+        </span>
+      </div>
     </div>
   );
 }

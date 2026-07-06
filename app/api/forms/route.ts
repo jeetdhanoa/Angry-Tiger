@@ -100,6 +100,24 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true });
   }
 
+  if (kind === "waitlist") {
+    // join_waitlist() inserts and returns the joiner's place in line
+    // (rejoining returns the same number). Falls back to a plain insert
+    // if the function hasn't been created yet.
+    const { data: position, error } = await client.rpc("join_waitlist", {
+      p_email: email,
+    });
+    if (!error && typeof position === "number") {
+      return NextResponse.json({ ok: true, position });
+    }
+    const { error: insErr } = await client.from("waitlist").insert({ email });
+    if (insErr && insErr.code !== "23505") {
+      console.error("[forms/waitlist]", (error ?? insErr).message);
+      return bad("That didn't go through. Try again, or email hello@angrytiger.in.", 500);
+    }
+    return NextResponse.json({ ok: true });
+  }
+
   const { error } = await client.from(kind).insert({ email });
   // Unique violation = already subscribed — that reads as success.
   if (error && error.code !== "23505") {
