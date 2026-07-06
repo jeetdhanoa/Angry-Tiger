@@ -45,3 +45,9 @@ alter table public.waitlist_signups enable row level security;
 drop policy if exists "anon can insert" on public.waitlist_signups;
 create policy "anon can insert" on public.waitlist_signups
   for insert to anon, authenticated with check (true);
+
+-- Newer Supabase projects don't grant table privileges to the API roles by
+-- default — RLS policies only apply on top of these grants.
+grant insert on public.contact_submissions to anon, authenticated;
+grant insert on public.newsletter_signups to anon, authenticated;
+grant insert on public.waitlist_signups to anon, authenticated;

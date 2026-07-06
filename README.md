@@ -63,14 +63,21 @@ through `@supabase/ssr`:
 Until the env vars are set, the app runs in a graceful **"sign-in isn't connected
 yet"** mode — every other part of the site works normally.
 
+## Forms (newsletter · waitlist · contact)
+
+All three forms deliver to Supabase tables (`newsletter_signups`,
+`waitlist_signups`, `contact_submissions`) via `lib/submissions.ts`.
+One-time setup: run [supabase/setup.sql](supabase/setup.sql) in the Supabase
+SQL Editor — it creates the tables with insert-only RLS (visitors can write,
+nothing is readable through the public API). Read submissions in
+Supabase → Table Editor. Duplicate newsletter/waitlist emails read as success.
+
 ## Prototype state → production TODO
 
 Still front-end prototypes, carried over from the design intentionally:
 
 - **Cart** persists to `localStorage["at-cart-v1"]` — replace with a real cart
   service / payments when commerce goes live
-- Newsletter, waitlist and contact forms only update local UI state — wire to a
-  backend or form service
 - `<ImageSlot>` components mark where real photography goes (Home production
   still, Shop product shot, About B&W still). Art direction: B&W / red-duotone,
   grainy, a wide range of people on and off screen. Parents already apply the
