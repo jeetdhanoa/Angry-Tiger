@@ -257,3 +257,13 @@ create policy "read own downloads" on public.downloads
   for select to authenticated using (auth.uid() = user_id);
 
 grant select on public.downloads to authenticated;
+
+-- ------------------------------------------------------------
+-- 7. Phase 15 — lock forms to the server route (run ONLY after
+--    SUPABASE_SERVICE_ROLE_KEY is set in Vercel and deployed).
+--    /api/forms then becomes the only door: rate-limited,
+--    honeypotted and CAPTCHA-checked. Uncomment and run:
+-- ------------------------------------------------------------
+-- revoke insert on public.newsletter from anon, authenticated;
+-- revoke insert on public.contact from anon, authenticated;
+-- revoke insert on public.waitlist from anon, authenticated;

@@ -1,16 +1,18 @@
 "use client";
 
-/* Form delivery — writes to Supabase tables (see supabase/setup.sql).
-   Row-level security allows inserts only; submissions are read in the
-   Supabase dashboard. Every helper resolves to { ok } or { ok, error }
-   so the forms can keep the design's confirmation states. */
-
-import { createClient, supabaseConfigured } from "@/lib/supabase/client";
+/* Form delivery — everything posts to /api/forms, which validates, rate
+   limits, checks the honeypot and (when configured) Turnstile before writing
+   to Supabase. The forms keep the design's confirmation states. */
 
 export type SubmitResult = { ok: boolean; error?: string };
 
-const NOT_CONFIGURED =
-  "Sending isn't connected yet. Email hello@angrytiger.in instead.";
+export type FormExtras = {
+  /** Honeypot field value — real users never fill it. */
+  website?: string;
+  /** Turnstile token when the CAPTCHA widget is active. */
+  captchaToken?: string;
+};
+
 const GENERIC_FAIL =
   "That didn't go through. Try again, or email hello@angrytiger.in.";
 
@@ -20,61 +22,40 @@ export function validEmail(email: string): boolean {
   return EMAIL_RE.test(email.trim());
 }
 
-// Unique-violation on the email column: they're already on the list —
-// treat as success so the UI confirms rather than complains.
-const DUPLICATE = "23505";
-
-async function insertEmail(
-  table: "newsletter" | "waitlist",
-  email: string
-): Promise<SubmitResult> {
-  if (!validEmail(email)) return { ok: false, error: "Enter a real email." };
-  if (!supabaseConfigured) return { ok: false, error: NOT_CONFIGURED };
+async function post(payload: Record<string, unknown>): Promise<SubmitResult> {
   try {
-    const { error } = await createClient()
-      .from(table)
-      .insert({ email: email.trim().toLowerCase() });
-    if (error && error.code !== DUPLICATE) {
-      console.error(`[${table}]`, error.message);
-      return { ok: false, error: GENERIC_FAIL };
-    }
-    return { ok: true };
-  } catch (e) {
-    console.error(`[${table}]`, e);
-    return { ok: false, error: GENERIC_FAIL };
-  }
-}
-
-export function joinNewsletter(email: string): Promise<SubmitResult> {
-  return insertEmail("newsletter", email);
-}
-
-export function joinWaitlist(email: string): Promise<SubmitResult> {
-  return insertEmail("waitlist", email);
-}
-
-export async function submitContact(fields: {
-  name: string;
-  email: string;
-  story: string;
-}): Promise<SubmitResult> {
-  if (!validEmail(fields.email)) return { ok: false, error: "Enter a real email." };
-  if (!fields.story.trim())
-    return { ok: false, error: "Tell us the story. Logline first." };
-  if (!supabaseConfigured) return { ok: false, error: NOT_CONFIGURED };
-  try {
-    const { error } = await createClient().from("contact").insert({
-      name: fields.name.trim(),
-      email: fields.email.trim().toLowerCase(),
-      story: fields.story.trim(),
+    const res = await fetch("/api/forms", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
     });
-    if (error) {
-      console.error("[contact]", error.message);
-      return { ok: false, error: GENERIC_FAIL };
+    const data = await res.json().catch(() => null);
+    if (!res.ok || !data?.ok) {
+      return { ok: false, error: data?.error ?? GENERIC_FAIL };
     }
     return { ok: true };
-  } catch (e) {
-    console.error("[contact]", e);
+  } catch {
     return { ok: false, error: GENERIC_FAIL };
   }
+}
+
+export function joinNewsletter(email: string, extras: FormExtras = {}): Promise<SubmitResult> {
+  if (!validEmail(email)) return Promise.resolve({ ok: false, error: "Enter a real email." });
+  return post({ kind: "newsletter", email, ...extras });
+}
+
+export function joinWaitlist(email: string, extras: FormExtras = {}): Promise<SubmitResult> {
+  if (!validEmail(email)) return Promise.resolve({ ok: false, error: "Enter a real email." });
+  return post({ kind: "waitlist", email, ...extras });
+}
+
+export function submitContact(
+  fields: { name: string; email: string; story: string },
+  extras: FormExtras = {}
+): Promise<SubmitResult> {
+  if (!validEmail(fields.email))
+    return Promise.resolve({ ok: false, error: "Enter a real email." });
+  if (!fields.story.trim())
+    return Promise.resolve({ ok: false, error: "Tell us the story. Logline first." });
+  return post({ kind: "contact", ...fields, ...extras });
 }

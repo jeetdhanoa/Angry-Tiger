@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useCart, rupees } from "@/lib/cart";
 import { useAuth } from "@/lib/auth";
+import Turnstile from "@/components/Turnstile";
 
 const LINKS = [
   { key: "projects", label: "Projects", href: "/projects" },
@@ -43,6 +44,9 @@ export default function Nav() {
   const [authError, setAuthError] = useState("");
   const [notice, setNotice] = useState("");
   const [busy, setBusy] = useState(false);
+  const [captcha, setCaptcha] = useState("");
+  // Turnstile tokens are single-use; remount the widget after each attempt.
+  const [captchaNonce, setCaptchaNonce] = useState(0);
   const [checkoutNote, setCheckoutNote] = useState(false);
 
   const searchRef = useRef<HTMLInputElement>(null);
@@ -111,8 +115,12 @@ export default function Nav() {
     setNotice("");
     setBusy(true);
     const res =
-      mode === "signup" ? await auth.signUp(em, pw) : await auth.signIn(em, pw);
+      mode === "signup"
+        ? await auth.signUp(em, pw, captcha || undefined)
+        : await auth.signIn(em, pw, captcha || undefined);
     setBusy(false);
+    setCaptcha("");
+    setCaptchaNonce((n) => n + 1);
     if (res.error) {
       setAuthError(res.error);
       return;
@@ -383,6 +391,7 @@ export default function Nav() {
                     autoComplete={mode === "signup" ? "new-password" : "current-password"}
                   />
                 </label>
+                <Turnstile key={captchaNonce} onToken={setCaptcha} />
                 <button
                   type="button"
                   className="account__signin"

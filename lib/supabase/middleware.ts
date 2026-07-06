@@ -11,6 +11,10 @@ export async function updateSession(request: NextRequest) {
   if (!supabaseUrl || !supabaseAnonKey) return response;
 
   const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
+    cookieOptions: {
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+    },
     cookies: {
       getAll() {
         return request.cookies.getAll();

@@ -20,8 +20,8 @@ type AuthValue = {
   user: User | null;
   loading: boolean;
   configured: boolean;
-  signIn: (email: string, password: string) => Promise<AuthResult>;
-  signUp: (email: string, password: string) => Promise<AuthResult>;
+  signIn: (email: string, password: string, captchaToken?: string) => Promise<AuthResult>;
+  signUp: (email: string, password: string, captchaToken?: string) => Promise<AuthResult>;
   signOut: () => Promise<void>;
 };
 
@@ -51,14 +51,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     user,
     loading,
     configured: supabaseConfigured,
-    signIn: async (email, password) => {
+    signIn: async (email, password, captchaToken) => {
       if (!supabase) return { error: NOT_CONFIGURED };
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+        options: { captchaToken },
+      });
       return { error: error?.message ?? null };
     },
-    signUp: async (email, password) => {
+    signUp: async (email, password, captchaToken) => {
       if (!supabase) return { error: NOT_CONFIGURED };
-      const { data, error } = await supabase.auth.signUp({ email, password });
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { captchaToken },
+      });
       if (error) return { error: error.message };
       // With email confirmation on, there's no session until the link is clicked.
       return { error: null, needsConfirmation: !data.session };

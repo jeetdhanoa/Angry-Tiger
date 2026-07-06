@@ -81,6 +81,28 @@ Supabase → Table Editor. Duplicate newsletter/waitlist emails read as success.
   cart; on sign-in it merges into the account cart (quantities add) and local
   storage is cleared.
 
+## Security
+
+- **Headers** ([next.config.ts](next.config.ts)): HSTS (2y, preload), nosniff,
+  X-Frame-Options DENY, strict referrer, minimal Permissions-Policy. HTTPS and
+  certificates are enforced by Vercel.
+- **Forms** go through [/api/forms](app/api/forms/route.ts): server-side
+  validation + length caps, honeypot field, per-IP rate limiting (8/10min),
+  and Cloudflare Turnstile verification once `TURNSTILE_SECRET_KEY` is set.
+  When `SUPABASE_SERVICE_ROLE_KEY` is configured, run the revoke block at the
+  bottom of [supabase/setup.sql](supabase/setup.sql) so the route is the only
+  write path.
+- **CAPTCHA** widgets (newsletter / waitlist / contact / auth drawer) render
+  automatically once `NEXT_PUBLIC_TURNSTILE_SITE_KEY` exists; auth passes
+  `captchaToken` so Supabase → Auth → Attack protection can be enabled.
+- **RLS** on all 9 tables (verified: public can only read active products and
+  insert form rows; users only ever see their own cart/orders/profile/
+  addresses/downloads).
+- **Cookies**: Supabase session cookies are `SameSite=Lax` + `Secure` in
+  production.
+- **Payments/webhooks**: no payment integration yet — when checkout lands,
+  webhooks must verify signatures before trusting events.
+
 ## Prototype state → production TODO
 
 Still front-end prototypes, carried over from the design intentionally:

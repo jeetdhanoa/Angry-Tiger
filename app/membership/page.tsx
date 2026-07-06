@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
+import Turnstile from "@/components/Turnstile";
 import { joinWaitlist } from "@/lib/submissions";
 
 // Design props carried over from the prototype.
@@ -55,11 +56,13 @@ export default function Membership() {
   const [open, setOpen] = useState(-1);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [hp, setHp] = useState("");
+  const [captcha, setCaptcha] = useState("");
 
   const join = async () => {
     setError("");
     setBusy(true);
-    const res = await joinWaitlist(email);
+    const res = await joinWaitlist(email, { website: hp, captchaToken: captcha });
     setBusy(false);
     if (!res.ok) {
       setError(res.error || "That didn't go through.");
@@ -147,9 +150,20 @@ export default function Membership() {
                   if (e.key === "Enter") join();
                 }}
               />
+              <input
+                type="text"
+                className="hp-field"
+                name="website"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                value={hp}
+                onChange={(e) => setHp(e.target.value)}
+              />
               <Button variant="secondary" size="md" onClick={join} disabled={busy}>
                 {busy ? "Joining…" : "Join the waitlist"}
               </Button>
+              <Turnstile onToken={setCaptcha} />
               {error && <span className="form-error">{error}</span>}
             </div>
           ) : (

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import Button from "@/components/Button";
+import Turnstile from "@/components/Turnstile";
 import { joinNewsletter } from "@/lib/submissions";
 
 export default function Footer() {
@@ -10,11 +11,13 @@ export default function Footer() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [hp, setHp] = useState("");
+  const [captcha, setCaptcha] = useState("");
 
   const signUp = async () => {
     setError("");
     setBusy(true);
-    const res = await joinNewsletter(email);
+    const res = await joinNewsletter(email, { website: hp, captchaToken: captcha });
     setBusy(false);
     if (!res.ok) {
       setError(res.error || "That didn't go through.");
@@ -43,9 +46,20 @@ export default function Footer() {
                 if (e.key === "Enter") signUp();
               }}
             />
+            <input
+              type="text"
+              className="hp-field"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              value={hp}
+              onChange={(e) => setHp(e.target.value)}
+            />
             <Button variant="primary" size="md" onClick={signUp} disabled={busy}>
               {busy ? "Signing up…" : "Sign up"}
             </Button>
+            <Turnstile onToken={setCaptcha} />
             {error && <span className="form-error">{error}</span>}
           </div>
         ) : (

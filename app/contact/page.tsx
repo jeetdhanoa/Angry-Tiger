@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
+import Turnstile from "@/components/Turnstile";
 import { submitContact } from "@/lib/submissions";
 
 export default function Contact() {
@@ -12,11 +13,16 @@ export default function Contact() {
   const [story, setStory] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [hp, setHp] = useState("");
+  const [captcha, setCaptcha] = useState("");
 
   const send = async () => {
     setError("");
     setBusy(true);
-    const res = await submitContact({ name, email, story });
+    const res = await submitContact(
+      { name, email, story },
+      { website: hp, captchaToken: captcha }
+    );
     setBusy(false);
     if (!res.ok) {
       setError(res.error || "That didn't go through.");
@@ -110,6 +116,16 @@ export default function Contact() {
                   onChange={(e) => setStory(e.target.value)}
                 />
               </label>
+              <input
+                type="text"
+                className="hp-field"
+                name="website"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                value={hp}
+                onChange={(e) => setHp(e.target.value)}
+              />
               <Button
                 variant="primary"
                 size="md"
@@ -119,6 +135,7 @@ export default function Contact() {
               >
                 {busy ? "Sending…" : "Send it"}
               </Button>
+              <Turnstile onToken={setCaptcha} />
               {error && <span className="form-error">{error}</span>}
             </div>
           ) : (
