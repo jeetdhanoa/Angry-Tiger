@@ -1,0 +1,100 @@
+"use client";
+
+import Link from "next/link";
+import { useState } from "react";
+import Button from "@/components/Button";
+
+export default function Footer() {
+  const [joined, setJoined] = useState(false);
+  const [email, setEmail] = useState("");
+
+  return (
+    <footer className="footer">
+      <div className="footer__newsletter">
+        <div className="footer__newsletter-copy">
+          <span className="lead">First to know</span>
+          <span className="sub">Announcements, premieres, drops. No noise.</span>
+        </div>
+        {!joined ? (
+          <div className="footer__signup">
+            <input
+              type="email"
+              className="input-dark"
+              placeholder="your@email.com"
+              aria-label="Email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <Button variant="primary" size="md" onClick={() => setJoined(true)}>
+              Sign up
+            </Button>
+          </div>
+        ) : (
+          <p className="footer__joined">You&apos;re on the list.</p>
+        )}
+      </div>
+      <div className="footer__cols">
+        <div className="footer__col-group">
+          <div className="footer__col">
+            <span className="footer__col-title">Contact</span>
+            <a href="mailto:hello@angrytiger.in" className="footer__link" data-letter-hover="1">
+              hello@angrytiger.in
+            </a>
+            <Link href="/contact" className="footer__link footer__link--muted" data-letter-hover="1">
+              Submissions →
+            </Link>
+            <a
+              href="mailto:hello@angrytiger.in?subject=Jobs"
+              className="footer__link footer__link--muted"
+              data-letter-hover="1"
+            >
+              Jobs →
+            </a>
+          </div>
+          <div className="footer__col">
+            <span className="footer__col-title">Explore</span>
+            <Link href="/projects" className="footer__link" data-letter-hover="1">
+              Projects
+            </Link>
+            <Link href="/shop" className="footer__link" data-letter-hover="1">
+              The Shop
+            </Link>
+            <Link href="/membership" className="footer__link" data-letter-hover="1">
+              The Ambush
+            </Link>
+            <Link href="/about" className="footer__link" data-letter-hover="1">
+              About the House
+            </Link>
+          </div>
+        </div>
+        <img
+          src="/logos/at-brand-symbol-red.png"
+          alt="Angry Tiger tiger mark"
+          className="footer__mark"
+        />
+        <div className="footer__col footer__col--right">
+          <span className="footer__col-title">Follow</span>
+          <a
+            href="https://instagram.com/angrytigerstudios"
+            target="_blank"
+            rel="noopener"
+            className="footer__link"
+            data-letter-hover="1"
+          >
+            Instagram ↗
+          </a>
+          <a
+            href="https://youtube.com/@angrytigerstudios"
+            target="_blank"
+            rel="noopener"
+            className="footer__link"
+            data-letter-hover="1"
+          >
+            YouTube ↗
+          </a>
+        </div>
+      </div>
+      <p className="footer__credit">© 2026 Angry Tiger. All Rights Reserved.</p>
+    </footer>
+  );
+}

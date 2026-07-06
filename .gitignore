@@ -1,0 +1,24 @@
+# dependencies
+node_modules/
+
+# next.js
+.next/
+out/
+build/
+
+# production / misc
+*.tsbuildinfo
+next-env.d.ts
+.vercel
+
+# env
+.env
+.env*.local
+
+# os
+.DS_Store
+
+# design source bundle — reference only, not part of the app (61MB of PDFs/fonts/zip).
+# The fonts and logos the app uses live in public/. Kept locally, not committed.
+design-handoff/
+*.zip
