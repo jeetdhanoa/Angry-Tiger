@@ -11,6 +11,7 @@ export type Profile = {
   created_at: string;
   email: string;
   name: string;
+  is_admin?: boolean;
 };
 
 export type OrderItem = {

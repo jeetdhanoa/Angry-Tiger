@@ -2410,6 +2410,10 @@ button {
   color: var(--text-muted);
 }
 
+.acct-rail__link--office {
+  color: var(--at-red);
+}
+
 .acct-section {
   display: flex;
   flex-direction: column;
@@ -2796,4 +2800,162 @@ button {
   font-size: var(--text-small);
   line-height: var(--leading-body);
   color: var(--at-grey-dark);
+}
+
+/* ============================================================
+   The office (/admin)
+   ============================================================ */
+
+.adm-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+  gap: 16px;
+}
+
+.adm-stat {
+  border: 1px solid var(--hairline-strong);
+  padding: 26px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-decoration: none;
+  transition: border-color var(--duration-fast) var(--ease-cut);
+}
+
+.adm-stat:hover {
+  border-color: var(--at-red);
+}
+
+.adm-stat__n {
+  font-family: var(--font-display);
+  font-size: clamp(44px, 5vw, 64px);
+  line-height: 1;
+  color: var(--at-red);
+}
+
+.adm-stat__label {
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.adm-prod {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--hairline-strong);
+}
+
+.adm-prod--editing {
+  padding: 22px 0 30px;
+}
+
+.adm-prod__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.adm-prod__name {
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--at-white);
+}
+
+.adm-prod__price {
+  font-family: var(--font-display);
+  font-size: var(--text-h4);
+  line-height: 1;
+  color: var(--at-red);
+}
+
+.adm-prod__meta {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.adm-badge {
+  font-family: var(--font-body);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--at-black);
+  background: var(--at-red);
+  padding: 3px 8px;
+}
+
+.adm-badge--muted {
+  background: var(--at-grey);
+}
+
+.acct-form--wide {
+  max-width: 720px;
+}
+
+.adm-status {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.adm-status__select {
+  width: auto;
+  min-width: 160px;
+  padding: 8px 12px;
+}
+
+select.input-dark {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238a8785'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+
+select.input-dark option {
+  background: var(--at-black);
+  color: var(--at-white);
+}
+
+.adm-queue-n {
+  font-family: var(--font-display);
+  color: var(--at-red);
+  margin-right: 14px;
+}
+
+.adm-story {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--text-body);
+  max-width: 68ch;
+  white-space: pre-wrap;
+}
+
+.adm-mail {
+  color: var(--at-white);
+  text-decoration: none;
+  border-bottom: 1px solid var(--at-red);
+}
+
+.adm-mail:hover {
+  color: var(--at-red-bright);
 }

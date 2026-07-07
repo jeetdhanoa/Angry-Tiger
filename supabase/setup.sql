@@ -297,3 +297,84 @@ $$;
 
 revoke all on function public.join_waitlist(text) from public;
 grant execute on function public.join_waitlist(text) to anon, authenticated;
+
+-- ------------------------------------------------------------
+-- 9. Phase 10 — admin ("The office" at /admin)
+--    Admins are profiles with is_admin = true. All admin access
+--    flows through RLS policies checking is_admin(), so the
+--    public API stays locked for everyone else.
+-- ------------------------------------------------------------
+alter table public.profiles add column if not exists is_admin boolean not null default false;
+
+-- Security definer so policies can check the flag without RLS recursion.
+create or replace function public.is_admin()
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select coalesce((select is_admin from public.profiles where id = auth.uid()), false)
+$$;
+
+revoke all on function public.is_admin() from public;
+grant execute on function public.is_admin() to authenticated;
+
+-- products: admins see everything (including hidden) and write
+drop policy if exists "admin reads all products" on public.products;
+create policy "admin reads all products" on public.products
+  for select to authenticated using (public.is_admin());
+
+drop policy if exists "admin writes products" on public.products;
+create policy "admin writes products" on public.products
+  for all to authenticated using (public.is_admin()) with check (public.is_admin());
+
+grant insert, update, delete on public.products to authenticated;
+
+-- orders: admins read all and update status
+drop policy if exists "admin reads all orders" on public.orders;
+create policy "admin reads all orders" on public.orders
+  for select to authenticated using (public.is_admin());
+
+drop policy if exists "admin updates orders" on public.orders;
+create policy "admin updates orders" on public.orders
+  for update to authenticated using (public.is_admin()) with check (public.is_admin());
+
+grant update on public.orders to authenticated;
+
+-- profiles: admins read all and can toggle the admin flag
+drop policy if exists "admin reads all profiles" on public.profiles;
+create policy "admin reads all profiles" on public.profiles
+  for select to authenticated using (public.is_admin());
+
+drop policy if exists "admin updates profiles" on public.profiles;
+create policy "admin updates profiles" on public.profiles
+  for update to authenticated using (public.is_admin()) with check (public.is_admin());
+
+-- newsletter / contact / waitlist: admins read and delete
+drop policy if exists "admin reads newsletter" on public.newsletter;
+create policy "admin reads newsletter" on public.newsletter
+  for select to authenticated using (public.is_admin());
+drop policy if exists "admin deletes newsletter" on public.newsletter;
+create policy "admin deletes newsletter" on public.newsletter
+  for delete to authenticated using (public.is_admin());
+grant select, delete on public.newsletter to authenticated;
+
+drop policy if exists "admin reads contact" on public.contact;
+create policy "admin reads contact" on public.contact
+  for select to authenticated using (public.is_admin());
+drop policy if exists "admin deletes contact" on public.contact;
+create policy "admin deletes contact" on public.contact
+  for delete to authenticated using (public.is_admin());
+grant select, delete on public.contact to authenticated;
+
+drop policy if exists "admin reads waitlist" on public.waitlist;
+create policy "admin reads waitlist" on public.waitlist
+  for select to authenticated using (public.is_admin());
+drop policy if exists "admin deletes waitlist" on public.waitlist;
+create policy "admin deletes waitlist" on public.waitlist
+  for delete to authenticated using (public.is_admin());
+grant select, delete on public.waitlist to authenticated;
+
+-- Hand yourself the keys (sign up on the site with this email first):
+-- update public.profiles set is_admin = true where email = 'jeetdhanoa9@gmail.com';

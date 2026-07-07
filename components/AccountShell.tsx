@@ -5,9 +5,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
 import { useAuth } from "@/lib/auth";
+import { fetchIsAdmin } from "@/lib/admin";
 
 const SECTIONS = [
   { label: "Profile", href: "/account" },
@@ -20,6 +22,12 @@ const SECTIONS = [
 export default function AccountShell({ children }: { children: React.ReactNode }) {
   const { user, loading, configured, signOut } = useAuth();
   const pathname = usePathname();
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    if (user) fetchIsAdmin().then(setIsAdmin);
+    else setIsAdmin(false);
+  }, [user]);
 
   return (
     <div className="page">
@@ -62,6 +70,11 @@ export default function AccountShell({ children }: { children: React.ReactNode }
                   {s.label}
                 </Link>
               ))}
+              {isAdmin && (
+                <Link href="/admin" className="acct-rail__link acct-rail__link--office">
+                  The office →
+                </Link>
+              )}
               <button type="button" className="acct-rail__link acct-rail__signout" onClick={signOut}>
                 Log out
               </button>

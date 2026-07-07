@@ -81,6 +81,19 @@ Supabase → Table Editor. Duplicate newsletter/waitlist emails read as success.
   cart; on sign-in it merges into the account cart (quantities add) and local
   storage is cleared.
 
+## Admin — "The office" (/admin)
+
+Hidden back office (not linked from public nav; `noindex`). Sections:
+overview counts, products (add / edit / delete / sold-out / hide), orders
+(status: pending → paid → shipped / cancelled), users (admin toggle),
+newsletter (copy-all + remove), contact messages, and the Ambush queue.
+
+Access = `profiles.is_admin` checked by a security-definer `is_admin()`
+function inside RLS policies, so admin rights live in the database, not the
+client. Grant yourself access: sign up on the site, then in the SQL Editor:
+`update public.profiles set is_admin = true where email = 'you@example.com';`
+Admins also get a "The office →" link in the /account rail.
+
 ## Security
 
 - **Headers** ([next.config.ts](next.config.ts)): HSTS (2y, preload), nosniff,
