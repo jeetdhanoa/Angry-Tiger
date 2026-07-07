@@ -90,8 +90,10 @@ newsletter (copy-all + remove), contact messages, and the Ambush queue.
 
 Access = `profiles.is_admin` checked by a security-definer `is_admin()`
 function inside RLS policies, so admin rights live in the database, not the
-client. Grant yourself access: sign up on the site, then in the SQL Editor:
-`update public.profiles set is_admin = true where email = 'you@example.com';`
+client — and they're **domain-locked**: only `@angrytiger.in` logins can hold
+keys (enforced in `is_admin()` against the live JWT plus a table constraint).
+Grant access: sign up with a house email, then in the SQL Editor:
+`update public.profiles set is_admin = true where email = 'you@angrytiger.in';`
 Admins also get a "The office →" link in the /account rail.
 
 ## Security

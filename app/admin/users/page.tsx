@@ -11,6 +11,10 @@ const joinedDate = (iso: string) =>
     year: "numeric",
   });
 
+// Office keys are domain-locked (enforced in the database too — see
+// supabase/setup.sql §10). The UI just doesn't offer the toggle elsewhere.
+const isHouseEmail = (email: string) => email.toLowerCase().endsWith("@angrytiger.in");
+
 export default function AdminUsers() {
   const { user } = useAuth();
   const [profiles, setProfiles] = useState<AdminProfile[] | null>(null);
@@ -50,7 +54,7 @@ export default function AdminUsers() {
                   {p.name || "no name set"} · joined {joinedDate(p.created_at)}
                 </span>
               </div>
-              {p.id !== user?.id && (
+              {p.id !== user?.id && isHouseEmail(p.email) && (
                 <div className="addr-card__actions">
                   <button
                     type="button"
@@ -66,7 +70,8 @@ export default function AdminUsers() {
         </div>
       )}
       <p className="acct-empty__sub">
-        Password resets and account deletion live in Supabase → Authentication → Users.
+        Office keys are only issued to @angrytiger.in accounts. Password resets and
+        account deletion live in Supabase → Authentication → Users.
       </p>
     </div>
   );

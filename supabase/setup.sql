@@ -378,3 +378,28 @@ grant select, delete on public.waitlist to authenticated;
 
 -- Hand yourself the keys (sign up on the site with this email first):
 -- update public.profiles set is_admin = true where email = 'jeetdhanoa9@gmail.com';
+
+-- ------------------------------------------------------------
+-- 10. Admin domain lock — office keys only for @angrytiger.in
+-- ------------------------------------------------------------
+-- is_admin() now requires BOTH the profile flag AND a current
+-- @angrytiger.in login (checked against the live JWT, not the
+-- copied profile email).
+create or replace function public.is_admin()
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select coalesce((select is_admin from public.profiles where id = auth.uid()), false)
+         and lower(coalesce(auth.jwt() ->> 'email', '')) like '%@angrytiger.in'
+$$;
+
+-- Belt and braces: the flag itself can't be set on outside addresses.
+update public.profiles set is_admin = false
+  where is_admin and lower(email) not like '%@angrytiger.in';
+
+alter table public.profiles drop constraint if exists admin_requires_house_email;
+alter table public.profiles add constraint admin_requires_house_email
+  check (not is_admin or lower(email) like '%@angrytiger.in');
