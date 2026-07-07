@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { CartProvider } from "@/lib/cart";
 import { AuthProvider } from "@/lib/auth";
@@ -19,6 +19,12 @@ const siteUrl =
 const description =
   "Angry Tiger is an independent Bollywood production house making feature films, web series and vertical series. Don't follow the formula. Independent since 2026.";
 
+// Tints browser chrome where supported (Safari's tab bar, Android Chrome's
+// URL bar) so the transparent favicon sits on cinema black, not white.
+export const viewport: Viewport = {
+  themeColor: "#0a0a0a",
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
@@ -26,6 +32,7 @@ export const metadata: Metadata = {
     template: "%s",
   },
   description,
+  icons: { icon: "/logos/at-brand-symbol-red.png" },
   openGraph: {
     title: "Angry Tiger",
     description,
