@@ -26,7 +26,6 @@ export const metadata: Metadata = {
     template: "%s",
   },
   description,
-  icons: { icon: "/logos/at-brand-symbol-red.png" },
   openGraph: {
     title: "Angry Tiger",
     description,
