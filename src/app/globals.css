@@ -1453,15 +1453,16 @@ button {
 .format-stack {
   display: flex;
   flex-direction: column;
-  gap: clamp(24px, 4vw, 40px);
-  padding: clamp(56px, 9vw, 120px) clamp(20px, 4vw, 40px) 0;
+  gap: 40px;
+  padding: clamp(72px, 10vw, 120px) clamp(20px, 4vw, 40px) 0;
   border-top: 1px solid var(--hairline);
   overflow: hidden;
 }
 
+/* Same size as the main hero headline so the two sections read as equals. */
 .format-stack h2 {
   margin: 0;
-  font-size: clamp(64px, 11vw, 170px);
+  font-size: clamp(80px, 14vw, 210px);
   color: transparent;
   -webkit-text-stroke: 2px var(--at-white);
   white-space: nowrap;
@@ -2396,7 +2397,8 @@ button {
 
 @media (max-width: 379px) {
   /* Keep the outlined poster line inside very small screens */
-  .projects-hero h1 {
+  .projects-hero h1,
+  .format-stack h2 {
     font-size: clamp(56px, 21vw, 80px);
   }
 }

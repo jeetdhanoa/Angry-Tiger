@@ -23,14 +23,21 @@ export default function FormatBlock({
   full?: boolean;
   cta?: boolean;
 }) {
-  const Heading = full ? "h1" : "h2";
   return (
     <>
       <section className={full ? "projects-hero" : "format-stack"}>
         <span className="caption-label">{eyebrow}</span>
-        <Heading className="display" data-parallax="0.1" data-letter-hover>
-          {heading}
-        </Heading>
+        {full ? (
+          // Parallax only on the tall hero — on a stacked section it drifts the
+          // headline down over the description below it.
+          <h1 className="display" data-parallax="0.1" data-letter-hover>
+            {heading}
+          </h1>
+        ) : (
+          <h2 className="display" data-letter-hover>
+            {heading}
+          </h2>
+        )}
         <p className="projects-hero__lede">{lede}</p>
         {cta && (
           <div className="projects-hero__actions">

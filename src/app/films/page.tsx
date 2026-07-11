@@ -32,7 +32,7 @@ export default function Films() {
       <FormatBlock
         eyebrow="Short Features"
         heading="Short features."
-        lede="Short features made for festivals and our channel. Raw, fast, and in development now."
+        lede="Short features made for festivals and our channel. Raw and in development now."
         slates={SHORTS}
       />
       <Footer />
