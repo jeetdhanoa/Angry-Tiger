@@ -126,7 +126,7 @@ export default function Footer() {
             YouTube ↗
           </a>
           <a
-            href="https://x.com/angrytigerstudios"
+            href="https://x.com/AngryTigerX"
             target="_blank"
             rel="noopener"
             className="footer__link"
