@@ -86,11 +86,14 @@ export default function Footer() {
           </div>
           <div className="footer__col">
             <span className="footer__col-title">Explore</span>
-            <Link href="/projects" className="footer__link" data-letter-hover="1">
-              Projects
+            <Link href="/films" className="footer__link" data-letter-hover="1">
+              Films
             </Link>
-            <Link href="/notes" className="footer__link" data-letter-hover="1">
-              Notes
+            <Link href="/television" className="footer__link" data-letter-hover="1">
+              Television
+            </Link>
+            <Link href="/vertical" className="footer__link" data-letter-hover="1">
+              Vertical
             </Link>
             <Link href="/about" className="footer__link" data-letter-hover="1">
               About the House

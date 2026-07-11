@@ -48,23 +48,23 @@ export default function Home() {
         <div className="home-rows__label">
           <span className="caption-label">Coming soon</span>
         </div>
-        <Link href="/projects" className="home-row">
+        <Link href="/films" className="home-row">
           <span className="home-row__title" data-letter-hover="1">
-            Projects
+            Films
           </span>
-          <span className="home-row__sub">The first slate is in development →</span>
+          <span className="home-row__sub">Feature films. The first slate is in development →</span>
         </Link>
-        <Link href="/notes" className="home-row">
+        <Link href="/television" className="home-row">
           <span className="home-row__title" data-letter-hover="1">
-            Notes
+            Television
           </span>
-          <span className="home-row__sub">Letters, conversations and the podcast →</span>
+          <span className="home-row__sub">Series built to break the pattern →</span>
         </Link>
-        <Link href="/about" className="home-row">
+        <Link href="/vertical" className="home-row">
           <span className="home-row__title" data-letter-hover="1">
-            About
+            Vertical
           </span>
-          <span className="home-row__sub">Built to break the pattern →</span>
+          <span className="home-row__sub">Vertical series, made for how people watch →</span>
         </Link>
       </section>
 

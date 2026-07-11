@@ -8,16 +8,18 @@ import Turnstile from "@/components/Turnstile";
 import Icon from "@/components/Icon";
 
 const LINKS = [
-  { key: "projects", label: "Projects", href: "/projects" },
+  { key: "films", label: "Films", href: "/films" },
+  { key: "television", label: "Television", href: "/television" },
+  { key: "vertical", label: "Vertical", href: "/vertical" },
   { key: "about", label: "About", href: "/about" },
-  { key: "notes", label: "Notes", href: "/notes" },
   { key: "contact", label: "Contact", href: "/contact" },
 ];
 
 const SEARCH_INDEX = [
   { label: "Home", sub: "The house. Don't follow the formula", href: "/" },
-  { label: "Notes", sub: "Letters, conversations and the podcast", href: "/notes" },
-  { label: "Projects", sub: "Coming soon. The first slate is in development", href: "/projects" },
+  { label: "Films", sub: "Feature films. The first slate is in development", href: "/films" },
+  { label: "Television", sub: "Series built to break the pattern", href: "/television" },
+  { label: "Vertical", sub: "Vertical series, made for how people watch", href: "/vertical" },
   { label: "About", sub: "Built to break the pattern. What we believe", href: "/about" },
   { label: "Contact", sub: "Talk to the tiger · hello@angrytiger.in", href: "/contact" },
   { label: "Submissions", sub: "Scripts, loglines, reels. Start with a logline", href: "/contact" },
@@ -82,10 +84,6 @@ export default function Nav() {
     closeAll();
     setQuery("");
     setSearchOpen(true);
-  };
-  const openAccount = () => {
-    closeAll();
-    setAccountOpen(true);
   };
   const openMenu = () => {
     closeAll();
@@ -162,9 +160,6 @@ export default function Nav() {
           <span className="nav__divider" />
           <button type="button" className="nav__icon" aria-label="Search" onClick={openSearch}>
             <Icon name="search" size={21} />
-          </button>
-          <button type="button" className="nav__icon" aria-label="Account" onClick={openAccount}>
-            <Icon name="account" size={21} />
           </button>
           <button type="button" className="nav__burger" aria-label="Menu" onClick={openMenu}>
             <Icon name="menu" size={24} />
