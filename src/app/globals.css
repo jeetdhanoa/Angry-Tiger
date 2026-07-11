@@ -1694,13 +1694,14 @@ button {
   color: var(--at-grey-dark);
 }
 
-/* Extended Monogram — landscape aspect, sized by width. */
+/* Stacked Wordmark — near-square aspect, sized by height so it sits as a
+   compact mark rather than dominating the corner. */
 .abt-close__logo {
   position: absolute;
   right: clamp(16px, 5vw, 64px);
   bottom: clamp(24px, 6vw, 64px);
-  width: clamp(140px, 16vw, 240px);
-  height: auto;
+  height: clamp(80px, 10vw, 150px);
+  width: auto;
 }
 
 .red-period {

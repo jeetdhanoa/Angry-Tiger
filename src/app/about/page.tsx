@@ -109,11 +109,11 @@ export default function About() {
             Independent since 2026 · Angry Tiger Production House
           </span>
         </div>
-        {/* The Extended Monogram — a genuinely different mark, not a recolour
-            of the lockup (Home) or the brand symbol (nav/footer/404/splash);
-            never used anywhere else on the site. Black, on the paper bg. */}
+        {/* The Stacked Wordmark, black — a different mark from the lockup
+            (Home) or the brand symbol (nav/footer/404/splash); never used
+            anywhere else on the site. */}
         <img
-          src="/logos/at-extended-monogram-black.svg"
+          src="/logos/at-stacked-wordmark-black.svg"
           alt="Angry Tiger"
           className="abt-close__logo"
         />
