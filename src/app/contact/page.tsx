@@ -56,6 +56,13 @@ export default function Contact() {
           </div>
           <div className="contact-block">
             <CaptionLabel>Submissions</CaptionLabel>
+            <a
+              href="mailto:submissions@angrytiger.in"
+              className="contact-block__email"
+              data-letter-hover="1"
+            >
+              submissions@angrytiger.in
+            </a>
             <p className="contact-block__body">
               Scripts, loglines, reels. Start with a logline and the first ten pages. If
               we lean in, we&apos;ll ask for the rest.
@@ -81,6 +88,15 @@ export default function Contact() {
                 data-letter-hover="1"
               >
                 YouTube angrytigerstudios ↗
+              </a>
+              <a
+                href="https://x.com/AngryTigerX"
+                target="_blank"
+                rel="noopener"
+                className="contact-block__link"
+                data-letter-hover="1"
+              >
+                Twitter @AngryTigerX ↗
               </a>
             </div>
           </div>
