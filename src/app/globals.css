@@ -3051,7 +3051,8 @@ select.input-dark option {
   width: calc(100% + 0.24em);
   overflow: visible;
   pointer-events: none;
-  /* Drawn on scroll-in; see [data-marker-draw] below. */
+  /* dash length/offset are scrubbed by scroll in initMarkers(); with no JS the
+     path stays solid (no dasharray set here). */
 }
 /* underline sits on the baseline; strike rides through the x-height;
    circle + slash wrap the whole word. */
@@ -3072,19 +3073,6 @@ select.input-dark option {
   height: auto;
 }
 
-/* Optional draw-on animation: dash the path, then release it. Applied when
-   the element carries [data-marker-draw] (set by the scroll-reveal script). */
-.marker__stroke path {
-  transition: stroke-dashoffset 520ms var(--ease-cut);
-}
-[data-marker-draw="pending"] .marker__stroke path {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-}
-[data-marker-draw="in"] .marker__stroke path {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 0;
-}
 
 /* --- 5.05 Illustrative Intervention: red mark over B&W imagery --- */
 .intervention {
@@ -3160,12 +3148,4 @@ select.input-dark option {
 .gfx-disrupt > :not(.gfx-disrupt__mark) {
   position: relative;
   z-index: 1;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [data-marker-draw="pending"] .marker__stroke path,
-  [data-marker-draw="in"] .marker__stroke path {
-    stroke-dasharray: none;
-    stroke-dashoffset: 0;
-  }
 }

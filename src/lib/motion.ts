@@ -137,45 +137,72 @@ export function initGrain() {
 
 let markersStarted = false;
 
-// §5.03 Expressive Marks — the rough marker stroke draws itself on as the
-// word scrolls into view (a quick pass, not a spring). Purely additive: if
-// this never runs, the CSS leaves the stroke fully drawn. Respects
-// prefers-reduced-motion (the stroke simply appears).
+// §5.03 Expressive Marks — the rough marker stroke is *scrubbed by scroll*:
+// it draws on as the word rises through the lower half of the viewport and
+// retracts if you scroll back up. Progress maps the word's centre from the
+// bottom of the viewport (0, hidden) to the middle (1, fully drawn). Purely
+// additive: with no JS the CSS leaves the stroke solid; reduced-motion pins it
+// fully drawn (no scrubbing). Paths carry pathLength=1, so dashoffset is 0..1.
 export function initMarkers() {
   if (markersStarted) return;
   markersStarted = true;
-  if (typeof IntersectionObserver === "undefined") return;
-  if (reduced()) return;
 
-  const prepped = new WeakSet<Element>();
-  const io = new IntersectionObserver(
-    (entries) => {
-      for (const e of entries) {
-        if (!e.isIntersecting) continue;
-        const el = e.target as HTMLElement;
-        io.unobserve(el);
-        requestAnimationFrame(() => el.setAttribute("data-marker-draw", "in"));
-      }
-    },
-    { threshold: 0.4 }
-  );
+  const paths = () =>
+    Array.prototype.slice.call(
+      document.querySelectorAll<SVGPathElement>(".marker__stroke path")
+    );
 
-  const prep = (el: HTMLElement) => {
-    if (prepped.has(el)) return;
-    prepped.add(el);
-    el.setAttribute("data-marker-draw", "pending");
-    io.observe(el);
+  if (reduced()) {
+    const show = () =>
+      paths().forEach((p) => {
+        p.style.strokeDasharray = "1";
+        p.style.strokeDashoffset = "0";
+      });
+    show();
+    new MutationObserver(show).observe(document.body, { childList: true, subtree: true });
+    return;
+  }
+
+  let els: SVGPathElement[] = [];
+  const collect = () => {
+    els = paths();
+    els.forEach((p) => {
+      // Track scroll exactly — no CSS easing between frames.
+      p.style.transition = "none";
+      p.style.strokeDasharray = "1";
+    });
   };
-  const scan = (root: Node) => {
-    if (!root || root.nodeType !== 1) return;
-    const el = root as HTMLElement;
-    if (el.matches && el.matches(".marker")) prep(el);
-    if (el.querySelectorAll) el.querySelectorAll<HTMLElement>(".marker").forEach(prep);
-  };
-  scan(document.body);
 
-  const mo = new MutationObserver((muts) => {
-    for (const m of muts) for (const n of m.addedNodes) scan(n);
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    const vh = window.innerHeight || document.documentElement.clientHeight || 0;
+    if (!vh) return;
+    for (const p of els) {
+      const host = (p as SVGPathElement).closest(".marker") as HTMLElement | null;
+      if (!host) continue;
+      const r = host.getBoundingClientRect();
+      const center = r.top + r.height / 2;
+      // 0 when the word's centre sits at the viewport bottom; 1 at the middle.
+      let prog = (vh - center) / (vh * 0.5);
+      prog = prog < 0 ? 0 : prog > 1 ? 1 : prog;
+      p.style.strokeDashoffset = String(1 - prog);
+    }
+  };
+  const req = () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+  };
+
+  collect();
+  update();
+  window.addEventListener("scroll", req, { passive: true });
+  window.addEventListener("resize", req);
+  const mo = new MutationObserver(() => {
+    collect();
+    req();
   });
   mo.observe(document.body, { childList: true, subtree: true });
 }

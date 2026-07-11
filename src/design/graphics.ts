@@ -60,9 +60,9 @@ export const markerStrokes = {
   /** A rough baseline underline that dips and rises like a fast marker pass. */
   underline:
     "M2,68 C14,60 26,72 40,64 C56,55 70,74 86,63 C93,58 97,66 99,62",
-  /** A double-pass cross-out that overshoots at both ends. */
+  /** A double-pass cross-out through the word's centre, overshooting both ends. */
   strike:
-    "M1,52 C20,47 44,58 66,49 C80,43 92,55 99,48 M4,60 C24,54 46,64 70,55 C82,50 93,60 98,56",
+    "M1,46 C20,41 44,52 66,43 C80,37 92,49 99,42 M4,54 C24,48 46,58 70,49 C82,44 93,54 98,50",
   /** A loose ellipse that doesn't quite close — a circled-for-emphasis mark. */
   circle:
     "M50,10 C22,9 6,26 8,50 C10,74 30,92 54,90 C80,88 95,68 92,44 C89,22 72,10 46,12",
