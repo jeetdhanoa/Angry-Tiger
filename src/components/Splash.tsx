@@ -1,8 +1,7 @@
 "use client";
 
 /* Once per session: black screen + red tiger + micro wordmark, 1100ms hold
-   then 250ms fade (sessionStorage "at-splash-seen"). Also renders the
-   permanent full-page film-grain overlay (5%, flickered by initGrain). */
+   then 250ms fade (sessionStorage "at-splash-seen"). */
 
 import { useEffect, useState } from "react";
 
@@ -34,7 +33,6 @@ export default function Splash() {
 
   return (
     <>
-      <div className="grain" data-grain="true" />
       {(phase === "show" || phase === "fade" || phase === "init") && (
         <div className="splash" style={{ opacity: phase === "fade" ? 0 : 1 }}>
           <img src="/logos/at-brand-symbol-red.svg" alt="Angry Tiger" />

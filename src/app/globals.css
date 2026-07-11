@@ -400,25 +400,8 @@ button {
 }
 
 /* ============================================================
-   Grain overlay + splash
+   Splash
    ============================================================ */
-
-.grain {
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  pointer-events: none;
-  /* This sits above every pixel on every page (fixed, z-index 50), including
-     the red panels/hovers/underlines. Simple alpha-blended grayscale noise
-     desaturates and lightens whatever's underneath it in proportion to its
-     opacity — the reason Signal Red read as "lighter/different" everywhere
-     at once. Cut from 0.05 to keep the film-grain texture on black surfaces
-     (the majority of the site) while leaving saturated red effectively
-     untouched to the eye. */
-  opacity: 0.02;
-  background-image: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%22160%22%20height=%22160%22%3E%3Cfilter%20id=%22n%22%3E%3CfeTurbulence%20type=%22fractalNoise%22%20baseFrequency=%220.8%22%20numOctaves=%222%22%20stitchTiles=%22stitch%22%2F%3E%3CfeColorMatrix%20type=%22saturate%22%20values=%220%22%2F%3E%3C%2Ffilter%3E%3Crect%20width=%22160%22%20height=%22160%22%20filter=%22url(%23n)%22%2F%3E%3C%2Fsvg%3E");
-  background-size: 160px 160px;
-}
 
 .splash {
   position: fixed;
@@ -1637,12 +1620,15 @@ button {
   max-width: 62ch;
 }
 
-/* Closing card — white as the supporting neutral (§3), red tiger, contact. */
+/* Closing card — black, bookending the page back to the site's dominant
+   tone; the Extended Monogram (never used elsewhere on the site) as the
+   closing signature, per the guideline's own suggested use ("editorial
+   spreads"). */
 .abt-close {
   position: relative;
   overflow: hidden;
-  background: var(--at-paper);
-  color: var(--at-ink);
+  background: var(--at-black);
+  color: var(--at-white);
   padding: 110px clamp(20px, 4vw, 40px);
   display: flex;
   flex-direction: column;
@@ -1655,7 +1641,7 @@ button {
 
 .abt-close__line {
   font-size: clamp(40px, 5.6vw, 84px);
-  color: var(--at-ink);
+  color: var(--at-white);
   max-width: 16ch;
 }
 
@@ -1671,7 +1657,7 @@ button {
   font-size: 26px;
   letter-spacing: var(--tracking-display);
   text-transform: uppercase;
-  color: var(--at-ink);
+  color: var(--at-white);
   text-decoration: none;
   border-bottom: 2px solid var(--at-red);
   padding-bottom: 2px;
@@ -1685,16 +1671,16 @@ button {
 .abt-close__meta {
   font-family: var(--font-body);
   font-size: var(--text-small);
-  color: var(--at-grey-dark);
+  color: var(--text-muted);
 }
 
-/* The plain tiger symbol, portrait aspect — sized by height, not width. */
+/* Extended Monogram — landscape aspect, sized by width. */
 .abt-close__logo {
   position: absolute;
   right: clamp(16px, 5vw, 64px);
   bottom: clamp(24px, 6vw, 64px);
-  height: clamp(90px, 12vw, 160px);
-  width: auto;
+  width: clamp(140px, 16vw, 240px);
+  height: auto;
 }
 
 .red-period {

@@ -2,7 +2,6 @@
    Brand spec: hard cuts and quick fades (120–200ms, --ease-cut). No bounces, no springs.
    - initReveals: sections quick-fade up on viewport entry; batches cascade 70ms apart.
    - initParallax: [data-parallax] elements drift on scroll (poster-crop clipping is intended).
-   - initGrain: [data-grain] overlays flicker like projected film (stepped, not eased).
    - initLetterHover: [data-letter-hover] text lifts letter by letter, cascading 24ms apart.
    All respect prefers-reduced-motion. */
 
@@ -13,7 +12,6 @@ const reduced = () =>
 export function initMotion() {
   initReveals();
   initParallax();
-  initGrain();
   initLetterHover();
   initMarkers();
 }
@@ -130,24 +128,6 @@ export function initParallax() {
     req();
   });
   mo.observe(document.body, { childList: true, subtree: true });
-}
-
-let grainStarted = false;
-
-export function initGrain() {
-  if (grainStarted) return;
-  grainStarted = true;
-  if (reduced()) return;
-
-  // Stepped jumps at ~8fps read as projected film, not a smooth drift.
-  setInterval(() => {
-    const els = document.querySelectorAll<HTMLElement>("[data-grain]");
-    if (!els.length) return;
-    for (const el of els) {
-      el.style.backgroundPosition =
-        Math.floor(Math.random() * 160) + "px " + Math.floor(Math.random() * 160) + "px";
-    }
-  }, 120);
 }
 
 let markersStarted = false;

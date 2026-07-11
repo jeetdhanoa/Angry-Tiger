@@ -57,7 +57,7 @@ export default function About() {
         <span className="caption-label abt-eyebrow">The philosophy</span>
         <p className="abt-manifesto__lede">
           Angry Tiger is an independent Bollywood Production House built around{" "}
-          <MarkerStroke variant="underline" weight={4} color="var(--at-black)" scrub>
+          <MarkerStroke variant="underline" weight={4} color="var(--at-black)">
             fearless
           </MarkerStroke>{" "}
           ideas and original voices. It exists to create work that feels fresh,
@@ -109,10 +109,11 @@ export default function About() {
             Independent since 2026 · Angry Tiger Production House
           </span>
         </div>
-        {/* The plain tiger symbol in black — not the wordmark lockup used on
-            Home, and not the red symbol used in the nav/footer/404/splash. */}
+        {/* The Extended Monogram — a genuinely different mark, not a recolour
+            of the lockup (Home) or the brand symbol (nav/footer/404/splash);
+            never used anywhere else on the site. */}
         <img
-          src="/logos/at-brand-symbol-black.svg"
+          src="/logos/at-extended-monogram-white.svg"
           alt="Angry Tiger"
           className="abt-close__logo"
         />

@@ -17,12 +17,6 @@ export const duration = {
   slow: 400,
 } as const;
 
-/** Filters used for hover/press feedback (brightness shifts, not color swaps). */
-export const stateFilters = {
-  hoverLift: "brightness(1.12)",
-  pressShade: "brightness(0.85)",
-} as const;
-
 export const disabledOpacity = 0.4;
 
 /** Reveal-on-scroll: fade-up distance and stagger between batched elements. */
@@ -39,15 +33,10 @@ export const letterHover = {
   transitionMs: 220,
 } as const;
 
-/** Grain flicker interval — reads as projected film, not a smooth drift. */
-export const grainIntervalMs = 120;
-
 export const motion = {
   easeCut,
   duration,
-  stateFilters,
   disabledOpacity,
   reveal,
   letterHover,
-  grainIntervalMs,
 } as const;
