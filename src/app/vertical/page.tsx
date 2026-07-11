@@ -18,7 +18,7 @@ export default function Vertical() {
       eyebrow="Vertical"
       heading="Vertical series."
       lede="Vertical series made for the way people actually watch. In development now."
-      slates={SLATES}
+      groups={[{ label: "The slate", slates: SLATES }]}
     />
   );
 }

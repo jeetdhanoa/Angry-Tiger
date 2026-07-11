@@ -18,7 +18,7 @@ export default function Television() {
       eyebrow="Television"
       heading="Television."
       lede="Series built to break the pattern. Our first television slate is in development."
-      slates={SLATES}
+      groups={[{ label: "The slate", slates: SLATES }]}
     />
   );
 }
