@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import Footer from "@/components/Footer";
 import MarkerStroke from "@/components/MarkerStroke";
 
@@ -25,7 +24,7 @@ const PRINCIPLES = [
   },
   {
     title: "Cultural relevance",
-    body: "Stories built with an awareness of people, culture and contemporary language — work that connects authentically and stays memorable long after it is experienced.",
+    body: "Stories built with an awareness of people, culture and contemporary language. Work that connects authentically and stays memorable long after it is experienced.",
   },
   {
     title: "Constant evolution",
@@ -33,18 +32,12 @@ const PRINCIPLES = [
   },
 ];
 
-const FORMATS = [
-  { href: "/films", title: "Films", sub: "Features and short features →" },
-  { href: "/television", title: "Television", sub: "Series built to break the pattern →" },
-  { href: "/vertical", title: "Vertical", sub: "Series made for how people actually watch →" },
-];
-
 export default function About() {
   return (
     <div className="page">
       {/* Hero — the guideline's own billboard lines (§6 Visual Application). */}
       <section className="abt-hero">
-        <span className="caption-label">About the house</span>
+        <span className="caption-label abt-eyebrow">About the house</span>
         <h1 className="display abt-hero__title">
           <span className="abt-hero__line">Every industry develops a formula.</span>
           <span className="abt-hero__line abt-hero__line--red">
@@ -61,14 +54,14 @@ export default function About() {
           rough AT mark looming behind (§5.02). */}
       <section className="abt-manifesto gfx-disrupt">
         <span className="gfx-disrupt__mark abt-manifesto__mark" aria-hidden="true" />
-        <span className="caption-label">The philosophy</span>
+        <span className="caption-label abt-eyebrow">The philosophy</span>
         <p className="abt-manifesto__lede">
           Angry Tiger is an independent Bollywood Production House built around{" "}
           <MarkerStroke variant="underline" weight={4} color="var(--at-black)">
             fearless
           </MarkerStroke>{" "}
-          ideas and original voices — work that feels fresh, unexpected, and impossible
-          to ignore.
+          ideas and original voices. It exists to create work that feels fresh,
+          unexpected, and impossible to ignore.
         </p>
         <p className="abt-manifesto__body">
           Every industry eventually develops a formula. Familiar ideas become safe,
@@ -77,30 +70,15 @@ export default function About() {
         </p>
         <p className="abt-manifesto__body">
           Memorable work comes from questioning convention, embracing unexpected
-          perspectives, and having the confidence to create something different —
-          stories that leave a lasting cultural impression, made for audiences who
-          deserve better than more of the same.
+          perspectives, and having the confidence to create something different. These
+          are the stories that leave a lasting cultural impression, made for audiences
+          who deserve better than more of the same.
         </p>
-      </section>
-
-      {/* What we make — the same row language as the home page. */}
-      <section className="home-rows">
-        <div className="home-rows__label">
-          <span className="caption-label">What we make</span>
-        </div>
-        {FORMATS.map((f) => (
-          <Link key={f.href} href={f.href} className="home-row">
-            <span className="home-row__title" data-letter-hover="1">
-              {f.title}
-            </span>
-            <span className="home-row__sub">{f.sub}</span>
-          </Link>
-        ))}
       </section>
 
       {/* Creative principles (§1.02) — a numbered editorial list. */}
       <section className="abt-principles">
-        <span className="caption-label">Creative principles</span>
+        <span className="caption-label abt-eyebrow">Creative principles</span>
         <div className="abt-principles__list">
           {PRINCIPLES.map((p, i) => (
             <div key={p.title} className="abt-principle">
@@ -117,9 +95,9 @@ export default function About() {
         </div>
       </section>
 
-      {/* Closing — the guideline's closing card: statement, tiger, contact. */}
+      {/* Closing — the guideline's closing card: statement, lockup, contact. */}
       <section className="abt-close">
-        <span className="caption-label">The house</span>
+        <span className="caption-label abt-eyebrow">The house</span>
         <h2 className="display abt-close__line">
           The most memorable stories begin with fearless ideas.
         </h2>
@@ -131,7 +109,11 @@ export default function About() {
             Independent since 2026 · Angry Tiger Production House
           </span>
         </div>
-        <img src="/logos/at-brand-symbol-red.svg" alt="" className="abt-close__tiger" />
+        <img
+          src="/logos/at-primary-lockup-black.svg"
+          alt="Angry Tiger"
+          className="abt-close__logo"
+        />
       </section>
 
       <Footer />

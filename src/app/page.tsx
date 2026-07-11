@@ -26,7 +26,7 @@ export default function Home() {
               Black on the red panel (red-on-red would be invisible). */}
           <h2 className="display">
             Don&apos;t follow the{" "}
-            <MarkerStroke variant="strike" color="var(--at-black)">
+            <MarkerStroke variant="strike" color="var(--at-black)" scrub>
               formula
             </MarkerStroke>
             .

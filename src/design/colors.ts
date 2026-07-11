@@ -22,15 +22,15 @@ export const brand = {
 /**
  * Interaction states. The brand has ONE red — Signal Red — and the
  * guideline is explicit: "Do not use any other shade of red." So hover and
- * pressed are Signal Red too; the *feedback* is a brightness shift applied
- * at the CSS layer (--hover-lift: brightness(1.12) / --press-shade:
- * brightness(0.85)) and white↔red colour swaps, never a different hue.
+ * pressed are Signal Red too; the *feedback* is a swap between the site's
+ * exact three colours (black<->red on primary buttons, white<->black on
+ * outline buttons) applied at the CSS layer, never a filter or brightness
+ * shift — those would render as a different, unnamed shade of red for
+ * however long they're applied.
  */
 export const interactive = {
   redHover: brand.signalRed,
   redPressed: brand.signalRed,
-  hoverLift: "brightness(1.12)",
-  pressShade: "brightness(0.85)",
 } as const;
 
 /**

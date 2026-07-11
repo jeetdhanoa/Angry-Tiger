@@ -18,8 +18,8 @@ export default function NotFound() {
           You&apos;ve wandered <span className="red-period">off the set.</span>
         </h1>
         <p className="nf__lede">
-          This scene doesn&apos;t exist — or it hasn&apos;t been shot yet. Either way,
-          the tiger knows the way back.
+          This scene doesn&apos;t exist, or it hasn&apos;t been shot yet. Either way, the
+          tiger knows the way back.
         </p>
         <div className="nf__actions">
           <Link href="/">

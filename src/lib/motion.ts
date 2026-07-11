@@ -152,23 +152,23 @@ export function initGrain() {
 
 let markersStarted = false;
 
-// §5.03 Expressive Marks — the rough marker stroke behaves by where the word
-// sits when the page first paints:
-//   • Top half of the viewport (hero headings) → drawn solid, a clean full
-//     line. There's nothing to "scroll to reveal" up there.
-//   • Lower half / below the fold → hidden at load, then *scrubbed by scroll*:
-//     draws on as the word rises past the middle, retracts on scroll up.
-// Each marker is classified once, from its first-paint centre. Purely additive:
-// with no JS the CSS leaves the stroke solid; reduced-motion pins it drawn.
+// §5.03 Expressive Marks — by default a marker stroke just renders solid
+// (the CSS never sets a dasharray, so untouched paths are simply drawn). Only
+// markers opted in via <MarkerStroke scrub> get scroll behaviour: hidden until
+// the word rises past the viewport's middle, fully drawn near the top,
+// retracting on scroll back up. Today that's just the Home page's "formula" —
+// every other marker (About's "fearless", etc.) is a plain static stroke.
 // Paths carry pathLength=1, so dashoffset runs 0 (drawn) .. 1 (hidden).
-type MkPath = SVGPathElement & { _mk?: "static" | "dyn" };
+type MkPath = SVGPathElement & { _mk?: "dyn" };
 
 export function initMarkers() {
   if (markersStarted) return;
   markersStarted = true;
 
   const paths = () =>
-    Array.prototype.slice.call(document.querySelectorAll<MkPath>(".marker__stroke path"));
+    Array.prototype.slice.call(
+      document.querySelectorAll<MkPath>('.marker[data-marker-scrub] .marker__stroke path')
+    );
 
   if (reduced()) {
     const show = () =>
@@ -188,26 +188,18 @@ export function initMarkers() {
     return r.top + r.height / 2;
   };
 
-  // Classify each path the first time we see it with a real viewport.
-  const classify = (p: MkPath, vh: number) => {
+  const prep = (p: MkPath) => {
     if (p._mk) return;
-    const center = centerOf(p);
-    if (center == null) return;
+    p._mk = "dyn";
     p.style.transition = "none"; // track scroll exactly, no easing between frames
-    if (center < vh * 0.5) {
-      p._mk = "static";
-      p.style.strokeDasharray = "none";
-      p.style.strokeDashoffset = "0";
-    } else {
-      p._mk = "dyn";
-      p.style.strokeDasharray = "1";
-      p.style.strokeDashoffset = "1"; // hidden until scrolled
-    }
+    p.style.strokeDasharray = "1";
+    p.style.strokeDashoffset = "1"; // hidden until scrolled into range
   };
 
   let els: MkPath[] = [];
   const collect = () => {
     els = paths();
+    els.forEach(prep);
   };
 
   let ticking = false;
@@ -216,8 +208,6 @@ export function initMarkers() {
     const vh = window.innerHeight || document.documentElement.clientHeight || 0;
     if (!vh) return;
     for (const p of els) {
-      classify(p, vh);
-      if (p._mk !== "dyn") continue;
       const center = centerOf(p);
       if (center == null) continue;
       // Hidden until the word rises past the middle; fully drawn near the top.

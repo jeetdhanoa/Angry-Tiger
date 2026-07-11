@@ -11,7 +11,7 @@ export default function ImageSlot({
   shot: string;
 }) {
   return (
-    <div className="image-slot" role="img" aria-label={`Production still coming soon — ${scene}`}>
+    <div className="image-slot" role="img" aria-label={`Production still coming soon, ${scene}`}>
       <img
         src="/logos/at-brand-symbol-white.svg"
         alt=""

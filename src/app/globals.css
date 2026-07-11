@@ -41,10 +41,11 @@
   --at-red: #c90e0e;
   /* The brand has ONE red — Signal Red (Guidelines §3; Common Errors: "Do
      not use any other shade of red"). These interaction aliases resolve to
-     Signal Red rather than being separate hues; hover/press feedback comes
-     from brightness shifts (--hover-lift / --press-shade) and white↔red
-     colour swaps, not a different red. Kept as named aliases so the ~24
-     hover/focus/error call sites need no edits. */
+     the exact same hex rather than being separate hues; hover/press feedback
+     comes from black<->red / white<->black swaps between the site's three
+     exact colours, never a filter or brightness shift (those render a
+     different, unnamed shade of red for the moment they're applied). Kept as
+     named aliases so the ~24 hover/focus/error call sites need no edits. */
   --at-red-bright: var(--at-red);
   --at-red-deep: var(--at-red);
   --at-black: #000000;
@@ -126,9 +127,8 @@
   --duration-base: 200ms;
   --duration-slow: 400ms;
 
-  /* States */
-  --hover-lift: brightness(1.12);
-  --press-shade: brightness(0.85);
+  /* States — feedback is a colour swap between the site's exact three
+     colours (see .btn--primary:hover etc.), never a filter/brightness shift. */
   --disabled-opacity: 0.4;
 
   /* Shadows */
@@ -319,12 +319,19 @@ button {
   border-color: var(--at-red);
 }
 
+/* Primary is already red at rest, so hover swaps to black instead of tinting
+   the red (the brand has one red; feedback comes from a black<->red swap,
+   never a brightness/hue shift — see design/colors.ts). */
 .btn--primary:hover:not(:disabled) {
-  filter: var(--hover-lift);
+  background: var(--at-black);
+  color: var(--at-red);
+  border-color: var(--at-red);
 }
 
 .btn:active:not(:disabled) {
-  filter: var(--press-shade);
+  background: var(--at-red);
+  color: var(--text-on-red);
+  border-color: var(--at-red);
 }
 
 .btn:disabled {
@@ -906,7 +913,8 @@ button {
 }
 
 .cart__checkout:hover {
-  filter: var(--hover-lift);
+  background: var(--at-black);
+  color: var(--at-red);
 }
 
 .cart__note {
@@ -967,7 +975,8 @@ button {
 }
 
 .account__signin:hover {
-  filter: var(--hover-lift);
+  background: var(--at-black);
+  color: var(--at-red);
 }
 
 .account__error {
@@ -1480,9 +1489,17 @@ button {
 
 /* ============================================================
    About — rebuilt from the Brand Guidelines: billboard hero (§6),
-   red philosophy panel with the AT mark (§1 + §5.02), format rows,
-   numbered creative principles (§1.02), closing card.
+   red philosophy panel with the AT mark (§1 + §5.02), numbered
+   creative principles (§1.02), closing card.
    ============================================================ */
+
+/* This page's four section eyebrows (About the house / The philosophy /
+   Creative principles / The house) carry more weight than a small caption —
+   they're announcing a whole section, so size up from the shared
+   .caption-label. */
+.abt-eyebrow {
+  font-size: clamp(26px, 3.4vw, 40px);
+}
 
 .abt-hero {
   padding: 100px clamp(20px, 4vw, 40px) 80px;
@@ -1664,11 +1681,14 @@ button {
   color: var(--at-grey-dark);
 }
 
-.abt-close__tiger {
+/* The full lockup (wordmark + symbol), not just the tiger icon — a different,
+   more complete signature to close on than the icon used elsewhere. */
+.abt-close__logo {
   position: absolute;
   right: clamp(16px, 5vw, 64px);
-  bottom: clamp(20px, 5vw, 56px);
-  width: clamp(72px, 9vw, 128px);
+  bottom: clamp(24px, 6vw, 64px);
+  width: clamp(160px, 20vw, 300px);
+  height: auto;
 }
 
 .red-period {
@@ -1754,7 +1774,8 @@ button {
 }
 
 .shop-size:hover {
-  filter: var(--hover-lift);
+  background: var(--at-white);
+  color: var(--at-black);
 }
 
 .shop-size--selected {
@@ -3261,12 +3282,12 @@ select.input-dark option {
   right: clamp(12px, 5vw, 72px);
   /* straddle the "What you get." heading band, above the perk rows */
   top: clamp(8px, 2vw, 22px);
-  opacity: 0.85;
+  /* Full opacity — a recognisable icon shape should read as exact Signal Red,
+     not a faded-out shade of it. */
   pointer-events: none;
 }
 @media (max-width: 719px) {
   .mem-perks__glyph {
-    opacity: 0.5;
     transform: scale(0.68);
     transform-origin: top right;
   }

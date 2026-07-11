@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 export const metadata: Metadata = {
   title: "Films — Angry Tiger",
   description:
-    "Feature films and short features from Angry Tiger. Our first slate is in development — new films get announced here first.",
+    "Feature films and short features from Angry Tiger. Our first slate is in development, and new films get announced here first.",
 };
 
 const FEATURES = [
@@ -23,7 +23,7 @@ export default function Films() {
     <div className="page">
       <FormatBlock
         heading="Feature films."
-        lede="Our first feature slate is in development. No titles yet — new films get announced here first."
+        lede="Our first feature slate is in development. No titles yet. New films get announced here first."
         slates={FEATURES}
         full
       />

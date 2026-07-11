@@ -26,7 +26,7 @@ export default function ProfileSection() {
         <div className="acct-row">
           <span className="acct-row__label">Name</span>
           <span className="acct-row__value">
-            {profile ? profile.name || "Not set — add it in account settings" : "…"}
+            {profile ? profile.name || "Not set. Add it in account settings" : "…"}
           </span>
         </div>
         <div className="acct-row">

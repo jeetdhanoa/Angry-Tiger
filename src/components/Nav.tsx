@@ -142,7 +142,7 @@ export default function Nav() {
     <>
       <header className="nav">
         <Link href="/" className="nav__logo">
-          <img src="/logos/at-primary-monogram-red.svg" alt="Angry Tiger — home" />
+          <img src="/logos/at-primary-monogram-red.svg" alt="Angry Tiger, home" />
         </Link>
         <div className="nav__right">
           <nav className="nav__links">
