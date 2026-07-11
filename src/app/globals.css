@@ -3200,7 +3200,7 @@ select.input-dark option {
   z-index: 0;
   right: clamp(12px, 5vw, 72px);
   /* straddle the "What you get." heading band, above the perk rows */
-  top: clamp(20px, 3vw, 44px);
+  top: clamp(8px, 2vw, 22px);
   opacity: 0.85;
   pointer-events: none;
 }
