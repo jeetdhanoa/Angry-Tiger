@@ -4,7 +4,7 @@ import FormatPage from "@/components/FormatPage";
 export const metadata: Metadata = {
   title: "Films — Angry Tiger",
   description:
-    "Feature films and short films from Angry Tiger. Our first slate is in development — new films get announced here first.",
+    "Feature films and short features from Angry Tiger. Our first slate is in development — new films get announced here first.",
 };
 
 const FEATURES = [
@@ -22,10 +22,10 @@ export default function Films() {
     <FormatPage
       eyebrow="Films"
       heading="Films."
-      lede="Feature films and short films. The first slate is in development — short films head to festivals and our channel, features get announced here first."
+      lede="Feature films and short features. The first slate is in development — short features head to festivals and our channel, features get announced here first."
       groups={[
         { label: "Features", slates: FEATURES },
-        { label: "Short films", slates: SHORTS },
+        { label: "Short Features", slates: SHORTS },
       ]}
     />
   );
