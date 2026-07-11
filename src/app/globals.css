@@ -140,6 +140,27 @@
   --filter-red-duotone: grayscale(1) sepia(1) hue-rotate(-45deg) saturate(6) contrast(1.1);
 }
 
+/* Wide-gamut red for capable screens (Display P3 — most Macs/iPhones/modern
+   monitors). The guideline gives Signal Red two specs: HEX #C90E0E for
+   screen, and CMYK 14/100/100/5 for print. The CMYK recipe converts to a
+   red more saturated than sRGB can display at all (confirmed: a colour
+   picker reads it as "clipped" against sRGB) — this is why the printed/PDF
+   swatch can look richer than the plain hex on a monitor. Rather than pick
+   an arbitrary "more vivid" number, this uses that same CMYK spec's own
+   RGB conversion (208, 0, 0) as the P3-space value, so capable screens show
+   the print-intended vividness while every other property/browser keeps
+   the exact documented hex.
+   Gated by @supports so unsupported browsers never see the override —
+   custom properties don't validate their own syntax, so redeclaring
+   --at-red directly (without this guard) would silently ship an invalid
+   value to older browsers. Every var(--at-red) call site (~24, including
+   the --at-red-bright/-deep aliases) picks this up automatically. */
+@supports (color: color(display-p3 1 0 0)) {
+  :root {
+    --at-red: color(display-p3 0.8157 0 0);
+  }
+}
+
 /* ============================================================
    Base
    ============================================================ */

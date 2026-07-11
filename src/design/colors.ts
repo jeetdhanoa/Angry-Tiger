@@ -11,7 +11,18 @@
  */
 
 export const brand = {
-  /** Signal Red — HEX #C90E0E · RGB 201,14,14 · CMYK 14,100,100,5. "The colour of impact." */
+  /**
+   * Signal Red — HEX #C90E0E · RGB 201,14,14 · CMYK 14,100,100,5.
+   * "The colour of impact." This hex is the sRGB fallback used everywhere
+   * (this token, and every plain CSS consumer). Capable screens (Display P3 —
+   * most Macs/iPhones/modern monitors) show a richer red instead, defined at
+   * :root in globals.css behind an @supports(color: color(display-p3 ...))
+   * gate: the guideline's CMYK spec converts to a red more saturated than
+   * sRGB can display at all (verified: it reads as "clipped" against sRGB in
+   * a colour picker), which is why the printed/PDF swatch can look more vivid
+   * than this hex on a monitor. The P3 value is that same CMYK spec's own RGB
+   * conversion (208,0,0), not an arbitrary "more vivid" guess.
+   */
   signalRed: "#c90e0e",
   /** Jet Black — HEX #000000 · RGB 0,0,0. "The visual foundation of the identity." */
   jetBlack: "#000000",
