@@ -111,9 +111,9 @@ export default function About() {
         </div>
         {/* The Extended Monogram — a genuinely different mark, not a recolour
             of the lockup (Home) or the brand symbol (nav/footer/404/splash);
-            never used anywhere else on the site. */}
+            never used anywhere else on the site. Black, on the paper bg. */}
         <img
-          src="/logos/at-extended-monogram-white.svg"
+          src="/logos/at-extended-monogram-black.svg"
           alt="Angry Tiger"
           className="abt-close__logo"
         />

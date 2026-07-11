@@ -1620,15 +1620,14 @@ button {
   max-width: 62ch;
 }
 
-/* Closing card — black, bookending the page back to the site's dominant
-   tone; the Extended Monogram (never used elsewhere on the site) as the
-   closing signature, per the guideline's own suggested use ("editorial
-   spreads"). */
+/* Closing card — white as the supporting neutral (§3); the black Extended
+   Monogram (never used elsewhere on the site) as the closing signature, per
+   the guideline's own suggested use ("editorial spreads"). */
 .abt-close {
   position: relative;
   overflow: hidden;
-  background: var(--at-black);
-  color: var(--at-white);
+  background: var(--at-paper);
+  color: var(--at-ink);
   padding: 110px clamp(20px, 4vw, 40px);
   display: flex;
   flex-direction: column;
@@ -1641,7 +1640,7 @@ button {
 
 .abt-close__line {
   font-size: clamp(40px, 5.6vw, 84px);
-  color: var(--at-white);
+  color: var(--at-ink);
   max-width: 16ch;
 }
 
@@ -1657,7 +1656,7 @@ button {
   font-size: 26px;
   letter-spacing: var(--tracking-display);
   text-transform: uppercase;
-  color: var(--at-white);
+  color: var(--at-ink);
   text-decoration: none;
   border-bottom: 2px solid var(--at-red);
   padding-bottom: 2px;
@@ -1671,7 +1670,7 @@ button {
 .abt-close__meta {
   font-family: var(--font-body);
   font-size: var(--text-small);
-  color: var(--text-muted);
+  color: var(--at-grey-dark);
 }
 
 /* Extended Monogram — landscape aspect, sized by width. */
