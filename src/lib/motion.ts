@@ -15,6 +15,7 @@ export function initMotion() {
   initParallax();
   initGrain();
   initLetterHover();
+  initMarkers();
 }
 
 let revealsStarted = false;
@@ -132,6 +133,51 @@ export function initGrain() {
         Math.floor(Math.random() * 160) + "px " + Math.floor(Math.random() * 160) + "px";
     }
   }, 120);
+}
+
+let markersStarted = false;
+
+// §5.03 Expressive Marks — the rough marker stroke draws itself on as the
+// word scrolls into view (a quick pass, not a spring). Purely additive: if
+// this never runs, the CSS leaves the stroke fully drawn. Respects
+// prefers-reduced-motion (the stroke simply appears).
+export function initMarkers() {
+  if (markersStarted) return;
+  markersStarted = true;
+  if (typeof IntersectionObserver === "undefined") return;
+  if (reduced()) return;
+
+  const prepped = new WeakSet<Element>();
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        const el = e.target as HTMLElement;
+        io.unobserve(el);
+        requestAnimationFrame(() => el.setAttribute("data-marker-draw", "in"));
+      }
+    },
+    { threshold: 0.4 }
+  );
+
+  const prep = (el: HTMLElement) => {
+    if (prepped.has(el)) return;
+    prepped.add(el);
+    el.setAttribute("data-marker-draw", "pending");
+    io.observe(el);
+  };
+  const scan = (root: Node) => {
+    if (!root || root.nodeType !== 1) return;
+    const el = root as HTMLElement;
+    if (el.matches && el.matches(".marker")) prep(el);
+    if (el.querySelectorAll) el.querySelectorAll<HTMLElement>(".marker").forEach(prep);
+  };
+  scan(document.body);
+
+  const mo = new MutationObserver((muts) => {
+    for (const m of muts) for (const n of m.addedNodes) scan(n);
+  });
+  mo.observe(document.body, { childList: true, subtree: true });
 }
 
 let letterHoverStarted = false;

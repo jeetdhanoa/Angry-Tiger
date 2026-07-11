@@ -1,6 +1,9 @@
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import ImageSlot from "@/components/ImageSlot";
+import Intervention from "@/components/Intervention";
+import Illustration from "@/components/Illustration";
+import MarkerStroke from "@/components/MarkerStroke";
 
 export default function Home() {
   return (
@@ -15,12 +18,17 @@ export default function Home() {
       </section>
 
       <section className="home-story">
+        {/* §5.05 Illustrative Intervention — a bold red mark over the B&W still. */}
         <div className="home-story__photo">
-          <ImageSlot scene="The house" shot="001" />
+          <Intervention align="left">
+            <ImageSlot scene="The house" shot="001" />
+          </Intervention>
         </div>
         <div className="home-story__panel">
-          <h2 className="display" data-letter-hover>
-            Don&apos;t follow the formula.
+          {/* §5.03 Expressive Marks — highlight the word the whole brand turns on. */}
+          <h2 className="display">
+            Don&apos;t follow the{" "}
+            <MarkerStroke variant="strike">formula</MarkerStroke>.
           </h2>
           <p>
             Angry Tiger is a Production House for Feature Films, Web Series and Vertical
@@ -30,10 +38,20 @@ export default function Home() {
           <Link href="/about" className="home-story__link">
             <span data-letter-hover="1">About the house →</span>
           </Link>
+          {/* §5.04 Illustrative Language — a hand-drawn object, black on the red panel. */}
+          <Illustration
+            name="matchstick"
+            width={132}
+            color="var(--at-black)"
+            rotate={-6}
+            className="home-story__glyph"
+          />
         </div>
       </section>
 
-      <section className="home-rows">
+      {/* §5.02 Intentional Disruption — an oversized rough mark breaks the grid behind the rows. */}
+      <section className="home-rows gfx-disrupt">
+        <span className="gfx-disrupt__mark home-rows__mark" aria-hidden="true" />
         <div className="home-rows__label">
           <span className="caption-label">Coming soon</span>
         </div>
