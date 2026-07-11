@@ -19,7 +19,7 @@ export default function FormatBlock({
 }) {
   return (
     <>
-      <section className={full ? "projects-hero" : "format-stack"}>
+      <section className={full ? "projects-hero format-hero" : "format-stack"}>
         {full ? (
           <h1 className="display" data-parallax="0.1" data-letter-hover>
             {heading}
