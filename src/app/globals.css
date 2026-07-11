@@ -2315,6 +2315,15 @@ button {
   color: var(--at-white);
 }
 
+.contact-hero__lede {
+  margin: 24px 0 0;
+  font-family: var(--font-body);
+  font-size: var(--text-lede);
+  line-height: var(--leading-body);
+  color: var(--text-body);
+  max-width: 56ch;
+}
+
 .contact-hero__script {
   display: block;
   margin-top: 12px;
@@ -2323,6 +2332,51 @@ button {
   font-size: 26px;
   color: var(--at-red);
   opacity: 0.75;
+}
+
+/* "I'm here to" path selector — the same 2px-outline language as the shop
+   size buttons; the active path goes solid red. */
+.contact-type-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.contact-type {
+  padding: 9px 16px;
+  border: 2px solid var(--at-white);
+  background: transparent;
+  color: var(--at-white);
+  font-family: var(--font-display);
+  font-size: 19px;
+  line-height: 1;
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+  border-radius: 0;
+  cursor: pointer;
+  transition:
+    background var(--duration-fast) var(--ease-cut),
+    color var(--duration-fast) var(--ease-cut),
+    border-color var(--duration-fast) var(--ease-cut);
+}
+
+.contact-type:hover {
+  background: var(--at-white);
+  color: var(--at-black);
+}
+
+.contact-type--active {
+  background: var(--at-red);
+  border-color: var(--at-red);
+  color: var(--at-black);
+}
+
+.contact-form__note {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  line-height: var(--leading-body);
+  color: var(--text-muted);
 }
 
 .contact-body {
