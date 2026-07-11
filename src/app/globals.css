@@ -269,10 +269,10 @@ button {
    ============================================================ */
 
 .btn {
-  /* Accent type — Inter uppercase, per Brand Guidelines §4.03
-     ("Buttons and CTAs"). */
-  font-family: var(--font-body);
-  font-weight: var(--weight-semibold);
+  /* Bebas Neue by brand-owner direction. (Guidelines §4.03 lists Inter
+     for buttons/CTAs; the house prefers the display face here — still
+     on-brand, kept at the guideline's -3% tracking.) */
+  font-family: var(--font-display);
   letter-spacing: var(--tracking-display);
   text-transform: uppercase;
   line-height: 1;
@@ -289,11 +289,9 @@ button {
     border-color var(--duration-fast) var(--ease-cut);
 }
 
-/* Sizes retuned for Inter (wider, non-condensed) — padding/heights held
-   so layout doesn't shift from the previous Bebas sizing. */
-.btn--sm { font-size: 13px; padding: 8px 16px; min-height: 34px; }
-.btn--md { font-size: 14px; padding: 10px 24px; min-height: 44px; }
-.btn--lg { font-size: 16px; padding: 14px 36px; min-height: 58px; }
+.btn--sm { font-size: 16px; padding: 8px 16px; min-height: 34px; }
+.btn--md { font-size: 20px; padding: 10px 24px; min-height: 44px; }
+.btn--lg { font-size: 26px; padding: 14px 36px; min-height: 58px; }
 
 .btn--primary {
   background: var(--interactive-primary);
@@ -468,14 +466,14 @@ button {
 .nav__links {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 36px;
 }
 
 .nav__link {
-  /* Navigation — Inter uppercase accent, per Brand Guidelines §4.03. */
-  font-family: var(--font-body);
-  font-weight: var(--weight-semibold);
-  font-size: 13px;
+  /* Bebas Neue by brand-owner direction (Guidelines §4.03 lists Inter for
+     navigation; house prefers the display face). Kept at -3% tracking. */
+  font-family: var(--font-display);
+  font-size: 21px;
   line-height: 1;
   letter-spacing: var(--tracking-display);
   text-transform: uppercase;
@@ -587,19 +585,16 @@ button {
 }
 
 .menu__link {
-  /* Navigation — Inter uppercase accent (matches the desktop nav), per
-     Brand Guidelines §4.03. Sized down from the Bebas display scale since
-     Inter is wider and heavier. */
-  font-family: var(--font-body);
-  font-weight: var(--weight-bold);
-  font-size: clamp(30px, 8vw, 46px);
-  line-height: 1.25;
+  /* Bebas Neue by brand-owner direction (matches the desktop nav). */
+  font-family: var(--font-display);
+  font-size: clamp(44px, 10vw, 64px);
+  line-height: 1.2;
   letter-spacing: var(--tracking-display);
   text-transform: uppercase;
   text-decoration: none;
   color: var(--at-white);
   border-bottom: 1px solid var(--hairline);
-  padding: 12px 0;
+  padding: 10px 0;
 }
 
 .menu__link--active {

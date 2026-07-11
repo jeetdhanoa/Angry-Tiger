@@ -5,8 +5,12 @@
  * Three typefaces, each with one job:
  *  - Bebas Neue   (Primary)   — headlines, posters, hero sections, statement graphics
  *  - Inter        (Secondary) — body copy, articles, long-form content
- *  - Inter UPPER  (Accent)    — eyebrows, captions, metadata, nav, buttons/CTAs, tags
+ *  - Inter UPPER  (Accent)    — eyebrows, captions, metadata, tags
  *  - Homemade Apple (Decorative) — signature sign-offs; one small aside per page, never more
+ *
+ * House deviation from §4.03: navigation, buttons and CTAs use **Bebas Neue**
+ * (not the Inter uppercase accent the guideline lists) by brand-owner
+ * direction — kept at the same -3% tracking so it still reads on-system.
  *
  * Letter-spacing: the guideline specifies **-3%** for Bebas Neue, Inter body,
  * and the Inter uppercase accent style alike — tighter than typical caps
