@@ -117,8 +117,9 @@ export default function Membership() {
       </section>
 
       <section className="mem-perks">
-        {/* §5.04 Illustrative Language — take a seat; a voice in the room. */}
-        <Illustration name="chair-office" width={168} className="mem-perks__glyph" />
+        {/* §5.04 Illustrative Language — take a seat; a voice in the room.
+            Kept small so it sits within the heading band, clear of the perks. */}
+        <Illustration name="chair-office" width={92} className="mem-perks__glyph" />
         <h2 className="display" data-letter-hover="1">
           What you get.
         </h2>
