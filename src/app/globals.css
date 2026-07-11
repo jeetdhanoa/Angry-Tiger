@@ -3149,3 +3149,70 @@ select.input-dark option {
   position: relative;
   z-index: 1;
 }
+
+/* ============================================================
+   §5 Graphic System — per-page placements
+   ============================================================ */
+
+/* Projects — §5.02: the rough tiger looms behind the classified slate. */
+.slate.gfx-disrupt {
+  overflow: hidden;
+}
+.slate__mark {
+  --illo-src: url("/graphics/mark-tiger.svg");
+  top: 50%;
+  right: 0;
+  height: 94%;
+  aspect-ratio: 701 / 1145;
+  transform: translateY(-50%);
+}
+
+/* About — §5.04: a hand-drawn umbrella, bold red on the black belief band.
+   Layered behind the copy so text stays fully legible. */
+.about-believe {
+  position: relative;
+  overflow: hidden;
+}
+.about-believe > :not(.about-believe__glyph) {
+  position: relative;
+  z-index: 1;
+}
+.about-believe__glyph {
+  position: absolute;
+  z-index: 0;
+  right: clamp(12px, 5vw, 72px);
+  bottom: clamp(16px, 4vw, 40px);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+/* Membership — §5.04: take a seat. The office chair sits behind the perks. */
+.mem-perks {
+  position: relative;
+  overflow: hidden;
+}
+.mem-perks > :not(.mem-perks__glyph) {
+  position: relative;
+  z-index: 1;
+}
+.mem-perks__glyph {
+  position: absolute;
+  z-index: 0;
+  right: clamp(12px, 5vw, 72px);
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.85;
+  pointer-events: none;
+}
+@media (max-width: 719px) {
+  .about-believe__glyph {
+    opacity: 0.5;
+    transform: scale(0.68);
+    transform-origin: bottom right;
+  }
+  .mem-perks__glyph {
+    opacity: 0.5;
+    transform: translateY(-50%) scale(0.68);
+    transform-origin: center right;
+  }
+}

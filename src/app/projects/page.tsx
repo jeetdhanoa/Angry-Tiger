@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
+import MarkerStroke from "@/components/MarkerStroke";
 
 export const metadata: Metadata = {
   title: "Projects — Angry Tiger",
@@ -22,8 +23,8 @@ export default function Projects() {
     <div className="page">
       <section className="projects-hero">
         <span className="caption-label">Projects</span>
-        <h1 className="display" data-parallax="0.1" data-letter-hover>
-          Coming soon.
+        <h1 className="display" data-parallax="0.1">
+          Coming <MarkerStroke variant="underline">soon</MarkerStroke>.
         </h1>
         <p className="projects-hero__lede">
           Our first slate is in development. No titles yet. New projects get announced
@@ -43,7 +44,8 @@ export default function Projects() {
         </div>
       </section>
 
-      <section className="slate">
+      <section className="slate gfx-disrupt">
+        <span className="gfx-disrupt__mark slate__mark" aria-hidden="true" />
         <span className="caption-label">The slate · Eyes only</span>
         <div className="slate__list">
           {SLATES.map((s) => (

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
 import ImageSlot from "@/components/ImageSlot";
+import MarkerStroke from "@/components/MarkerStroke";
+import Illustration from "@/components/Illustration";
 
 export const metadata: Metadata = {
   title: "About — Angry Tiger",
@@ -13,8 +15,9 @@ export default function About() {
     <div className="page page--paper">
       <section className="about-hero">
         <span className="caption-label">About</span>
-        <h1 className="display" data-parallax="0.1" data-letter-hover>
-          Built to break the pattern.
+        <h1 className="display" data-parallax="0.1">
+          Built to break the{" "}
+          <MarkerStroke variant="underline">pattern</MarkerStroke>.
         </h1>
       </section>
 
@@ -61,6 +64,8 @@ export default function About() {
       </section>
 
       <section className="about-believe">
+        {/* §5.04 Illustrative Language — a hand-drawn object, bold red on black. */}
+        <Illustration name="umbrella" width={200} className="about-believe__glyph" />
         <span className="caption-label">What we believe</span>
         <div className="about-believe__grid">
           <div className="about-believe__col">

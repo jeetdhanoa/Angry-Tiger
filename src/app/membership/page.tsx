@@ -4,6 +4,8 @@ import { useState } from "react";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
 import Turnstile from "@/components/Turnstile";
+import MarkerStroke from "@/components/MarkerStroke";
+import Illustration from "@/components/Illustration";
 import { joinWaitlist } from "@/lib/submissions";
 
 // Design props carried over from the prototype.
@@ -115,6 +117,8 @@ export default function Membership() {
       </section>
 
       <section className="mem-perks">
+        {/* §5.04 Illustrative Language — take a seat; a voice in the room. */}
+        <Illustration name="chair-office" width={168} className="mem-perks__glyph" />
         <h2 className="display" data-letter-hover="1">
           What you get.
         </h2>
@@ -130,8 +134,8 @@ export default function Membership() {
 
       <section className="mem-cta">
         <div className="mem-cta__copy">
-          <h2 className="display" data-letter-hover="1">
-            Get in early.
+          <h2 className="display">
+            Get in <MarkerStroke variant="underline">early</MarkerStroke>.
           </h2>
           <p>
             The Ambush opens alongside our first release. The waitlist is open now.
