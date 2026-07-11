@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import FormatPage from "@/components/FormatPage";
+import FormatBlock from "@/components/FormatBlock";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Television — Angry Tiger",
@@ -14,11 +15,16 @@ const SLATES = [
 
 export default function Television() {
   return (
-    <FormatPage
-      eyebrow="Television"
-      heading="Television."
-      lede="Series built to break the pattern. Our first television slate is in development."
-      groups={[{ label: "The slate", slates: SLATES }]}
-    />
+    <div className="page">
+      <FormatBlock
+        eyebrow="Television"
+        heading="Television."
+        lede="Series built to break the pattern. Our first television slate is in development."
+        slates={SLATES}
+        full
+        cta
+      />
+      <Footer />
+    </div>
   );
 }

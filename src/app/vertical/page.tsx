@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import FormatPage from "@/components/FormatPage";
+import FormatBlock from "@/components/FormatBlock";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Vertical — Angry Tiger",
@@ -14,11 +15,16 @@ const SLATES = [
 
 export default function Vertical() {
   return (
-    <FormatPage
-      eyebrow="Vertical"
-      heading="Vertical series."
-      lede="Vertical series made for the way people actually watch. In development now."
-      groups={[{ label: "The slate", slates: SLATES }]}
-    />
+    <div className="page">
+      <FormatBlock
+        eyebrow="Vertical"
+        heading="Vertical series."
+        lede="Vertical series made for the way people actually watch. In development now."
+        slates={SLATES}
+        full
+        cta
+      />
+      <Footer />
+    </div>
   );
 }

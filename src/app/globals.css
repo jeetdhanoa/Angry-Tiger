@@ -1447,6 +1447,26 @@ button {
   color: var(--at-white);
 }
 
+/* A second (or later) format section stacked on the same page — e.g. Short
+   Features under Features on /films. Top-aligned hero with a divider above it,
+   so each section reads on its own; the outlined headline matches the hero. */
+.format-stack {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 4vw, 40px);
+  padding: clamp(56px, 9vw, 120px) clamp(20px, 4vw, 40px) 0;
+  border-top: 1px solid var(--hairline);
+  overflow: hidden;
+}
+
+.format-stack h2 {
+  margin: 0;
+  font-size: clamp(64px, 11vw, 170px);
+  color: transparent;
+  -webkit-text-stroke: 2px var(--at-white);
+  white-space: nowrap;
+}
+
 /* ============================================================
    About
    ============================================================ */

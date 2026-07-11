@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import FormatPage from "@/components/FormatPage";
+import FormatBlock from "@/components/FormatBlock";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Films — Angry Tiger",
@@ -19,14 +20,22 @@ const SHORTS = [
 
 export default function Films() {
   return (
-    <FormatPage
-      eyebrow="Films"
-      heading="Films."
-      lede="Feature films and short features. The first slate is in development — short features head to festivals and our channel, features get announced here first."
-      groups={[
-        { label: "Features", slates: FEATURES },
-        { label: "Short Features", slates: SHORTS },
-      ]}
-    />
+    <div className="page">
+      <FormatBlock
+        eyebrow="Films"
+        heading="Feature films."
+        lede="Our first feature slate is in development. No titles yet — new films get announced here first."
+        slates={FEATURES}
+        full
+        cta
+      />
+      <FormatBlock
+        eyebrow="Short Features"
+        heading="Short features."
+        lede="Short features made for festivals and our channel. Raw, fast, and in development now."
+        slates={SHORTS}
+      />
+      <Footer />
+    </div>
   );
 }
