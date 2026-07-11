@@ -183,8 +183,11 @@ export function initMarkers() {
       if (!host) continue;
       const r = host.getBoundingClientRect();
       const center = r.top + r.height / 2;
-      // 0 when the word's centre sits at the viewport bottom; 1 at the middle.
-      let prog = (vh - center) / (vh * 0.5);
+      // Starts later: 0 until the word's centre rises to 60% of the viewport
+      // height, reaching 1 near the upper third. Scrolling up reverses it.
+      const start = vh * 0.6;
+      const end = vh * 0.3;
+      let prog = (start - center) / (start - end);
       prog = prog < 0 ? 0 : prog > 1 ? 1 : prog;
       p.style.strokeDashoffset = String(1 - prog);
     }
