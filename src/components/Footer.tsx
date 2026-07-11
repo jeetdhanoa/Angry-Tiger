@@ -89,11 +89,8 @@ export default function Footer() {
             <Link href="/projects" className="footer__link" data-letter-hover="1">
               Projects
             </Link>
-            <Link href="/shop" className="footer__link" data-letter-hover="1">
-              The Shop
-            </Link>
-            <Link href="/membership" className="footer__link" data-letter-hover="1">
-              The Ambush
+            <Link href="/notes" className="footer__link" data-letter-hover="1">
+              Notes
             </Link>
             <Link href="/about" className="footer__link" data-letter-hover="1">
               About the House

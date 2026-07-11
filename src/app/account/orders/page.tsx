@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { rupees } from "@/lib/cart";
@@ -27,12 +26,7 @@ export default function OrdersSection() {
       {orders === null ? null : orders.length === 0 ? (
         <div className="acct-empty">
           <p className="acct-empty__title">Nothing yet.</p>
-          <p className="acct-empty__sub">
-            Your pre-orders and drops will live here.
-          </p>
-          <Link href="/shop" className="underline-link" style={{ fontSize: 22 }}>
-            The shop →
-          </Link>
+          <p className="acct-empty__sub">Your orders will live here.</p>
         </div>
       ) : (
         <div className="acct-rows">

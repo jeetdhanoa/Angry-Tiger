@@ -34,10 +34,6 @@ export default function ProfileSection() {
           <span className="acct-row__value">{user?.email}</span>
         </div>
         <div className="acct-row">
-          <span className="acct-row__label">Membership</span>
-          <span className="acct-row__value">The Ambush opens with our first release</span>
-        </div>
-        <div className="acct-row">
           <span className="acct-row__label">Member since</span>
           <span className="acct-row__value">
             {profile ? memberSince(profile.created_at) : "…"}

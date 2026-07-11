@@ -36,11 +36,6 @@ export default function Projects() {
               Send us your story
             </Button>
           </Link>
-          <Link href="/membership">
-            <Button variant="secondary" size="lg">
-              Join The Ambush
-            </Button>
-          </Link>
         </div>
       </section>
 

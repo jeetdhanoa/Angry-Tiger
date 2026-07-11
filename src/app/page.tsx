@@ -54,17 +54,17 @@ export default function Home() {
           </span>
           <span className="home-row__sub">The first slate is in development →</span>
         </Link>
-        <Link href="/shop" className="home-row">
+        <Link href="/notes" className="home-row">
           <span className="home-row__title" data-letter-hover="1">
-            The shop
+            Notes
           </span>
-          <span className="home-row__sub">Drop 001, opens with our first release →</span>
+          <span className="home-row__sub">Letters, conversations and the podcast →</span>
         </Link>
-        <Link href="/membership" className="home-row">
+        <Link href="/about" className="home-row">
           <span className="home-row__title" data-letter-hover="1">
-            The Ambush
+            About
           </span>
-          <span className="home-row__sub">Membership, first looks and first drops →</span>
+          <span className="home-row__sub">Built to break the pattern →</span>
         </Link>
       </section>
 

@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useCart, rupees } from "@/lib/cart";
 import { useAuth } from "@/lib/auth";
 import Turnstile from "@/components/Turnstile";
 import Icon from "@/components/Icon";
@@ -11,9 +10,7 @@ import Icon from "@/components/Icon";
 const LINKS = [
   { key: "projects", label: "Projects", href: "/projects" },
   { key: "about", label: "About", href: "/about" },
-  { key: "shop", label: "Shop", href: "/shop" },
   { key: "notes", label: "Notes", href: "/notes" },
-  { key: "membership", label: "Membership", href: "/membership" },
   { key: "contact", label: "Contact", href: "/contact" },
 ];
 
@@ -22,16 +19,12 @@ const SEARCH_INDEX = [
   { label: "Notes", sub: "Letters, conversations and the podcast", href: "/notes" },
   { label: "Projects", sub: "Coming soon. The first slate is in development", href: "/projects" },
   { label: "About", sub: "Built to break the pattern. What we believe", href: "/about" },
-  { label: "The tiger tee", sub: "The shop · Drop 001 · ₹1,499", href: "/shop" },
-  { label: "The shop", sub: "One drop at a time", href: "/shop" },
-  { label: "The Ambush", sub: "Membership · ₹999 a month · founding members", href: "/membership" },
   { label: "Contact", sub: "Talk to the tiger · hello@angrytiger.in", href: "/contact" },
   { label: "Submissions", sub: "Scripts, loglines, reels. Start with a logline", href: "/contact" },
 ];
 
 export default function Nav() {
   const pathname = usePathname();
-  const cart = useCart();
   const auth = useAuth();
 
   const [searchOpen, setSearchOpen] = useState(false);
@@ -48,7 +41,6 @@ export default function Nav() {
   const [captcha, setCaptcha] = useState("");
   // Turnstile tokens are single-use; remount the widget after each attempt.
   const [captchaNonce, setCaptchaNonce] = useState(0);
-  const [checkoutNote, setCheckoutNote] = useState(false);
 
   const searchRef = useRef<HTMLInputElement>(null);
 
@@ -56,9 +48,7 @@ export default function Nav() {
     setSearchOpen(false);
     setAccountOpen(false);
     setMenuOpen(false);
-    cart.closeCart();
-    setCheckoutNote(false);
-  }, [cart]);
+  }, []);
 
   useEffect(() => {
     const esc = (e: KeyboardEvent) => {
@@ -96,10 +86,6 @@ export default function Nav() {
   const openAccount = () => {
     closeAll();
     setAccountOpen(true);
-  };
-  const openCart = () => {
-    closeAll();
-    cart.openCart();
   };
   const openMenu = () => {
     closeAll();
@@ -180,15 +166,6 @@ export default function Nav() {
           <button type="button" className="nav__icon" aria-label="Account" onClick={openAccount}>
             <Icon name="account" size={21} />
           </button>
-          <button
-            type="button"
-            className="nav__icon"
-            aria-label={`Cart (${cart.count})`}
-            onClick={openCart}
-          >
-            <Icon name="cart" size={22} />
-            {cart.count > 0 && <span className="nav__cart-count">{cart.count}</span>}
-          </button>
           <button type="button" className="nav__burger" aria-label="Menu" onClick={openMenu}>
             <Icon name="menu" size={24} />
           </button>
@@ -225,105 +202,12 @@ export default function Nav() {
             ))}
             {q.length > 0 && results.length === 0 && (
               <p className="search__empty">
-                Nothing matches that. Try &quot;tee&quot;, &quot;membership&quot; or
+                Nothing matches that. Try &quot;projects&quot;, &quot;notes&quot; or
                 &quot;submissions&quot;.
               </p>
             )}
           </div>
         </div>
-      )}
-
-      {cart.cartOpen && (
-        <>
-          <button
-            className="drawer-backdrop"
-            aria-label="Close cart"
-            onClick={() => cart.closeCart()}
-          />
-          <aside className="drawer">
-            <div className="drawer__head">
-              <span className="drawer__title">Cart</span>
-              <button
-                type="button"
-                className="drawer__close"
-                aria-label="Close cart"
-                onClick={() => {
-                  cart.closeCart();
-                  setCheckoutNote(false);
-                }}
-              >
-                ×
-              </button>
-            </div>
-            {cart.items.length > 0 ? (
-              <>
-                <div className="cart__items">
-                  {cart.items.map((it) => (
-                    <div key={it.id} className="cart__item">
-                      <div className="cart__item-top">
-                        <span className="cart__item-name">{it.name}</span>
-                        <button
-                          type="button"
-                          className="cart__item-remove"
-                          aria-label="Remove item"
-                          onClick={() => cart.remove(it.id)}
-                        >
-                          ×
-                        </button>
-                      </div>
-                      <div className="cart__item-bottom">
-                        <span className="cart__item-size">Size {it.size}</span>
-                        <div className="cart__qty">
-                          <button
-                            type="button"
-                            className="cart__step"
-                            aria-label="Decrease quantity"
-                            onClick={() => cart.dec(it.id)}
-                          >
-                            −
-                          </button>
-                          <span className="cart__qty-n">{it.qty}</span>
-                          <button
-                            type="button"
-                            className="cart__step"
-                            aria-label="Increase quantity"
-                            onClick={() => cart.inc(it.id)}
-                          >
-                            +
-                          </button>
-                          <span className="cart__line">{rupees(it.price * it.qty)}</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <div className="cart__subtotal">
-                  <span className="cart__subtotal-label">Subtotal</span>
-                  <span className="cart__subtotal-n">{rupees(cart.subtotal)}</span>
-                </div>
-                <button
-                  type="button"
-                  className="cart__checkout"
-                  onClick={() => setCheckoutNote(true)}
-                >
-                  Checkout
-                </button>
-                {checkoutNote && (
-                  <p className="cart__note">
-                    Pre-orders are charged closer to release. Your cart is saved.
-                  </p>
-                )}
-              </>
-            ) : (
-              <div className="cart__empty">
-                <p className="cart__empty-title">Your cart is empty.</p>
-                <Link href="/shop" className="underline-link" style={{ fontSize: 22 }}>
-                  The shop →
-                </Link>
-              </div>
-            )}
-          </aside>
-        </>
       )}
 
       {accountOpen && (
@@ -352,8 +236,8 @@ export default function Nav() {
               <div className="account__body">
                 <p className="account__intro">
                   {mode === "signup"
-                    ? "Create your account to join The Ambush and keep your cart and orders in one place."
-                    : "Ambush members and shoppers sign in here. Your cart and orders follow you."}
+                    ? "Create your Angry Tiger account to stay close to what we're building."
+                    : "Sign in to your Angry Tiger account."}
                 </p>
                 <label className="field">
                   <span>Email</span>
@@ -406,9 +290,6 @@ export default function Nav() {
                     ? "New here? Create an account →"
                     : "Have an account? Sign in →"}
                 </button>
-                <Link href="/membership" className="account__join">
-                  Not a member? Join The Ambush →
-                </Link>
               </div>
             ) : (
               <div className="account__in">
@@ -418,16 +299,6 @@ export default function Nav() {
                 <div className="account__row">
                   <span className="account__row-label">Signed in as</span>
                   <span className="account__row-value">{auth.user.email}</span>
-                </div>
-                <div className="account__row">
-                  <span className="account__row-label">Membership</span>
-                  <span className="account__row-value">
-                    The Ambush opens with our first release
-                  </span>
-                </div>
-                <div className="account__row">
-                  <span className="account__row-label">Orders</span>
-                  <span className="account__row-value">Nothing yet</span>
                 </div>
                 <Link
                   href="/account"
