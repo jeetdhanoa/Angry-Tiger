@@ -101,7 +101,7 @@ export default function Footer() {
           </div>
         </div>
         <img
-          src="/logos/at-brand-symbol-red.png"
+          src="/logos/at-brand-symbol-red.svg"
           alt="Angry Tiger tiger mark"
           className="footer__mark"
         />

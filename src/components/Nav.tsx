@@ -158,7 +158,7 @@ export default function Nav() {
     <>
       <header className="nav">
         <Link href="/" className="nav__logo">
-          <img src="/logos/at-primary-monogram-red.png" alt="Angry Tiger — home" />
+          <img src="/logos/at-primary-monogram-red.svg" alt="Angry Tiger — home" />
         </Link>
         <div className="nav__right">
           <nav className="nav__links">
@@ -448,7 +448,7 @@ export default function Nav() {
       {menuOpen && (
         <div className="menu">
           <div className="menu__top">
-            <img src="/logos/at-primary-monogram-red.png" alt="Angry Tiger" />
+            <img src="/logos/at-primary-monogram-red.svg" alt="Angry Tiger" />
             <button
               type="button"
               className="menu__close"

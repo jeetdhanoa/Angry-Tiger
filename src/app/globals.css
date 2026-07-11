@@ -39,9 +39,14 @@
      --at-charcoal are utility neutrals (not brand colors) for UI needs the
      guideline doesn't cover; see src/design/colors.ts for full provenance. */
   --at-red: #c90e0e;
-  --at-red-bright: #d9010f;
-  --at-red-deep: #8a0b0b;
-  --at-maroon: #730000;
+  /* The brand has ONE red — Signal Red (Guidelines §3; Common Errors: "Do
+     not use any other shade of red"). These interaction aliases resolve to
+     Signal Red rather than being separate hues; hover/press feedback comes
+     from brightness shifts (--hover-lift / --press-shade) and white↔red
+     colour swaps, not a different red. Kept as named aliases so the ~24
+     hover/focus/error call sites need no edits. */
+  --at-red-bright: var(--at-red);
+  --at-red-deep: var(--at-red);
   --at-black: #000000;
   --at-ink: #121212;
   --at-charcoal: #1c1b1a;
@@ -91,6 +96,14 @@
   --leading-display: 0.92;
   --leading-tight: 1.1;
   --leading-body: 1.55;
+
+  /* Inter weights, as named in Brand Guidelines §4.02. */
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-extrabold: 800;
+
   /* -3% per Brand Guidelines §4 — applies to Bebas Neue, Inter body copy,
      and the Inter uppercase accent style alike (tighter than typical caps
      tracking convention; this is the documented spec). */
@@ -225,7 +238,7 @@ button {
   font-family: var(--font-body);
   font-size: var(--text-base);
   padding: 12px 14px;
-  background: rgba(252, 252, 252, 0.04);
+  background: rgba(244, 241, 231, 0.04);
   color: inherit;
   border: 2px solid rgba(128, 128, 128, 0.35);
   border-radius: 0;
@@ -256,7 +269,10 @@ button {
    ============================================================ */
 
 .btn {
-  font-family: var(--font-display);
+  /* Accent type — Inter uppercase, per Brand Guidelines §4.03
+     ("Buttons and CTAs"). */
+  font-family: var(--font-body);
+  font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-display);
   text-transform: uppercase;
   line-height: 1;
@@ -273,9 +289,11 @@ button {
     border-color var(--duration-fast) var(--ease-cut);
 }
 
-.btn--sm { font-size: 16px; padding: 8px 16px; min-height: 34px; }
-.btn--md { font-size: 20px; padding: 10px 24px; min-height: 44px; }
-.btn--lg { font-size: 26px; padding: 14px 36px; min-height: 58px; }
+/* Sizes retuned for Inter (wider, non-condensed) — padding/heights held
+   so layout doesn't shift from the previous Bebas sizing. */
+.btn--sm { font-size: 13px; padding: 8px 16px; min-height: 34px; }
+.btn--md { font-size: 14px; padding: 10px 24px; min-height: 44px; }
+.btn--lg { font-size: 16px; padding: 14px 36px; min-height: 58px; }
 
 .btn--primary {
   background: var(--interactive-primary);
@@ -343,7 +361,7 @@ button {
 .image-slot__frame {
   position: absolute;
   inset: 14px;
-  border: 1px solid rgba(252, 252, 252, 0.16);
+  border: 1px solid rgba(244, 241, 231, 0.16);
   pointer-events: none;
 }
 
@@ -363,7 +381,7 @@ button {
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
   font-weight: 600;
-  color: rgba(252, 252, 252, 0.55);
+  color: rgba(244, 241, 231, 0.55);
 }
 
 .image-slot__title {
@@ -450,12 +468,14 @@ button {
 .nav__links {
   display: flex;
   align-items: center;
-  gap: 36px;
+  gap: 28px;
 }
 
 .nav__link {
-  font-family: var(--font-display);
-  font-size: 21px;
+  /* Navigation — Inter uppercase accent, per Brand Guidelines §4.03. */
+  font-family: var(--font-body);
+  font-weight: var(--weight-semibold);
+  font-size: 13px;
   line-height: 1;
   letter-spacing: var(--tracking-display);
   text-transform: uppercase;
@@ -475,7 +495,7 @@ button {
 .nav__divider {
   width: 1px;
   height: 22px;
-  background: rgba(252, 252, 252, 0.25);
+  background: rgba(244, 241, 231, 0.25);
 }
 
 .nav__icon {
@@ -567,14 +587,19 @@ button {
 }
 
 .menu__link {
-  font-family: var(--font-display);
-  font-size: clamp(44px, 10vw, 64px);
-  line-height: 1.2;
+  /* Navigation — Inter uppercase accent (matches the desktop nav), per
+     Brand Guidelines §4.03. Sized down from the Bebas display scale since
+     Inter is wider and heavier. */
+  font-family: var(--font-body);
+  font-weight: var(--weight-bold);
+  font-size: clamp(30px, 8vw, 46px);
+  line-height: 1.25;
+  letter-spacing: var(--tracking-display);
   text-transform: uppercase;
   text-decoration: none;
   color: var(--at-white);
   border-bottom: 1px solid var(--hairline);
-  padding: 10px 0;
+  padding: 12px 0;
 }
 
 .menu__link--active {
@@ -596,7 +621,7 @@ button {
   position: fixed;
   inset: 0;
   z-index: 300;
-  background: rgba(10, 10, 10, 0.97);
+  background: rgba(0, 0, 0, 0.97);
   display: flex;
   flex-direction: column;
   padding: 32px clamp(20px, 4vw, 40px) 40px;
@@ -689,7 +714,7 @@ button {
   position: fixed;
   inset: 0;
   z-index: 300;
-  background: rgba(10, 10, 10, 0.6);
+  background: rgba(0, 0, 0, 0.6);
   border: none;
   padding: 0;
   cursor: default;
@@ -815,7 +840,7 @@ button {
   align-items: center;
   justify-content: center;
   background: transparent;
-  border: 1px solid rgba(252, 252, 252, 0.4);
+  border: 1px solid rgba(244, 241, 231, 0.4);
   border-radius: 0;
   cursor: pointer;
   color: var(--at-white);
@@ -1910,7 +1935,9 @@ button {
   aspect-ratio: 1.586;
   background: var(--at-black);
   box-shadow: var(--shadow-poster);
-  border-radius: 16px;
+  /* Hard-edged, like everything else in the identity (Guidelines show no
+     rounded corners anywhere). */
+  border-radius: var(--radius-none);
   overflow: hidden;
   padding: 16px 18px;
   display: flex;
@@ -2231,7 +2258,7 @@ button {
 }
 
 .contact-form {
-  border: 2px solid rgba(252, 252, 252, 0.22);
+  border: 2px solid rgba(244, 241, 231, 0.22);
   padding: clamp(24px, 5vw, 40px);
 }
 
@@ -2572,7 +2599,7 @@ button {
 }
 
 .addr-card:hover {
-  border-color: rgba(252, 252, 252, 0.4);
+  border-color: rgba(244, 241, 231, 0.4);
 }
 
 .addr-card__head {

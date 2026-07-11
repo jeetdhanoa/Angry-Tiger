@@ -95,11 +95,11 @@ export default function Membership() {
           <div className="mem-card">
             <span className="mem-card__title">The Ambush.</span>
             <div className="mem-card__mark">
-              <img src="/logos/at-brand-symbol-red.png" alt="" />
+              <img src="/logos/at-brand-symbol-red.svg" alt="" />
             </div>
             <div className="mem-card__foot">
               <span className="mem-card__number">Founding member Nº {CARD_NUMBER}</span>
-              <img src="/logos/at-primary-wordmark-white.png" alt="Angry Tiger" />
+              <img src="/logos/at-primary-wordmark-white.svg" alt="Angry Tiger" />
             </div>
           </div>
         </div>

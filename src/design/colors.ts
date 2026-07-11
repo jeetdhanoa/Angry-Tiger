@@ -20,15 +20,17 @@ export const brand = {
 } as const;
 
 /**
- * UI-interaction extensions of Signal Red (hover/pressed states). Not part
- * of the official 3-color palette — the guideline explicitly says "do not
- * use any other shade of red" for the *logo*; these are for interactive
- * chrome (buttons, links), a distinct, expected need the guideline doesn't
- * address. Same hue, adjusted for feedback affordance only.
+ * Interaction states. The brand has ONE red — Signal Red — and the
+ * guideline is explicit: "Do not use any other shade of red." So hover and
+ * pressed are Signal Red too; the *feedback* is a brightness shift applied
+ * at the CSS layer (--hover-lift: brightness(1.12) / --press-shade:
+ * brightness(0.85)) and white↔red colour swaps, never a different hue.
  */
 export const interactive = {
-  redHover: "#d9010f",
-  redPressed: "#8a0b0b",
+  redHover: brand.signalRed,
+  redPressed: brand.signalRed,
+  hoverLift: "brightness(1.12)",
+  pressShade: "brightness(0.85)",
 } as const;
 
 /**

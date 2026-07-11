@@ -12,7 +12,7 @@ export default function NotFound() {
   return (
     <div className="page">
       <section className="nf">
-        <img src="/logos/at-brand-symbol-red.png" alt="" className="nf__mark" />
+        <img src="/logos/at-brand-symbol-red.svg" alt="" className="nf__mark" />
         <span className="caption-label">404 · Scene missing</span>
         <h1 className="display">
           You&apos;ve wandered <span className="red-period">off the set.</span>

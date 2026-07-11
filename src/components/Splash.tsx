@@ -37,7 +37,7 @@ export default function Splash() {
       <div className="grain" data-grain="true" />
       {(phase === "show" || phase === "fade" || phase === "init") && (
         <div className="splash" style={{ opacity: phase === "fade" ? 0 : 1 }}>
-          <img src="/logos/at-brand-symbol-red.png" alt="Angry Tiger" />
+          <img src="/logos/at-brand-symbol-red.svg" alt="Angry Tiger" />
         </div>
       )}
     </>

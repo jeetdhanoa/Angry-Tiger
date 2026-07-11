@@ -9,7 +9,7 @@ export default function Home() {
         <img
           className="home-hero__logo"
           data-parallax="0.12"
-          src="/logos/at-primary-lockup-white.png"
+          src="/logos/at-primary-lockup-white.svg"
           alt="Angry Tiger"
         />
       </section>
