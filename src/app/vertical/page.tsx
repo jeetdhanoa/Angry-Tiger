@@ -17,12 +17,10 @@ export default function Vertical() {
   return (
     <div className="page">
       <FormatBlock
-        eyebrow="Vertical"
         heading="Vertical series."
         lede="Vertical series made for the way people actually watch. In development now."
         slates={SLATES}
         full
-        cta
       />
       <Footer />
     </div>

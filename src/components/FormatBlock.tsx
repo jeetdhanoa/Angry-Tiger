@@ -1,58 +1,39 @@
-import Link from "next/link";
-import Button from "@/components/Button";
-
 export type Slate = { code: string; titleBar: string; genreBar: number };
 
-// One section of a format page: a hero (eyebrow + heading + lede, optional CTA)
-// followed by its in-development redacted slate with the rough tiger behind it
-// (§5.02). Pages compose one or more of these. The first block on a page uses
-// `full` (the tall centred hero + h1); stacked blocks below get a top-aligned
-// hero + h2 so several sections read as one page.
+// One section of a format page: a headline + lede, then its in-development
+// redacted slate with the rough tiger behind it (§5.02). Pages compose one or
+// more of these. The first block on a page uses `full` (the tall centred hero +
+// h1 with the top-of-page parallax); stacked blocks below get a top-aligned
+// hero + h2 with a bounded, viewport-relative parallax so several sections read
+// as one page without the headline drifting over the copy.
 export default function FormatBlock({
-  eyebrow,
   heading,
   lede,
   slates,
   full = false,
-  cta = false,
 }: {
-  eyebrow: string;
   heading: string;
   lede: string;
   slates: Slate[];
   full?: boolean;
-  cta?: boolean;
 }) {
   return (
     <>
       <section className={full ? "projects-hero" : "format-stack"}>
-        <span className="caption-label">{eyebrow}</span>
         {full ? (
-          // Parallax only on the tall hero — on a stacked section it drifts the
-          // headline down over the description below it.
           <h1 className="display" data-parallax="0.1" data-letter-hover>
             {heading}
           </h1>
         ) : (
-          <h2 className="display" data-letter-hover>
+          <h2 className="display" data-parallax-rel="0.08" data-letter-hover>
             {heading}
           </h2>
         )}
         <p className="projects-hero__lede">{lede}</p>
-        {cta && (
-          <div className="projects-hero__actions">
-            <Link href="/contact">
-              <Button variant="primary" size="lg">
-                Send us your story
-              </Button>
-            </Link>
-          </div>
-        )}
       </section>
 
       <section className="slate gfx-disrupt">
         <span className="gfx-disrupt__mark slate__mark" aria-hidden="true" />
-        <span className="caption-label">The slate</span>
         <div className="slate__list">
           {slates.map((s) => (
             <div key={s.code} className="slate-row">

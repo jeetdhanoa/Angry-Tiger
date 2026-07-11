@@ -88,16 +88,31 @@ export function initParallax() {
 
   let els: HTMLElement[] = [];
   const collect = () => {
-    els = Array.prototype.slice.call(document.querySelectorAll("[data-parallax]"));
+    els = Array.prototype.slice.call(
+      document.querySelectorAll("[data-parallax], [data-parallax-rel]")
+    );
   };
 
   let ticking = false;
   const update = () => {
     ticking = false;
     const sy = window.scrollY || 0;
+    const vh = window.innerHeight || document.documentElement.clientHeight || 0;
     for (const el of els) {
-      const f = parseFloat(el.getAttribute("data-parallax") || "") || 0.12;
-      el.style.transform = "translate3d(0," + (sy * f).toFixed(1) + "px,0)";
+      const rel = el.getAttribute("data-parallax-rel");
+      if (rel !== null) {
+        // Viewport-relative parallax: 0 when the element is centred, drifting a
+        // bounded amount as it passes through — safe for sections far down the
+        // page (unlike absolute scrollY, which offsets them enormously).
+        if (!vh) continue;
+        const f = parseFloat(rel) || 0.08;
+        const r = el.getBoundingClientRect();
+        const offset = (vh / 2 - (r.top + r.height / 2)) * f;
+        el.style.transform = "translate3d(0," + offset.toFixed(1) + "px,0)";
+      } else {
+        const f = parseFloat(el.getAttribute("data-parallax") || "") || 0.12;
+        el.style.transform = "translate3d(0," + (sy * f).toFixed(1) + "px,0)";
+      }
     }
   };
   const req = () => {

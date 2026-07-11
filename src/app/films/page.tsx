@@ -22,15 +22,12 @@ export default function Films() {
   return (
     <div className="page">
       <FormatBlock
-        eyebrow="Films"
         heading="Feature films."
         lede="Our first feature slate is in development. No titles yet — new films get announced here first."
         slates={FEATURES}
         full
-        cta
       />
       <FormatBlock
-        eyebrow="Short Features"
         heading="Short features."
         lede="Short features made for festivals and our channel. Raw and in development now."
         slates={SHORTS}

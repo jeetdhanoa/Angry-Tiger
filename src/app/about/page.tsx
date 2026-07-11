@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function About() {
   return (
-    <div className="page page--paper">
+    <div className="page">
       <section className="about-hero">
         <span className="caption-label">About</span>
         <h1 className="display" data-parallax="0.1">
@@ -64,8 +64,13 @@ export default function About() {
       </section>
 
       <section className="about-believe">
-        {/* §5.04 Illustrative Language — a hand-drawn object, bold red on black. */}
-        <Illustration name="umbrella" width={200} className="about-believe__glyph" />
+        {/* §5.04 Illustrative Language — hand-drawn object, black on the red panel. */}
+        <Illustration
+          name="umbrella"
+          width={200}
+          color="var(--at-black)"
+          className="about-believe__glyph"
+        />
         <span className="caption-label">What we believe</span>
         <div className="about-believe__grid">
           <div className="about-believe__col">

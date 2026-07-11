@@ -17,12 +17,10 @@ export default function Television() {
   return (
     <div className="page">
       <FormatBlock
-        eyebrow="Television"
         heading="Television."
         lede="Series built to break the pattern. Our first television slate is in development."
         slates={SLATES}
         full
-        cta
       />
       <Footer />
     </div>
