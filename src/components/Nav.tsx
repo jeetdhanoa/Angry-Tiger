@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useCart, rupees } from "@/lib/cart";
 import { useAuth } from "@/lib/auth";
 import Turnstile from "@/components/Turnstile";
+import Icon from "@/components/Icon";
 
 const LINKS = [
   { key: "projects", label: "Projects", href: "/projects" },
@@ -173,16 +174,10 @@ export default function Nav() {
           </nav>
           <span className="nav__divider" />
           <button type="button" className="nav__icon" aria-label="Search" onClick={openSearch}>
-            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="10.5" cy="10.5" r="7" />
-              <line x1="15.8" y1="15.8" x2="22" y2="22" />
-            </svg>
+            <Icon name="search" size={21} />
           </button>
           <button type="button" className="nav__icon" aria-label="Account" onClick={openAccount}>
-            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="12" cy="7.5" r="4" />
-              <path d="M4 21c1.4-4.2 4.8-6.2 8-6.2s6.6 2 8 6.2" />
-            </svg>
+            <Icon name="account" size={21} />
           </button>
           <button
             type="button"
@@ -190,19 +185,11 @@ export default function Nav() {
             aria-label={`Cart (${cart.count})`}
             onClick={openCart}
           >
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M1.5 3.5h3l2.6 12h11.4l2.6-9H6" />
-              <circle cx="9.5" cy="19.5" r="1.7" />
-              <circle cx="16.8" cy="19.5" r="1.7" />
-            </svg>
+            <Icon name="cart" size={22} />
             {cart.count > 0 && <span className="nav__cart-count">{cart.count}</span>}
           </button>
           <button type="button" className="nav__burger" aria-label="Menu" onClick={openMenu}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <line x1="3" y1="6" x2="21" y2="6" />
-              <line x1="3" y1="12" x2="21" y2="12" />
-              <line x1="3" y1="18" x2="21" y2="18" />
-            </svg>
+            <Icon name="menu" size={24} />
           </button>
         </div>
       </header>

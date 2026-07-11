@@ -34,16 +34,19 @@
 }
 
 :root {
-  /* Base palette */
+  /* Base palette — per official Brand Guidelines §3 (Shanaya.Studio, Jul 2026):
+     Signal Red #C90E0E, Jet Black #000000, White #F4F1E7. --at-ink and
+     --at-charcoal are utility neutrals (not brand colors) for UI needs the
+     guideline doesn't cover; see src/design/colors.ts for full provenance. */
   --at-red: #c90e0e;
   --at-red-bright: #d9010f;
   --at-red-deep: #8a0b0b;
   --at-maroon: #730000;
-  --at-black: #0a0a0a;
+  --at-black: #000000;
   --at-ink: #121212;
   --at-charcoal: #1c1b1a;
-  --at-paper: #f5f3ef;
-  --at-white: #fcfcfc;
+  --at-paper: #f4f1e7;
+  --at-white: #f4f1e7;
   --at-grey: #8a8785;
   --at-grey-dark: #4a4846;
 
@@ -52,11 +55,11 @@
   --surface-paper: var(--at-paper);
   --surface-red: var(--at-red);
   --surface-card: var(--at-charcoal);
-  --surface-overlay: rgba(10, 10, 10, 0.82);
+  --surface-overlay: rgba(0, 0, 0, 0.82);
 
   /* Semantic — text */
   --text-display: var(--at-white);
-  --text-body: rgba(252, 252, 252, 0.86);
+  --text-body: rgba(244, 241, 231, 0.86);
   --text-muted: var(--at-grey);
   --text-on-red: var(--at-black);
   --text-on-paper: var(--at-ink);
@@ -88,15 +91,21 @@
   --leading-display: 0.92;
   --leading-tight: 1.1;
   --leading-body: 1.55;
-  --tracking-display: 0.01em;
-  --tracking-caps: 0.14em;
+  /* -3% per Brand Guidelines §4 — applies to Bebas Neue, Inter body copy,
+     and the Inter uppercase accent style alike (tighter than typical caps
+     tracking convention; this is the documented spec). */
+  --tracking-display: -0.03em;
+  --tracking-body: -0.03em;
+  --tracking-caps: -0.03em;
+  /* Wide, spread film-credits treatment — a house style outside the
+     guideline's three documented type roles; left as its own value. */
   --tracking-wide: 0.3em;
 
   /* Spacing / borders */
   --radius-none: 0px;
-  --hairline: rgba(252, 252, 252, 0.14);
-  --hairline-strong: rgba(252, 252, 252, 0.18);
-  --hairline-ink: rgba(18, 18, 18, 0.25);
+  --hairline: rgba(244, 241, 231, 0.14);
+  --hairline-strong: rgba(244, 241, 231, 0.18);
+  --hairline-ink: rgba(0, 0, 0, 0.25);
 
   /* Motion */
   --ease-cut: cubic-bezier(0.65, 0, 0.35, 1);
@@ -136,6 +145,7 @@ body {
 body {
   font-family: var(--font-body);
   color: var(--text-body);
+  letter-spacing: var(--tracking-body);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -191,12 +201,13 @@ button {
 
 .script {
   font-family: var(--font-script);
+  letter-spacing: normal;
 }
 
 /* Underlined Bebas link (red or black underline) */
 .underline-link {
   font-family: var(--font-display);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--tracking-display);
   text-transform: uppercase;
   text-decoration: none;
   border-bottom: 2px solid var(--at-red);
@@ -246,7 +257,7 @@ button {
 
 .btn {
   font-family: var(--font-display);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--tracking-display);
   text-transform: uppercase;
   line-height: 1;
   white-space: nowrap;
@@ -446,7 +457,7 @@ button {
   font-family: var(--font-display);
   font-size: 21px;
   line-height: 1;
-  letter-spacing: 0.06em;
+  letter-spacing: var(--tracking-display);
   text-transform: uppercase;
   text-decoration: none;
   color: var(--at-white);
@@ -626,7 +637,7 @@ button {
   font-size: clamp(40px, 6vw, 76px);
   line-height: 1;
   text-transform: uppercase;
-  letter-spacing: 0.01em;
+  letter-spacing: var(--tracking-display);
   outline: none;
   padding: 0 0 14px;
 }
@@ -867,7 +878,7 @@ button {
   font-family: var(--font-display);
   font-size: 24px;
   line-height: 1;
-  letter-spacing: 0.05em;
+  letter-spacing: var(--tracking-display);
   text-transform: uppercase;
   transition: filter var(--duration-fast) var(--ease-cut);
 }
@@ -928,7 +939,7 @@ button {
   font-family: var(--font-display);
   font-size: 22px;
   line-height: 1;
-  letter-spacing: 0.05em;
+  letter-spacing: var(--tracking-display);
   text-transform: uppercase;
   transition: filter var(--duration-fast) var(--ease-cut);
 }
@@ -946,7 +957,7 @@ button {
 .account__join {
   font-family: var(--font-display);
   font-size: 20px;
-  letter-spacing: 0.05em;
+  letter-spacing: var(--tracking-display);
   text-transform: uppercase;
   color: var(--at-white);
   text-decoration: none;
@@ -1044,7 +1055,7 @@ button {
   font-family: var(--font-display);
   font-size: 20px;
   line-height: 1;
-  letter-spacing: 0.05em;
+  letter-spacing: var(--tracking-display);
   text-transform: uppercase;
   transition: background var(--duration-fast) var(--ease-cut),
     color var(--duration-fast) var(--ease-cut),
@@ -1289,7 +1300,7 @@ button {
 .home-story__link {
   font-family: var(--font-display);
   font-size: 24px;
-  letter-spacing: 0.05em;
+  letter-spacing: var(--tracking-display);
   text-transform: uppercase;
   color: var(--at-black);
   text-decoration: none;
@@ -1499,6 +1510,7 @@ button {
 
 .about-photo__script {
   font-family: var(--font-script);
+  letter-spacing: normal;
   font-size: 18px;
   color: var(--at-red);
   white-space: nowrap;
@@ -1666,7 +1678,7 @@ button {
   font-family: var(--font-display);
   font-size: 28px;
   line-height: 1;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--tracking-display);
   text-transform: uppercase;
   color: var(--at-white);
   transition: color var(--duration-fast) var(--ease-cut);
@@ -1873,6 +1885,7 @@ button {
 
 .mem-hero__script {
   font-family: var(--font-script);
+  letter-spacing: normal;
   font-size: 17px;
   color: var(--text-muted);
 }
@@ -1912,7 +1925,7 @@ button {
   color: var(--at-white);
   text-align: center;
   white-space: nowrap;
-  letter-spacing: -0.01em;
+  letter-spacing: var(--tracking-display);
 }
 
 .mem-card__mark {
@@ -2150,6 +2163,7 @@ button {
   display: block;
   margin-top: 12px;
   font-family: var(--font-script);
+  letter-spacing: normal;
   font-size: 22px;
   color: var(--at-red);
   opacity: 0.75;
@@ -2383,7 +2397,7 @@ button {
   font-family: var(--font-display);
   font-size: 24px;
   line-height: 1;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--tracking-display);
   text-transform: uppercase;
   text-decoration: none;
   color: var(--at-white);

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import Button from "@/components/Button";
+import { Input } from "@/components/Input";
 import Turnstile from "@/components/Turnstile";
 import { joinNewsletter } from "@/lib/submissions";
 
@@ -35,9 +36,8 @@ export default function Footer() {
         </div>
         {!joined ? (
           <div className="footer__signup">
-            <input
+            <Input
               type="email"
-              className="input-dark"
               placeholder="your@email.com"
               aria-label="Email address"
               value={email}

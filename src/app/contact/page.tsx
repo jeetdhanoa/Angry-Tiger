@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
+import { Input, Textarea } from "@/components/Input";
+import CaptionLabel from "@/components/CaptionLabel";
 import Turnstile from "@/components/Turnstile";
 import { submitContact } from "@/lib/submissions";
 
@@ -43,7 +45,7 @@ export default function Contact() {
       <section className="contact-body">
         <div className="contact-info">
           <div className="contact-block">
-            <span className="caption-label">General</span>
+            <CaptionLabel>General</CaptionLabel>
             <a
               href="mailto:hello@angrytiger.in"
               className="contact-block__email"
@@ -53,14 +55,14 @@ export default function Contact() {
             </a>
           </div>
           <div className="contact-block">
-            <span className="caption-label">Submissions</span>
+            <CaptionLabel>Submissions</CaptionLabel>
             <p className="contact-block__body">
               Scripts, loglines, reels. Start with a logline and the first ten pages. If
               we lean in, we&apos;ll ask for the rest.
             </p>
           </div>
           <div className="contact-block">
-            <span className="caption-label">Follow</span>
+            <CaptionLabel>Follow</CaptionLabel>
             <div className="contact-block__links">
               <a
                 href="https://instagram.com/angrytigerstudios"
@@ -87,35 +89,26 @@ export default function Contact() {
         <div className="contact-form">
           {!sent ? (
             <div className="contact-form__fields">
-              <label className="field">
-                <span>Name</span>
-                <input
-                  type="text"
-                  className="input-dark"
-                  placeholder="Your name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </label>
-              <label className="field">
-                <span>Email</span>
-                <input
-                  type="email"
-                  className="input-dark"
-                  placeholder="your@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </label>
-              <label className="field">
-                <span>Your story</span>
-                <textarea
-                  className="input-dark"
-                  placeholder="Logline first."
-                  value={story}
-                  onChange={(e) => setStory(e.target.value)}
-                />
-              </label>
+              <Input
+                label="Name"
+                type="text"
+                placeholder="Your name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+              <Input
+                label="Email"
+                type="email"
+                placeholder="your@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <Textarea
+                label="Your story"
+                placeholder="Logline first."
+                value={story}
+                onChange={(e) => setStory(e.target.value)}
+              />
               <input
                 type="text"
                 className="hp-field"

@@ -20,9 +20,9 @@ const description =
   "Angry Tiger is an independent Bollywood production house making feature films, web series and vertical series. Don't follow the formula. Independent since 2026.";
 
 // Tints browser chrome where supported (Safari's tab bar, Android Chrome's
-// URL bar) so the transparent favicon sits on cinema black, not white.
+// URL bar) so the transparent favicon sits on Jet Black, not white.
 export const viewport: Viewport = {
-  themeColor: "#0a0a0a",
+  themeColor: "#000000",
 };
 
 export const metadata: Metadata = {
