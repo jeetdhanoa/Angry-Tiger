@@ -32,8 +32,11 @@ export const metadata: Metadata = {
     template: "%s",
   },
   description,
-  // ?v=2 busts stubborn favicon caches from the brief red-square version.
-  icons: { icon: "/logos/at-brand-symbol-red.png?v=2" },
+  // Transparent red tiger symbol (no background). ?v=3 busts stubborn caches
+  // from the earlier red-square version some browsers still hold.
+  icons: {
+    icon: [{ url: "/logos/at-brand-symbol-red.png?v=3", type: "image/png" }],
+  },
   openGraph: {
     title: "Angry Tiger",
     description,
