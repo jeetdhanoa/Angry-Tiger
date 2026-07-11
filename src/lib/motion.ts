@@ -137,25 +137,28 @@ export function initGrain() {
 
 let markersStarted = false;
 
-// §5.03 Expressive Marks — the rough marker stroke is *scrubbed by scroll*:
-// it draws on as the word rises through the lower half of the viewport and
-// retracts if you scroll back up. Progress maps the word's centre from the
-// bottom of the viewport (0, hidden) to the middle (1, fully drawn). Purely
-// additive: with no JS the CSS leaves the stroke solid; reduced-motion pins it
-// fully drawn (no scrubbing). Paths carry pathLength=1, so dashoffset is 0..1.
+// §5.03 Expressive Marks — the rough marker stroke behaves by where the word
+// sits when the page first paints:
+//   • Top half of the viewport (hero headings) → drawn solid, a clean full
+//     line. There's nothing to "scroll to reveal" up there.
+//   • Lower half / below the fold → hidden at load, then *scrubbed by scroll*:
+//     draws on as the word rises past the middle, retracts on scroll up.
+// Each marker is classified once, from its first-paint centre. Purely additive:
+// with no JS the CSS leaves the stroke solid; reduced-motion pins it drawn.
+// Paths carry pathLength=1, so dashoffset runs 0 (drawn) .. 1 (hidden).
+type MkPath = SVGPathElement & { _mk?: "static" | "dyn" };
+
 export function initMarkers() {
   if (markersStarted) return;
   markersStarted = true;
 
   const paths = () =>
-    Array.prototype.slice.call(
-      document.querySelectorAll<SVGPathElement>(".marker__stroke path")
-    );
+    Array.prototype.slice.call(document.querySelectorAll<MkPath>(".marker__stroke path"));
 
   if (reduced()) {
     const show = () =>
-      paths().forEach((p) => {
-        p.style.strokeDasharray = "1";
+      paths().forEach((p: MkPath) => {
+        p.style.strokeDasharray = "none";
         p.style.strokeDashoffset = "0";
       });
     show();
@@ -163,14 +166,33 @@ export function initMarkers() {
     return;
   }
 
-  let els: SVGPathElement[] = [];
+  const centerOf = (p: MkPath) => {
+    const host = p.closest(".marker") as HTMLElement | null;
+    if (!host) return null;
+    const r = host.getBoundingClientRect();
+    return r.top + r.height / 2;
+  };
+
+  // Classify each path the first time we see it with a real viewport.
+  const classify = (p: MkPath, vh: number) => {
+    if (p._mk) return;
+    const center = centerOf(p);
+    if (center == null) return;
+    p.style.transition = "none"; // track scroll exactly, no easing between frames
+    if (center < vh * 0.5) {
+      p._mk = "static";
+      p.style.strokeDasharray = "none";
+      p.style.strokeDashoffset = "0";
+    } else {
+      p._mk = "dyn";
+      p.style.strokeDasharray = "1";
+      p.style.strokeDashoffset = "1"; // hidden until scrolled
+    }
+  };
+
+  let els: MkPath[] = [];
   const collect = () => {
     els = paths();
-    els.forEach((p) => {
-      // Track scroll exactly — no CSS easing between frames.
-      p.style.transition = "none";
-      p.style.strokeDasharray = "1";
-    });
   };
 
   let ticking = false;
@@ -179,15 +201,13 @@ export function initMarkers() {
     const vh = window.innerHeight || document.documentElement.clientHeight || 0;
     if (!vh) return;
     for (const p of els) {
-      const host = (p as SVGPathElement).closest(".marker") as HTMLElement | null;
-      if (!host) continue;
-      const r = host.getBoundingClientRect();
-      const center = r.top + r.height / 2;
-      // Starts later, finishes slower: 0 until the word's centre rises to 60%
-      // of the viewport height, then draws over a long window, reaching 1 only
-      // near the top (10%). Scrolling up reverses it.
-      const start = vh * 0.6;
-      const end = vh * 0.1;
+      classify(p, vh);
+      if (p._mk !== "dyn") continue;
+      const center = centerOf(p);
+      if (center == null) continue;
+      // Hidden until the word rises past the middle; fully drawn near the top.
+      const start = vh * 0.55;
+      const end = vh * 0.12;
       let prog = (start - center) / (start - end);
       prog = prog < 0 ? 0 : prog > 1 ? 1 : prog;
       p.style.strokeDashoffset = String(1 - prog);

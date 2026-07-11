@@ -58,7 +58,7 @@ export default function Shop() {
           <p className="shop-drop__body">
             Heavy 240 gsm cotton, cut to fit everyone. The walking tiger, screen printed
             front and center. Made in India. One drop at a time, and when it&apos;s gone,
-            it&apos;s <MarkerStroke variant="underline">gone</MarkerStroke>.
+            it&apos;s <MarkerStroke variant="underline" weight={4}>gone</MarkerStroke>.
           </p>
           <span className="shop-drop__price">{rupees(tee.price)}</span>
           <div className="shop-sizes">

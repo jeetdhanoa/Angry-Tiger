@@ -3057,9 +3057,9 @@ select.input-dark option {
 /* underline sits on the baseline; strike rides through the x-height;
    circle + slash wrap the whole word. */
 .marker--underline .marker__stroke {
-  bottom: -0.18em;
+  bottom: -0.04em;
   top: auto;
-  height: 0.42em;
+  height: 0.3em;
 }
 .marker--strike .marker__stroke {
   top: 50%;
@@ -3180,7 +3180,7 @@ select.input-dark option {
 .about-believe__glyph {
   position: absolute;
   z-index: 0;
-  right: clamp(12px, 5vw, 72px);
+  right: clamp(0px, 2vw, 20px);
   bottom: clamp(16px, 4vw, 40px);
   opacity: 0.85;
   pointer-events: none;
@@ -3199,8 +3199,8 @@ select.input-dark option {
   position: absolute;
   z-index: 0;
   right: clamp(12px, 5vw, 72px);
-  top: 50%;
-  transform: translateY(-50%);
+  /* up top, level with the "What you get." heading */
+  top: clamp(56px, 8vw, 96px);
   opacity: 0.85;
   pointer-events: none;
 }
@@ -3212,7 +3212,7 @@ select.input-dark option {
   }
   .mem-perks__glyph {
     opacity: 0.5;
-    transform: translateY(-50%) scale(0.68);
-    transform-origin: center right;
+    transform: scale(0.68);
+    transform-origin: top right;
   }
 }

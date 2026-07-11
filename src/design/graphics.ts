@@ -57,9 +57,9 @@ export type ExpressiveMarkName = keyof typeof expressiveMarks;
  * can stretch to any element via preserveAspectRatio="none".
  */
 export const markerStrokes = {
-  /** A rough baseline underline that dips and rises like a fast marker pass. */
+  /** A single continuous underline with a subtle hand-drawn waver. */
   underline:
-    "M2,68 C14,60 26,72 40,64 C56,55 70,74 86,63 C93,58 97,66 99,62",
+    "M1,58 C25,55 50,61 74,57 C84,55 93,60 99,58",
   /** A double-pass cross-out through the word's centre, overshooting both ends. */
   strike:
     "M1,46 C20,41 44,52 66,43 C80,37 92,49 99,42 M4,54 C24,48 46,58 70,49 C82,44 93,54 98,50",

@@ -17,7 +17,7 @@ export default function About() {
         <span className="caption-label">About</span>
         <h1 className="display" data-parallax="0.1">
           Built to break the{" "}
-          <MarkerStroke variant="underline">pattern</MarkerStroke>.
+          <MarkerStroke variant="underline" weight={4}>pattern</MarkerStroke>.
         </h1>
       </section>
 

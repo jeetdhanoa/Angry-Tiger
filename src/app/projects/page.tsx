@@ -24,7 +24,7 @@ export default function Projects() {
       <section className="projects-hero">
         <span className="caption-label">Projects</span>
         <h1 className="display" data-parallax="0.1">
-          Coming <MarkerStroke variant="underline">soon</MarkerStroke>.
+          Coming <MarkerStroke variant="underline" weight={4}>soon</MarkerStroke>.
         </h1>
         <p className="projects-hero__lede">
           Our first slate is in development. No titles yet. New projects get announced

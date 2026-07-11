@@ -135,7 +135,7 @@ export default function Membership() {
       <section className="mem-cta">
         <div className="mem-cta__copy">
           <h2 className="display">
-            Get in <MarkerStroke variant="underline">early</MarkerStroke>.
+            Get in <MarkerStroke variant="underline" weight={4}>early</MarkerStroke>.
           </h2>
           <p>
             The Ambush opens alongside our first release. The waitlist is open now.
