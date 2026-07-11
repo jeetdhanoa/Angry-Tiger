@@ -1339,22 +1339,21 @@ button {
   overflow: hidden;
 }
 
-/* §5.02 — the rough "AT" mark, oversized on the right, breaking the row grid
-   without competing with the links (opacity 0.06). The box takes the AT's own
-   proportions (853:1144) so `mask: contain` fills it exactly — the whole
-   letterform reads edge-to-edge, inset from the right so nothing clips. */
+/* §5.02 — the rough "AT" mark, oversized and flush to the right edge, breaking
+   the row grid without competing with the links (opacity 0.06). The box takes
+   the AT's own proportions (853:1144) so `mask: contain` fills it and the mark
+   sits flush right; height >100% lets it bleed top/bottom at full scale. */
 .home-rows__mark {
   --illo-src: url("/graphics/mark-at.svg");
   top: 50%;
-  right: clamp(20px, 3vw, 48px);
-  height: 96%;
+  right: 0;
+  height: 128%;
   aspect-ratio: 853 / 1144;
   transform: translateY(-50%);
 }
 @media (max-width: 719px) {
   .home-rows__mark {
-    right: 12px;
-    height: 78%;
+    height: 100%;
     opacity: 0.05;
   }
 }
