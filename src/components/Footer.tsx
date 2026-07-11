@@ -125,6 +125,15 @@ export default function Footer() {
           >
             YouTube ↗
           </a>
+          <a
+            href="https://x.com/angrytigerstudios"
+            target="_blank"
+            rel="noopener"
+            className="footer__link"
+            data-letter-hover="1"
+          >
+            Twitter ↗
+          </a>
         </div>
       </div>
       <p className="footer__credit">© 2026 Angry Tiger. All Rights Reserved.</p>
