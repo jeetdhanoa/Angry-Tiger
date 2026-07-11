@@ -1339,22 +1339,22 @@ button {
   overflow: hidden;
 }
 
-/* §5.02 — the rough "AT" mark, oversized on the left where the whole letterform
-   reads, breaking the row grid without ever competing with the links (0.06). */
+/* §5.02 — the rough "AT" mark, oversized on the right, breaking the row grid
+   without competing with the links (opacity 0.06). The box takes the AT's own
+   proportions (853:1144) so `mask: contain` fills it exactly — the whole
+   letterform reads edge-to-edge, inset from the right so nothing clips. */
 .home-rows__mark {
   --illo-src: url("/graphics/mark-at.svg");
   top: 50%;
-  left: clamp(20px, 4vw, 40px);
-  width: min(42vw, 520px);
-  /* ≤100% so the whole AT clears the section's overflow:hidden vertically;
-     mask `contain` then shows the entire letterform. */
-  height: 88%;
+  right: clamp(20px, 3vw, 48px);
+  height: 96%;
+  aspect-ratio: 853 / 1144;
   transform: translateY(-50%);
 }
 @media (max-width: 719px) {
   .home-rows__mark {
-    left: 16px;
-    width: 64vw;
+    right: 12px;
+    height: 78%;
     opacity: 0.05;
   }
 }
