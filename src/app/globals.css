@@ -1286,7 +1286,7 @@ button {
 }
 
 .home-story__photo {
-  /* B&W now lives on the Intervention's media layer so its red mark stays red. */
+  filter: var(--filter-bw);
   background: var(--at-charcoal);
   display: grid;
 }
@@ -1296,8 +1296,6 @@ button {
 }
 
 .home-story__panel {
-  position: relative;
-  overflow: hidden;
   background: var(--at-red);
   color: var(--at-black);
   padding: clamp(32px, 5vw, 72px) clamp(24px, 5vw, 64px);
@@ -1305,21 +1303,6 @@ button {
   flex-direction: column;
   justify-content: center;
   gap: 24px;
-}
-
-/* §5.04 — hand-drawn matchstick, tucked into the panel's bottom-right. */
-.home-story__glyph {
-  position: absolute;
-  right: clamp(16px, 4vw, 44px);
-  bottom: clamp(16px, 4vw, 40px);
-  opacity: 0.9;
-}
-@media (max-width: 719px) {
-  .home-story__glyph {
-    width: 96px;
-    height: auto;
-    opacity: 0.85;
-  }
 }
 
 .home-story__panel h2 {
@@ -1364,7 +1347,7 @@ button {
   right: -6%;
   width: min(48vw, 620px);
   height: 128%;
-  transform: translateY(-50%) rotate(4deg);
+  transform: translateY(-50%);
 }
 @media (max-width: 719px) {
   .home-rows__mark {

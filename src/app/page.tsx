@@ -1,8 +1,6 @@
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import ImageSlot from "@/components/ImageSlot";
-import Intervention from "@/components/Intervention";
-import Illustration from "@/components/Illustration";
 import MarkerStroke from "@/components/MarkerStroke";
 
 export default function Home() {
@@ -18,17 +16,20 @@ export default function Home() {
       </section>
 
       <section className="home-story">
-        {/* §5.05 Illustrative Intervention — a bold red mark over the B&W still. */}
+        {/* Real B&W photography goes here; a §5.05 intervention will be shaped
+            to the image once it's uploaded. */}
         <div className="home-story__photo">
-          <Intervention align="left">
-            <ImageSlot scene="The house" shot="001" />
-          </Intervention>
+          <ImageSlot scene="The house" shot="001" />
         </div>
         <div className="home-story__panel">
-          {/* §5.03 Expressive Marks — highlight the word the whole brand turns on. */}
+          {/* §5.03 Expressive Marks — highlight the word the whole brand turns on.
+              Black on the red panel (red-on-red would be invisible). */}
           <h2 className="display">
             Don&apos;t follow the{" "}
-            <MarkerStroke variant="strike">formula</MarkerStroke>.
+            <MarkerStroke variant="strike" color="var(--at-black)">
+              formula
+            </MarkerStroke>
+            .
           </h2>
           <p>
             Angry Tiger is a Production House for Feature Films, Web Series and Vertical
@@ -38,14 +39,6 @@ export default function Home() {
           <Link href="/about" className="home-story__link">
             <span data-letter-hover="1">About the house →</span>
           </Link>
-          {/* §5.04 Illustrative Language — a hand-drawn object, black on the red panel. */}
-          <Illustration
-            name="matchstick"
-            width={132}
-            color="var(--at-black)"
-            rotate={-6}
-            className="home-story__glyph"
-          />
         </div>
       </section>
 
