@@ -55,21 +55,13 @@ export default function About() {
       {/* On-set proof — a full-bleed still, dropped in above the philosophy. */}
       <section className="abt-photo">
         <Zoomable
-          src="/photos/about-story.jpg"
-          alt="Black and white shot of a jib crane rigged on a city courtyard set, crew gathered around monitors and lighting stands"
-          caption="Production Still 18"
+          src="/photos/about-story.jpg?v=2"
+          alt="Black and white shot of a jib crane rigged on a city courtyard set, crew gathered around monitors and lighting stands. Watermarked Production Still 18."
         >
           <figure className="prod-still">
             <img
-              src="/photos/about-story.jpg"
-              alt="Black and white shot of a jib crane rigged on a city courtyard set, crew gathered around monitors and lighting stands"
-            />
-            <figcaption className="still-tag">Production Still 18</figcaption>
-            <img
-              src="/logos/at-brand-symbol-red.svg"
-              alt=""
-              aria-hidden="true"
-              className="photo-mark"
+              src="/photos/about-story.jpg?v=2"
+              alt="Black and white shot of a jib crane rigged on a city courtyard set, crew gathered around monitors and lighting stands. Watermarked Production Still 18."
             />
           </figure>
         </Zoomable>

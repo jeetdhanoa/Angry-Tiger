@@ -1331,19 +1331,6 @@ button {
   align-self: start;
 }
 
-/* Small contact-sheet-style tag, same register as ImageSlot's eyebrow line. */
-.home-story__caption {
-  position: absolute;
-  left: 16px;
-  bottom: 14px;
-  font-family: var(--font-body);
-  font-size: var(--text-micro);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  font-weight: 600;
-  color: var(--at-red);
-}
-
 .home-story__img {
   width: 100%;
   height: 100%;
@@ -3429,7 +3416,7 @@ select.input-dark option {
   cursor: zoom-in;
 }
 
-.prod-still img:not(.photo-mark) {
+.prod-still img {
   display: block;
   width: 100%;
   height: auto;
@@ -3437,39 +3424,12 @@ select.input-dark option {
   object-fit: cover;
 }
 
-/* Same contact-sheet tag as the home story photo. No drop shadow — the
-   guideline's Common Errors page (2.08) explicitly bars adding shadows or
-   effects to brand marks/type. */
-.still-tag {
-  position: absolute;
-  left: 16px;
-  bottom: 14px;
-  font-family: var(--font-body);
-  font-size: var(--text-micro);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  font-weight: 600;
-  color: var(--at-red);
-}
-
-/* Brand-symbol watermark — sits opposite the still-tag on every photo
-   across the site (home, production, about), and carries into the
-   lightbox too. The guideline's Brand Symbol page (2.04) lists "video
-   watermarks" as a designated use for this exact mark. No drop shadow,
-   per 2.08's Common Errors. */
-.photo-mark {
-  position: absolute;
-  right: 14px;
-  bottom: 12px;
-  width: 44px;
-  height: auto;
-  opacity: 0.9;
-  pointer-events: none;
-}
-
 /* Click-to-enlarge — wraps every photo on the site. display: contents so the
    wrapper never disturbs the grid/flex layout it sits inside; the click
-   still bubbles up from any child. */
+   still bubbles up from any child. The still-number and brand symbol are
+   burned into the JPEGs themselves (scripts/burn-watermark.py), not
+   drawn as a CSS overlay — so they survive a save-image-as and scale
+   consistently between the thumbnail and the lightbox. */
 .zoomable {
   display: contents;
 }
@@ -3484,13 +3444,6 @@ select.input-dark option {
   padding: clamp(20px, 5vw, 64px);
   background: rgba(0, 0, 0, 0.92);
   cursor: zoom-out;
-}
-
-.lightbox__frame {
-  position: relative;
-  display: inline-block;
-  max-width: 100%;
-  max-height: 100%;
 }
 
 .lightbox__img {

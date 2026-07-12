@@ -17,22 +17,14 @@ export default function Home() {
 
       <section className="home-story">
         <Zoomable
-          src="/photos/home-story.jpg?v=5"
-          alt="Black and white shot of a camera crew on the back of a tracking truck, three cinema cameras rigged side by side under an umbrella"
-          caption="Production Still 09"
+          src="/photos/home-story.jpg?v=6"
+          alt="Black and white shot of a camera crew on the back of a tracking truck, three cinema cameras rigged side by side under an umbrella. Watermarked Production Still 09."
         >
           <div className="home-story__photo">
             <img
-              src="/photos/home-story.jpg?v=5"
-              alt="Black and white shot of a camera crew on the back of a tracking truck, three cinema cameras rigged side by side under an umbrella"
+              src="/photos/home-story.jpg?v=6"
+              alt="Black and white shot of a camera crew on the back of a tracking truck, three cinema cameras rigged side by side under an umbrella. Watermarked Production Still 09."
               className="home-story__img"
-            />
-            <span className="home-story__caption">Production Still 09</span>
-            <img
-              src="/logos/at-brand-symbol-red.svg"
-              alt=""
-              aria-hidden="true"
-              className="photo-mark"
             />
           </div>
         </Zoomable>
