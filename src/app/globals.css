@@ -1320,10 +1320,12 @@ button {
 .home-story__photo {
   background: var(--at-charcoal);
   display: grid;
-  /* Sized by the photo's own 4:3 aspect ratio, not a fixed section height —
-     shows the complete image, no cropping. align-self: start keeps it from
-     being stretched to match the panel's height. */
-  aspect-ratio: 4 / 3;
+  /* 16:9 — the cinematic standard, matching the widescreen production
+     photography language used throughout the brand guidelines. Sized by the
+     photo's own aspect ratio, not a fixed section height — shows the
+     complete image, no cropping. align-self: start keeps it from being
+     stretched to match the panel's height. */
+  aspect-ratio: 16 / 9;
   align-self: start;
 }
 
