@@ -1538,7 +1538,7 @@ button {
      white/red headline readable against the bright sky in the shot. */
   background:
     linear-gradient(rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.8)),
-    url("/photos/about-hero.jpg") center 35% / cover no-repeat;
+    url("/photos/about-hero.jpg") center 12% / cover no-repeat;
 }
 
 .abt-hero__title {
