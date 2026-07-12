@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Footer from "@/components/Footer";
-import ImageSlot from "@/components/ImageSlot";
 import MarkerStroke from "@/components/MarkerStroke";
 
 export default function Home() {
@@ -16,10 +15,12 @@ export default function Home() {
       </section>
 
       <section className="home-story">
-        {/* Real B&W photography goes here; a §5.05 intervention will be shaped
-            to the image once it's uploaded. */}
         <div className="home-story__photo">
-          <ImageSlot scene="The house" shot="001" />
+          <img
+            src="/photos/home-story.jpg"
+            alt="A hand holding a cigarette out of a car window at a red light, city lights blurred behind it"
+            className="home-story__img"
+          />
         </div>
         <div className="home-story__panel">
           {/* §5.03 Expressive Marks — highlight the word the whole brand turns on.

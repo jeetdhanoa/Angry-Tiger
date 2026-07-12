@@ -22,3 +22,7 @@ next-env.d.ts
 # The fonts and logos the app uses live in public/. Kept locally, not committed.
 design-handoff/
 *.zip
+
+# Raw camera-original photography (unprocessed, ~10-30MB each). Processed,
+# web-sized copies that the app actually uses live in public/photos/.
+Images for Website/
