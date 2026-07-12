@@ -2410,15 +2410,15 @@ button {
 
 .contact-block__email {
   font-family: var(--font-display);
-  font-size: var(--text-h4);
+  font-size: var(--text-h3);
   text-transform: uppercase;
-  color: var(--at-red);
+  color: var(--at-white);
   text-decoration: none;
   transition: color var(--duration-fast) var(--ease-cut);
 }
 
 .contact-block__email:hover {
-  color: var(--at-white);
+  color: var(--at-red);
 }
 
 .contact-block__body {
