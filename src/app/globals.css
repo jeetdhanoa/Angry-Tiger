@@ -67,7 +67,10 @@
   --text-display: var(--at-white);
   --text-body: rgba(244, 241, 231, 0.86);
   --text-muted: var(--at-grey);
-  --text-on-red: var(--at-black);
+  /* Paper on red (5.2:1, AA at any size). Black on red is 3.55:1 — fine for
+     large display type (AA-large needs 3:1) but fails for button/body sizes,
+     so UI text on red surfaces uses paper. Black stays for big Bebas lines. */
+  --text-on-red: var(--at-white);
   --text-on-paper: var(--at-ink);
   --text-accent: var(--at-red);
 
@@ -911,7 +914,7 @@ button {
   width: 100%;
   padding: 14px 24px;
   background: var(--at-red);
-  color: var(--at-black);
+  color: var(--at-white);
   border: 2px solid transparent;
   border-radius: 0;
   cursor: pointer;
@@ -973,7 +976,7 @@ button {
   width: 100%;
   padding: 13px 24px;
   background: var(--at-red);
-  color: var(--at-black);
+  color: var(--at-white);
   border: 2px solid transparent;
   border-radius: 0;
   cursor: pointer;
@@ -993,7 +996,9 @@ button {
 .account__error {
   font-family: var(--font-body);
   font-size: var(--text-caption);
-  color: var(--at-red-bright);
+  color: var(--at-white);
+  border-left: 3px solid var(--at-red);
+  padding-left: 10px;
 }
 
 .account__join {
@@ -1107,7 +1112,7 @@ button {
 .account__signout:hover {
   background: var(--at-red);
   border-color: var(--at-red);
-  color: var(--at-black);
+  color: var(--at-white);
 }
 
 /* ============================================================
@@ -1360,6 +1365,9 @@ button {
   font-size: var(--text-lede);
   line-height: var(--leading-body);
   max-width: 52ch;
+  /* Paper, not the panel's black — 20px body copy needs 4.5:1 on red and
+     black only gives 3.55:1. The big Bebas headline above stays black. */
+  color: var(--at-white);
 }
 
 .home-story__link {
@@ -1434,6 +1442,13 @@ button {
 .home-row:hover {
   background: var(--at-red);
   color: var(--at-black);
+}
+
+/* The giant Bebas title stays black on hover (AA-large passes at 3.55:1);
+   the small Inter sub-line flips to paper — 14px at 65% black was ~2.4:1. */
+.home-row:hover .home-row__sub {
+  color: var(--at-white);
+  opacity: 0.92;
 }
 
 .home-row__title {
@@ -1619,7 +1634,9 @@ button {
   font-family: var(--font-body);
   font-size: var(--text-lede);
   line-height: var(--leading-body);
-  color: rgba(0, 0, 0, 0.78);
+  /* Softened black on red was ~2.9:1 — unreadable by AA. Paper at 0.92 gives
+     ~4.9:1 and keeps the hierarchy below the bold black lede above it. */
+  color: rgba(244, 241, 231, 0.92);
   max-width: 62ch;
 }
 
@@ -2402,7 +2419,7 @@ button {
 .contact-type--active {
   background: var(--at-red);
   border-color: var(--at-red);
-  color: var(--at-black);
+  color: var(--at-white);
 }
 
 .contact-form__note {
@@ -2572,10 +2589,14 @@ button {
 }
 
 /* Inline form feedback (footer signup, waitlist, contact form) */
+/* Errors read in paper (12px red on black is 3.55:1 — fails AA); the red
+   moves to a bar on the left so the signal stays without the text paying. */
 .form-error {
   font-family: var(--font-body);
   font-size: var(--text-caption);
-  color: var(--at-red-bright);
+  color: var(--at-white);
+  border-left: 3px solid var(--at-red);
+  padding-left: 10px;
   flex-basis: 100%;
 }
 
@@ -3156,7 +3177,7 @@ button {
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
   font-weight: 700;
-  color: var(--at-black);
+  color: var(--at-white);
   background: var(--at-red);
   padding: 3px 8px;
 }

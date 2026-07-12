@@ -201,7 +201,7 @@ export default function Contact() {
             <div className="contact-form__sent">
               <p className="contact-form__sent-title">Received.</p>
               <p className="contact-form__sent-body">
-                We read everything. You&apos;ll hear from hello@angrytiger.in.
+                We read everything. You&apos;ll hear from {activePath.email}.
               </p>
             </div>
           )}

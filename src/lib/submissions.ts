@@ -4,6 +4,8 @@
    limits, checks the honeypot and (when configured) Turnstile before writing
    to Supabase. The forms keep the design's confirmation states. */
 
+import { resetTurnstiles } from "@/components/Turnstile";
+
 export type SubmitResult = {
   ok: boolean;
   error?: string;
@@ -41,6 +43,10 @@ async function post(payload: Record<string, unknown>): Promise<SubmitResult> {
     return { ok: true, position: typeof data.position === "number" ? data.position : undefined };
   } catch {
     return { ok: false, error: GENERIC_FAIL };
+  } finally {
+    // Turnstile tokens are single-use — issue a fresh one so a retry after
+    // any failure doesn't re-send the spent token.
+    resetTurnstiles();
   }
 }
 
@@ -103,5 +109,7 @@ export async function submitCareer(
     return { ok: true };
   } catch {
     return { ok: false, error: GENERIC_FAIL };
+  } finally {
+    resetTurnstiles();
   }
 }

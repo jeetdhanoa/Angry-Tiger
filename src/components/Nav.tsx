@@ -21,7 +21,7 @@ const SEARCH_INDEX = [
   { label: "Films", sub: "Feature films. The first slate is in development", href: "/films" },
   { label: "Television", sub: "Series built to break the pattern", href: "/television" },
   { label: "Vertical", sub: "Vertical series, made for how people watch", href: "/vertical" },
-  { label: "About", sub: "Built to break the pattern. What we believe", href: "/about" },
+  { label: "About", sub: "Built on instinct. Refined through craft", href: "/about" },
   {
     label: "Production",
     sub: "A full unit under one roof. Whatever the story needs",
@@ -217,7 +217,7 @@ export default function Nav() {
             ))}
             {q.length > 0 && results.length === 0 && (
               <p className="search__empty">
-                Nothing matches that. Try &quot;projects&quot;, &quot;notes&quot; or
+                Nothing matches that. Try &quot;films&quot;, &quot;jobs&quot; or
                 &quot;submissions&quot;.
               </p>
             )}

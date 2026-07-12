@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { CartProvider } from "@/lib/cart";
 import { AuthProvider } from "@/lib/auth";
 import Nav from "@/components/Nav";
 import Splash from "@/components/Splash";
@@ -32,6 +31,11 @@ export const metadata: Metadata = {
     template: "%s",
   },
   description,
+  // "./" resolves against the current route at render time, so every page
+  // gets a self-referencing canonical without per-page boilerplate.
+  alternates: {
+    canonical: "./",
+  },
   // Transparent red tiger symbol (no background). ?v=3 busts stubborn caches
   // from the earlier red-square version some browsers still hold.
   icons: {
@@ -56,13 +60,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
+        {/* CartProvider is parked with the shop — every signed-in page view
+            was paying a Supabase cart query for a cart no UI can open.
+            Restore it around the tree when the shop un-parks with a drawer. */}
         <AuthProvider>
-          <CartProvider>
-            <Splash />
-            <Nav />
-            {children}
-            <Motion />
-          </CartProvider>
+          <Splash />
+          <Nav />
+          {children}
+          <Motion />
         </AuthProvider>
       </body>
     </html>

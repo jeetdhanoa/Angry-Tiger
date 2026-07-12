@@ -17,7 +17,7 @@ export default function OrdersSection() {
   const [orders, setOrders] = useState<Order[] | null>(null);
 
   useEffect(() => {
-    if (user) listOrders().then(setOrders);
+    if (user) listOrders(user.id).then(setOrders);
   }, [user]);
 
   return (

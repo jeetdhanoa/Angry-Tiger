@@ -158,6 +158,26 @@ Admins also get a "The office →" link in the /account rail.
 - **Payments/webhooks**: no payment integration yet — when checkout lands,
   webhooks must verify signatures before trusting events.
 
+## Launch checklist (blocking)
+
+Do these before (or at) the moment the site is announced — each one closes a
+real hole that the code alone cannot close:
+
+1. **Set `SUPABASE_SERVICE_ROLE_KEY` in Vercel** (server-only env var). Until
+   it exists, `/api/forms` and `/api/careers` insert with the public anon key.
+   Both routes log a `production is running on the anon key` warning when this
+   is the case.
+2. **Run the anon-INSERT revoke blocks in the Supabase SQL editor** — the
+   commented-out `revoke` statements in §7 and §11 of
+   [supabase/setup.sql](supabase/setup.sql). Until they run, anyone with the
+   public anon key can POST rows straight to Supabase REST, bypassing the
+   honeypot, rate limit and Turnstile entirely. **All form defenses are
+   decorative until this step.**
+3. **Set the Turnstile keys** (`NEXT_PUBLIC_TURNSTILE_SITE_KEY` +
+   `TURNSTILE_SECRET_KEY`) so CAPTCHA verification goes live.
+4. **Run setup.sql §11** (careers table + private `cvs` bucket) if not already
+   run — the Production page application form 500s gracefully without it.
+
 ## Prototype state → production TODO
 
 Still front-end prototypes, carried over from the design intentionally:

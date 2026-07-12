@@ -17,7 +17,7 @@ export default function SettingsSection() {
   const [pwBusy, setPwBusy] = useState(false);
 
   useEffect(() => {
-    if (user) getProfile().then((p) => setName(p?.name ?? ""));
+    if (user) getProfile(user.id).then((p) => setName(p?.name ?? ""));
   }, [user]);
 
   const saveName = async () => {

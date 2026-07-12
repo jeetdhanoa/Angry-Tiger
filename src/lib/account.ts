@@ -1,8 +1,9 @@
 "use client";
 
 /* Account dashboard data — profiles, orders, downloads, addresses.
-   Every table is RLS-scoped to the signed-in user, so these helpers
-   never need to filter by user id on reads. */
+   Every table is RLS-scoped to the signed-in user — but admins' RLS
+   policies widen reads to ALL rows (profiles, orders), so reads that mean
+   "mine" must still filter by the signed-in user's id explicitly. */
 
 import { createClient } from "@/lib/supabase/client";
 
@@ -55,8 +56,12 @@ export type NewAddress = Omit<Address, "id" | "is_default">;
 
 const FAIL = "That didn't go through. Try again.";
 
-export async function getProfile(): Promise<Profile | null> {
-  const { data, error } = await createClient().from("profiles").select("*").single();
+export async function getProfile(userId: string): Promise<Profile | null> {
+  const { data, error } = await createClient()
+    .from("profiles")
+    .select("*")
+    .eq("id", userId)
+    .maybeSingle();
   if (error) {
     console.error("[profile]", error.message);
     return null;
@@ -82,10 +87,11 @@ export async function changePassword(password: string): Promise<string | null> {
   return null;
 }
 
-export async function listOrders(): Promise<Order[]> {
+export async function listOrders(userId: string): Promise<Order[]> {
   const { data, error } = await createClient()
     .from("orders")
     .select("id, created_at, status, total, items")
+    .eq("user_id", userId)
     .order("created_at", { ascending: false });
   if (error) {
     console.error("[orders]", error.message);

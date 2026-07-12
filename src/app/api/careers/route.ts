@@ -40,6 +40,12 @@ function db() {
   const key =
     process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (!url || !key) return null;
+  if (!process.env.SUPABASE_SERVICE_ROLE_KEY && process.env.VERCEL_ENV === "production") {
+    // Launch checklist: until the service key is set AND the setup.sql §7/§11
+    // anon-INSERT revokes run, this route's defenses can be bypassed by
+    // POSTing straight to Supabase REST with the public anon key.
+    console.warn("[careers] production is running on the anon key — see README launch checklist");
+  }
   return createClient(url, key, {
     auth: { persistSession: false, autoRefreshToken: false },
   });

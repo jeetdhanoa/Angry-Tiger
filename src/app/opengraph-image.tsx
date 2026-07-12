@@ -2,11 +2,13 @@ import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
-// Social preview card: the brand tiger symbol centered on brand red — the
-// square lockup, used as-is. Rendered to a real PNG at request time; Next
-// auto-attaches it as og:image / twitter:image on every page.
+// Social preview card: the brand tiger symbol centered on brand red.
+// 1200×630 — the standard large-card ratio; a square card gets cropped
+// unpredictably by X/Slack/iMessage under `summary_large_image`.
+// Rendered to a real PNG at request time; Next auto-attaches it as
+// og:image / twitter:image on every page.
 export const alt = "Angry Tiger";
-export const size = { width: 1200, height: 1200 };
+export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default async function OpengraphImage() {
@@ -27,10 +29,10 @@ export default async function OpengraphImage() {
           justifyContent: "center",
         }}
       >
-        {/* Tiger symbol is 952×1229 (0.7746:1); ~50% of the canvas height,
-            centered, matching the uploaded card's proportions. */}
+        {/* Tiger symbol is 952×1229 (0.7746:1); ~70% of the canvas height,
+            centered, with clear space above and below. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={src} width={465} height={600} alt="" />
+        <img src={src} width={341} height={440} alt="" />
       </div>
     ),
     { ...size }

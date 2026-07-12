@@ -13,7 +13,24 @@ export const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 type TurnstileAPI = {
   render: (el: HTMLElement, opts: Record<string, unknown>) => string;
   remove: (id: string) => void;
+  reset: (id: string) => void;
 };
+
+/* Tokens are single-use: once a submit consumes one, the widget must issue a
+   fresh token or every retry re-sends the spent one and the user is stuck.
+   Active widgets register here; lib/submissions calls resetTurnstiles() after
+   each post so retries always carry a live token. */
+const activeWidgets = new Set<string>();
+
+export function resetTurnstiles() {
+  for (const id of activeWidgets) {
+    try {
+      window.turnstile?.reset(id);
+    } catch {
+      // Widget already gone (unmounted mid-flight) — nothing to reset.
+    }
+  }
+}
 
 declare global {
   interface Window {
@@ -52,10 +69,14 @@ export default function Turnstile({ onToken }: { onToken: (token: string) => voi
         "expired-callback": () => onToken(""),
         "error-callback": () => onToken(""),
       });
+      activeWidgets.add(widgetId);
     });
     return () => {
       cancelled = true;
-      if (widgetId) window.turnstile?.remove(widgetId);
+      if (widgetId) {
+        activeWidgets.delete(widgetId);
+        window.turnstile?.remove(widgetId);
+      }
     };
   }, [onToken]);
 

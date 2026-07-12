@@ -13,9 +13,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/contact", priority: 0.7 },
   ];
 
+  // No lastModified: stamping new Date() on every request tells crawlers
+  // "everything changed just now" forever, which teaches them to ignore it.
   return routes.map(({ path, priority }) => ({
     url: `${BASE}${path}`,
-    lastModified: new Date(),
     changeFrequency: "monthly",
     priority,
   }));

@@ -16,7 +16,7 @@ export default function ProfileSection() {
   const [profile, setProfile] = useState<Profile | null>(null);
 
   useEffect(() => {
-    if (user) getProfile().then(setProfile);
+    if (user) getProfile(user.id).then(setProfile);
   }, [user]);
 
   return (

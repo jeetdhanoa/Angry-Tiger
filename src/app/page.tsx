@@ -33,10 +33,15 @@ export default function Home() {
               Black on the red panel (red-on-red would be invisible). */}
           <h2 className="display">
             Don&apos;t follow the{" "}
-            <MarkerStroke variant="strike" color="var(--at-black)" scrub>
-              formula
-            </MarkerStroke>
-            .
+            {/* nowrap keeps the full stop glued to the word — a break
+                opportunity exists after MarkerStroke's inline-block, and at
+                some widths the period wrapped onto a line of its own. */}
+            <span style={{ whiteSpace: "nowrap" }}>
+              <MarkerStroke variant="strike" color="var(--at-black)" scrub>
+                formula
+              </MarkerStroke>
+              .
+            </span>
           </h2>
           <p>
             Angry Tiger is a Production House for Feature Films, Web Series and Vertical
