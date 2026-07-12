@@ -1405,6 +1405,12 @@ button {
   padding: 0 clamp(20px, 4vw, 40px) 18px;
 }
 
+/* "Coming soon" — bigger than the shared 21px caption-label so it reads as
+   a real section heading, not a small tag. */
+.home-rows__label .caption-label {
+  font-size: clamp(26px, 3.4vw, 40px);
+}
+
 .home-row {
   display: flex;
   flex-wrap: wrap;
