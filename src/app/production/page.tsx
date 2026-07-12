@@ -114,6 +114,7 @@ export default function Production() {
         <Zoomable
           src="/photos/production-01.jpg"
           alt="Black and white shot of an SUV mid-air, launched off a ramp in a stunt, with a crane truck rigged in the background"
+          caption="Production Still 27"
         >
           <figure className="prod-still">
             <img
@@ -132,6 +133,7 @@ export default function Production() {
         <Zoomable
           src="/photos/production-02.jpg?v=2"
           alt="Black and white shot of two stunt performers flying through a fireball explosion in a street stunt sequence"
+          caption="Production Still 36"
         >
           <figure className="prod-still">
             <img

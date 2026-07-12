@@ -57,6 +57,7 @@ export default function About() {
         <Zoomable
           src="/photos/about-story.jpg"
           alt="Black and white shot of a jib crane rigged on a city courtyard set, crew gathered around monitors and lighting stands"
+          caption="Production Still 18"
         >
           <figure className="prod-still">
             <img

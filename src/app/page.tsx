@@ -19,6 +19,7 @@ export default function Home() {
         <Zoomable
           src="/photos/home-story.jpg?v=5"
           alt="Black and white shot of a camera crew on the back of a tracking truck, three cinema cameras rigged side by side under an umbrella"
+          caption="Production Still 09"
         >
           <div className="home-story__photo">
             <img
