@@ -1318,6 +1318,7 @@ button {
 }
 
 .home-story__photo {
+  position: relative;
   background: var(--at-charcoal);
   display: grid;
   /* 16:9 — the cinematic standard, matching the widescreen production
@@ -1327,6 +1328,20 @@ button {
      stretched to match the panel's height. */
   aspect-ratio: 16 / 9;
   align-self: start;
+}
+
+/* Small contact-sheet-style tag, same register as ImageSlot's eyebrow line. */
+.home-story__caption {
+  position: absolute;
+  left: 16px;
+  bottom: 14px;
+  font-family: var(--font-body);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  font-weight: 600;
+  color: rgba(244, 241, 231, 0.75);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
 .home-story__img {

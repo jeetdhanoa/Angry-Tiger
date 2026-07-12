@@ -21,6 +21,7 @@ export default function Home() {
             alt="Black and white widescreen shot of a film crew rigging a crane over a damaged vehicle prop on set"
             className="home-story__img"
           />
+          <span className="home-story__caption">Production Still 09</span>
         </div>
         <div className="home-story__panel">
           {/* §5.03 Expressive Marks — highlight the word the whole brand turns on.
