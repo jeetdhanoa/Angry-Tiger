@@ -1307,10 +1307,7 @@ button {
 
 .home-story {
   display: grid;
-  /* Photo gets more room than the red panel (was an even 50/50 split) so the
-     photo's own aspect reads properly instead of being cropped to match a
-     narrower column. */
-  grid-template-columns: minmax(0, 3fr) minmax(min(100%, 320px), 2fr);
+  grid-template-columns: minmax(0, 1fr) minmax(min(100%, 320px), 1fr);
   align-items: stretch;
 }
 
