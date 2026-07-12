@@ -1339,11 +1339,13 @@ button {
 .home-story__panel {
   background: var(--at-red);
   color: var(--at-black);
-  padding: clamp(32px, 5vw, 72px) clamp(24px, 5vw, 64px);
+  /* Vertical padding trimmed to match the shorter 16:9 photo's height (was
+     sized for a taller 4:3 box). */
+  padding: clamp(20px, 2.2vw, 32px) clamp(24px, 5vw, 64px);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 24px;
+  gap: 16px;
 }
 
 .home-story__panel h2 {
