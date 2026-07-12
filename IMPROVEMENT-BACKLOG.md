@@ -4,16 +4,19 @@ Maintained by the creative/technical audit (July 2026). Classification:
 **Quick Wins** (under 30 min) · **High Impact** (do before launch) ·
 **Future Enhancements** (after launch) · **Experimental / Signature** (ideas that make Angry Tiger memorable).
 
-**Phase 1 shipped (2026-07-13).** All `[P1]` items landed and were verified in
-the browser (canonicals resolve per-route, /projects 308s, robots/sitemap/OG
-confirmed, error styling + paper-on-red rendered, search suggestions return
-results). Two Phase 1 items live on as launch-day runbook steps — see
-**README → Launch checklist**: the setup.sql §7/§11 anon-INSERT revokes and
-the `SUPABASE_SERVICE_ROLE_KEY` env var (both routes now log a production
-warning while running on the anon key). One deliberate carve-out: the
-`.btn--primary:hover` black↔red swap still shows 20px red-on-black (3.55:1,
-below AA's 4.5) — it's the owner-chosen signature hover, listed below under
-High Impact as an open decision.
+**Phase 1 shipped (2026-07-13).** Bug fixes and SEO items landed and were
+verified in the browser (canonicals resolve per-route, /projects 308s,
+robots/sitemap/OG confirmed, search suggestions return results). Two items
+live on as launch-day runbook steps — see **README → Launch checklist**: the
+setup.sql §7/§11 anon-INSERT revokes and the `SUPABASE_SERVICE_ROLE_KEY` env
+var (both routes now log a production warning while running on the anon
+key).
+
+**The contrast pass (black-on-red → paper-on-red) was reverted at the
+owner's request (2026-07-13) — restored to black text on red everywhere**
+(buttons, chips, home red-panel body, About manifesto body, form/account
+errors, home-row hover, admin badges). Still queued below under High Impact
+if the owner wants to revisit it later.
 
 ---
 
@@ -37,7 +40,7 @@ High Impact as an open decision.
 
 ## High Impact (worth doing before launch)
 
-- **`.btn--primary:hover` contrast decision** — the black↔red hover swap shows red Bebas on black at button sizes (3.55:1; AA-large only passes at ≥24px). It's the owner-chosen signature; either accept as a deliberate exception or swap hover text to paper. (Everything else on red surfaces now passes — Phase 1.)
+- **Contrast pass on red surfaces (reverted 2026-07-13, owner's call)** — black-on-red is 3.55:1, below AA (4.5:1) for anything under display size: primary buttons, chips, home red-panel body, About manifesto body, form/account errors, home-row hover, admin badges. A paper-text version was built and shipped, then reverted because the owner prefers the black-on-red look. Revisit only if asked — the code for the paper version is in git history (commit `eab60ab`) if wanted again.
 - **Keyboard access**: Zoomable is a `div onClick` — make it a `<button>`; lightbox/search/drawer/mobile-menu need `role="dialog"`, focus trap, focus restore, `aria-modal`
 - **Real forms**: wrap in `<form onSubmit>`, Button accepts `type="submit"`, errors get `role="alert"` + `aria-invalid`, success gets `role="status"`
 - **Global `:focus-visible` ring** (paper white); inputs currently set `outline: none`
