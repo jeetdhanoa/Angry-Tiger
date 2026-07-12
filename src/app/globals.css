@@ -2400,17 +2400,25 @@ button {
   gap: 10px;
 }
 
+/* The heading (Say Hello / Work with the house / …) is the block's title, so
+   it's the big element; the email/handles are the smaller supporting detail
+   beneath it. */
+.contact-block .caption-label {
+  font-size: clamp(28px, 3.4vw, 44px);
+  margin-bottom: 2px;
+}
+
 .contact-block__email {
   font-family: var(--font-display);
-  font-size: var(--text-h3);
+  font-size: var(--text-h4);
   text-transform: uppercase;
-  color: var(--at-white);
+  color: var(--at-red);
   text-decoration: none;
   transition: color var(--duration-fast) var(--ease-cut);
 }
 
 .contact-block__email:hover {
-  color: var(--at-red-bright);
+  color: var(--at-white);
 }
 
 .contact-block__body {

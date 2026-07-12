@@ -16,20 +16,20 @@ import { submitContact } from "@/lib/submissions";
    enquiries arrive pre-sorted in the contact table. */
 const PATHS = [
   {
-    key: "General enquiries",
+    key: "Say Hello",
     blurb:
-      "Questions, press, customer care, or anything else. This is the front door. We read everything and reply fast.",
+      "Questions, press, or just say hello. This is the front door. We read everything and reply fast.",
     email: "hello@angrytiger.in",
-    subject: "General enquiry",
+    subject: "Hello",
     placeholder: "What's on your mind?",
   },
   {
     key: "Work with the house",
     blurb:
-      "Producers, financiers, studios, brands and agencies. Back a project on the slate, or commission the house to shoot yours. We move fast with partners who move early.",
+      "Producers, financiers, studios, brands and agencies. Invest in what we're building, or bring us something to shoot. We move fast with partners who move early.",
     email: "production@angrytiger.in",
     subject: "Working with the house",
-    placeholder: "Tell us who you are and what you want to back or shoot.",
+    placeholder: "Tell us who you are and what you have in mind.",
   },
   {
     key: "Pitch a story",
@@ -45,7 +45,7 @@ type PathKey = (typeof PATHS)[number]["key"];
 
 export default function Contact() {
   const [sent, setSent] = useState(false);
-  const [type, setType] = useState<PathKey>("General enquiries");
+  const [type, setType] = useState<PathKey>("Say Hello");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [story, setStory] = useState("");
