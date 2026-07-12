@@ -1323,10 +1323,10 @@ button {
 .home-story__photo {
   background: var(--at-charcoal);
   display: grid;
-  /* Sized by the photo's own 3:2 aspect ratio, not a fixed section height —
+  /* Sized by the photo's own 4:3 aspect ratio, not a fixed section height —
      shows the complete image, no cropping. align-self: start keeps it from
      being stretched to match the panel's height. */
-  aspect-ratio: 3 / 2;
+  aspect-ratio: 4 / 3;
   align-self: start;
 }
 

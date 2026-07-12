@@ -18,7 +18,7 @@ export default function Home() {
         <div className="home-story__photo">
           <img
             src="/photos/home-story.jpg"
-            alt="A hand holding a cigarette out of a car window at a red light, city lights blurred behind it"
+            alt="Film crew on set at golden hour, rigging a crane shot over a damaged vehicle prop"
             className="home-story__img"
           />
         </div>
