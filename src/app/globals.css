@@ -1534,6 +1534,11 @@ button {
   flex-direction: column;
   gap: 32px;
   overflow: hidden;
+  /* On-set production still as the hero backdrop; a dark scrim keeps the
+     white/red headline readable against the bright sky in the shot. */
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.8)),
+    url("/photos/about-hero.jpg") center 35% / cover no-repeat;
 }
 
 .abt-hero__title {
