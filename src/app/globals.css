@@ -3423,7 +3423,7 @@ select.input-dark option {
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
 }
 

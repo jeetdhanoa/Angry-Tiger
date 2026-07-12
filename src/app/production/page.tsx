@@ -108,19 +108,19 @@ export default function Production() {
         <span className="script abt-hero__script">lights, camera, everything.</span>
       </section>
 
-      {/* Proof — two stills from the unit, day and night. */}
+      {/* Proof — two stills from the unit. */}
       <section className="prod-stills">
         <figure className="prod-still">
           <img
-            src="/photos/production-day.jpg"
-            alt="Crane lifting a large overhead diffusion frame above a day-exterior film set"
+            src="/photos/production-01.jpg"
+            alt="Black and white shot of an SUV mid-air, launched off a ramp in a stunt, with a crane truck rigged in the background"
           />
           <figcaption className="still-tag">Production Still 03</figcaption>
         </figure>
         <figure className="prod-still">
           <img
-            src="/photos/production-night.jpg"
-            alt="Night shoot: crew silhouetted between flags as smoke drifts through the crane light"
+            src="/photos/production-02.jpg"
+            alt="Black and white shot of the crew watching a crane truck rig a wrecked SUV on a field set"
           />
           <figcaption className="still-tag">Production Still 17</figcaption>
         </figure>
