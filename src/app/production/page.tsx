@@ -115,14 +115,26 @@ export default function Production() {
             src="/photos/production-01.jpg"
             alt="Black and white shot of an SUV mid-air, launched off a ramp in a stunt, with a crane truck rigged in the background"
           />
-          <figcaption className="still-tag">Production Still 03</figcaption>
+          <figcaption className="still-tag">Production Still 17</figcaption>
+          <img
+            src="/logos/at-brand-symbol-white.svg"
+            alt=""
+            aria-hidden="true"
+            className="photo-mark"
+          />
         </figure>
         <figure className="prod-still">
           <img
             src="/photos/production-02.jpg"
             alt="Black and white shot of the crew watching a crane truck rig a wrecked SUV on a field set"
           />
-          <figcaption className="still-tag">Production Still 17</figcaption>
+          <figcaption className="still-tag">Production Still 18</figcaption>
+          <img
+            src="/logos/at-brand-symbol-white.svg"
+            alt=""
+            aria-hidden="true"
+            className="photo-mark"
+          />
         </figure>
       </section>
 

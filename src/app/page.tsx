@@ -22,6 +22,12 @@ export default function Home() {
             className="home-story__img"
           />
           <span className="home-story__caption">Production Still 09</span>
+          <img
+            src="/logos/at-brand-symbol-white.svg"
+            alt=""
+            aria-hidden="true"
+            className="photo-mark"
+          />
         </div>
         <div className="home-story__panel">
           {/* §5.03 Expressive Marks — highlight the word the whole brand turns on.
