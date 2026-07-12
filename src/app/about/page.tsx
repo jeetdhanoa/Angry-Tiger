@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
 import MarkerStroke from "@/components/MarkerStroke";
+import Zoomable from "@/components/Zoomable";
 
 export const metadata: Metadata = {
   title: "About — Angry Tiger",
@@ -53,19 +54,24 @@ export default function About() {
 
       {/* On-set proof — a full-bleed still, dropped in above the philosophy. */}
       <section className="abt-photo">
-        <figure className="prod-still">
-          <img
-            src="/photos/about-story.jpg"
-            alt="Black and white shot of a jib crane rigged on a city courtyard set, crew gathered around monitors and lighting stands"
-          />
-          <figcaption className="still-tag">Production Still 12</figcaption>
-          <img
-            src="/logos/at-brand-symbol-white.svg"
-            alt=""
-            aria-hidden="true"
-            className="photo-mark"
-          />
-        </figure>
+        <Zoomable
+          src="/photos/about-story.jpg"
+          alt="Black and white shot of a jib crane rigged on a city courtyard set, crew gathered around monitors and lighting stands"
+        >
+          <figure className="prod-still">
+            <img
+              src="/photos/about-story.jpg"
+              alt="Black and white shot of a jib crane rigged on a city courtyard set, crew gathered around monitors and lighting stands"
+            />
+            <figcaption className="still-tag">Production Still 18</figcaption>
+            <img
+              src="/logos/at-brand-symbol-red.svg"
+              alt=""
+              aria-hidden="true"
+              className="photo-mark"
+            />
+          </figure>
+        </Zoomable>
       </section>
 
       {/* The philosophy (§1.01 + §1.03) — the page's one red panel, with the

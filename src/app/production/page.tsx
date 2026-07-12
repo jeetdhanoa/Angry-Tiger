@@ -7,6 +7,7 @@ import Button from "@/components/Button";
 import { Input, Textarea } from "@/components/Input";
 import CaptionLabel from "@/components/CaptionLabel";
 import Turnstile from "@/components/Turnstile";
+import Zoomable from "@/components/Zoomable";
 import { submitCareer, type CareerFields } from "@/lib/submissions";
 
 /* The proof page: the house is a working production unit, and the door for
@@ -110,32 +111,42 @@ export default function Production() {
 
       {/* Proof — two stills from the unit. */}
       <section className="prod-stills">
-        <figure className="prod-still">
-          <img
-            src="/photos/production-01.jpg"
-            alt="Black and white shot of an SUV mid-air, launched off a ramp in a stunt, with a crane truck rigged in the background"
-          />
-          <figcaption className="still-tag">Production Still 17</figcaption>
-          <img
-            src="/logos/at-brand-symbol-white.svg"
-            alt=""
-            aria-hidden="true"
-            className="photo-mark"
-          />
-        </figure>
-        <figure className="prod-still">
-          <img
-            src="/photos/production-02.jpg"
-            alt="Black and white shot of the crew watching a crane truck rig a wrecked SUV on a field set"
-          />
-          <figcaption className="still-tag">Production Still 18</figcaption>
-          <img
-            src="/logos/at-brand-symbol-white.svg"
-            alt=""
-            aria-hidden="true"
-            className="photo-mark"
-          />
-        </figure>
+        <Zoomable
+          src="/photos/production-01.jpg"
+          alt="Black and white shot of an SUV mid-air, launched off a ramp in a stunt, with a crane truck rigged in the background"
+        >
+          <figure className="prod-still">
+            <img
+              src="/photos/production-01.jpg"
+              alt="Black and white shot of an SUV mid-air, launched off a ramp in a stunt, with a crane truck rigged in the background"
+            />
+            <figcaption className="still-tag">Production Still 27</figcaption>
+            <img
+              src="/logos/at-brand-symbol-red.svg"
+              alt=""
+              aria-hidden="true"
+              className="photo-mark"
+            />
+          </figure>
+        </Zoomable>
+        <Zoomable
+          src="/photos/production-02.jpg?v=2"
+          alt="Black and white shot of two stunt performers flying through a fireball explosion in a street stunt sequence"
+        >
+          <figure className="prod-still">
+            <img
+              src="/photos/production-02.jpg?v=2"
+              alt="Black and white shot of two stunt performers flying through a fireball explosion in a street stunt sequence"
+            />
+            <figcaption className="still-tag">Production Still 36</figcaption>
+            <img
+              src="/logos/at-brand-symbol-red.svg"
+              alt=""
+              aria-hidden="true"
+              className="photo-mark"
+            />
+          </figure>
+        </Zoomable>
       </section>
 
       {/* The unit — open call by department, honest version of a jobs board. */}

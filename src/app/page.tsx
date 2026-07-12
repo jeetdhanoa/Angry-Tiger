@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import MarkerStroke from "@/components/MarkerStroke";
+import Zoomable from "@/components/Zoomable";
 
 export default function Home() {
   return (
@@ -15,20 +16,25 @@ export default function Home() {
       </section>
 
       <section className="home-story">
-        <div className="home-story__photo">
-          <img
-            src="/photos/home-story.jpg?v=5"
-            alt="Black and white shot of a camera crew on the back of a tracking truck, three cinema cameras rigged side by side under an umbrella"
-            className="home-story__img"
-          />
-          <span className="home-story__caption">Production Still 09</span>
-          <img
-            src="/logos/at-brand-symbol-white.svg"
-            alt=""
-            aria-hidden="true"
-            className="photo-mark"
-          />
-        </div>
+        <Zoomable
+          src="/photos/home-story.jpg?v=5"
+          alt="Black and white shot of a camera crew on the back of a tracking truck, three cinema cameras rigged side by side under an umbrella"
+        >
+          <div className="home-story__photo">
+            <img
+              src="/photos/home-story.jpg?v=5"
+              alt="Black and white shot of a camera crew on the back of a tracking truck, three cinema cameras rigged side by side under an umbrella"
+              className="home-story__img"
+            />
+            <span className="home-story__caption">Production Still 09</span>
+            <img
+              src="/logos/at-brand-symbol-red.svg"
+              alt=""
+              aria-hidden="true"
+              className="photo-mark"
+            />
+          </div>
+        </Zoomable>
         <div className="home-story__panel">
           {/* §5.03 Expressive Marks — highlight the word the whole brand turns on.
               Black on the red panel (red-on-red would be invisible). */}

@@ -1320,6 +1320,7 @@ button {
 .home-story__photo {
   position: relative;
   background: var(--at-charcoal);
+  cursor: zoom-in;
   display: grid;
   /* 16:9 — the cinematic standard, matching the widescreen production
      photography language used throughout the brand guidelines. Sized by the
@@ -1340,7 +1341,7 @@ button {
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
   font-weight: 600;
-  color: rgba(244, 241, 231, 0.75);
+  color: var(--at-red);
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
@@ -3426,6 +3427,7 @@ select.input-dark option {
   position: relative;
   margin: 0;
   background: var(--at-charcoal);
+  cursor: zoom-in;
 }
 
 .prod-still img:not(.photo-mark) {
@@ -3446,21 +3448,62 @@ select.input-dark option {
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
   font-weight: 600;
-  color: rgba(244, 241, 231, 0.75);
+  color: var(--at-red);
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
 /* Brand-symbol watermark — sits opposite the still-tag on every photo
-   across the site (home, production, about). */
+   across the site (home, production, about). Red variant of the symbol,
+   sized up slightly so it reads clearly at photo scale. */
 .photo-mark {
   position: absolute;
   right: 14px;
   bottom: 12px;
-  width: 26px;
+  width: 34px;
   height: auto;
-  opacity: 0.8;
+  opacity: 0.9;
   filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.8));
   pointer-events: none;
+}
+
+/* Click-to-enlarge — wraps every photo on the site. display: contents so the
+   wrapper never disturbs the grid/flex layout it sits inside; the click
+   still bubbles up from any child. */
+.zoomable {
+  display: contents;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(20px, 5vw, 64px);
+  background: rgba(0, 0, 0, 0.92);
+  cursor: zoom-out;
+}
+
+.lightbox__img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+.lightbox__close {
+  position: fixed;
+  top: 20px;
+  right: 24px;
+  background: none;
+  border: none;
+  color: var(--at-white);
+  font-size: 36px;
+  line-height: 1;
+  font-family: var(--font-body);
+  cursor: pointer;
+  padding: 8px;
 }
 
 .prod-depts {
