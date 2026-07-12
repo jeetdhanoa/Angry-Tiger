@@ -16,25 +16,25 @@ import { submitContact } from "@/lib/submissions";
    enquiries arrive pre-sorted in the contact table. */
 const PATHS = [
   {
-    key: "Back a project",
+    key: "General enquiries",
     blurb:
-      "Producers, financiers and studios. The first slate is in development, and we move fast with partners who move early.",
+      "Questions, press, customer care, or anything else. This is the front door. We read everything and reply fast.",
     email: "hello@angrytiger.in",
-    subject: "Backing a project",
-    placeholder: "Tell us who you are and what you want to back.",
+    subject: "General enquiry",
+    placeholder: "What's on your mind?",
   },
   {
-    key: "Commission a shoot",
+    key: "Work with the house",
     blurb:
-      "Brands, labels and agencies. Films, campaigns and music videos, shot by the house with the same fearless eye.",
-    email: "hello@angrytiger.in",
-    subject: "Commissioning a shoot",
-    placeholder: "What are we shooting, for whom, and when?",
+      "Producers, financiers, studios, brands and agencies. Back a project on the slate, or commission the house to shoot yours. We move fast with partners who move early.",
+    email: "production@angrytiger.in",
+    subject: "Working with the house",
+    placeholder: "Tell us who you are and what you want to back or shoot.",
   },
   {
     key: "Pitch a story",
     blurb:
-      "Writers and directors. Start with a logline and the first ten pages. If we lean in, we ask for the rest.",
+      "Writers and directors with a story that needs a platform and a team to make it real. Start with a logline and the first ten pages. If we lean in, we ask for the rest.",
     email: "submissions@angrytiger.in",
     subject: "Story submission",
     placeholder: "Logline first.",
@@ -45,7 +45,7 @@ type PathKey = (typeof PATHS)[number]["key"];
 
 export default function Contact() {
   const [sent, setSent] = useState(false);
-  const [type, setType] = useState<PathKey>("Back a project");
+  const [type, setType] = useState<PathKey>("General enquiries");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [story, setStory] = useState("");
