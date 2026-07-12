@@ -1307,8 +1307,17 @@ button {
 
 .home-story {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  /* Photo gets more room than the red panel (was an even 50/50 split) so the
+     photo's own aspect reads properly instead of being cropped to match a
+     narrower column. */
+  grid-template-columns: minmax(0, 3fr) minmax(min(100%, 320px), 2fr);
   min-height: 560px;
+}
+
+@media (max-width: 719px) {
+  .home-story {
+    grid-template-columns: 1fr;
+  }
 }
 
 .home-story__photo {
