@@ -22,7 +22,6 @@ const SEARCH_INDEX = [
   { label: "Vertical", sub: "Vertical series, made for how people watch", href: "/vertical" },
   { label: "About", sub: "Built to break the pattern. What we believe", href: "/about" },
   { label: "Contact", sub: "Talk to the tiger · hello@angrytiger.in", href: "/contact" },
-  { label: "Say Hello", sub: "Questions, press, or just say hello · hello@angrytiger.in", href: "/contact" },
   {
     label: "Work with the house",
     sub: "Producers, financiers, brands and agencies · production@angrytiger.in",
