@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/television", priority: 0.8 },
     { path: "/vertical", priority: 0.8 },
     { path: "/about", priority: 0.8 },
+    { path: "/production", priority: 0.7 },
     { path: "/contact", priority: 0.7 },
   ];
 

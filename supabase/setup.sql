@@ -403,3 +403,52 @@ update public.profiles set is_admin = false
 alter table public.profiles drop constraint if exists admin_requires_house_email;
 alter table public.profiles add constraint admin_requires_house_email
   check (not is_admin or lower(email) like '%@angrytiger.in');
+
+-- ------------------------------------------------------------
+-- 11. careers — the Production page's join-the-house applications
+--     (crew / cast / creative), with CV files in a PRIVATE storage
+--     bucket. Run this whole block once in the Supabase SQL editor.
+--     Review applications in the dashboard: rows in Table Editor →
+--     careers, files in Storage → cvs.
+-- ------------------------------------------------------------
+create table if not exists public.careers (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  kind text not null check (kind in ('crew', 'cast', 'creative')),
+  name text not null,
+  email text not null,
+  discipline text not null default '',
+  link text not null default '',
+  message text not null default '',
+  cv_path text,
+  cv_name text
+);
+
+alter table public.careers enable row level security;
+
+-- Insert-only for visitors (same staged model as the other form tables:
+-- anon works before SUPABASE_SERVICE_ROLE_KEY is configured in Vercel).
+drop policy if exists "anon can insert" on public.careers;
+create policy "anon can insert" on public.careers
+  for insert to anon, authenticated with check (true);
+
+grant insert on public.careers to anon, authenticated;
+
+-- Private bucket for CVs: 4MB cap (Vercel's request limit is ~4.5MB),
+-- PDF/DOC/DOCX only. Not public — files are only readable from the
+-- dashboard or with the service key.
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values ('cvs', 'cvs', false, 4194304,
+        array['application/pdf', 'application/msword',
+              'application/vnd.openxmlformats-officedocument.wordprocessingml.document'])
+on conflict (id) do nothing;
+
+drop policy if exists "anon can upload cvs" on storage.objects;
+create policy "anon can upload cvs" on storage.objects
+  for insert to anon, authenticated
+  with check (bucket_id = 'cvs');
+
+-- Later hardening, once SUPABASE_SERVICE_ROLE_KEY is live in Vercel
+-- (run together with the other revokes above):
+-- revoke insert on public.careers from anon, authenticated;
+-- drop policy "anon can upload cvs" on storage.objects;

@@ -64,3 +64,44 @@ export function submitContact(
     return Promise.resolve({ ok: false, error: "Tell us the story. Logline first." });
   return post({ kind: "contact", ...fields, ...extras });
 }
+
+export type CareerFields = {
+  kind: "crew" | "cast" | "creative";
+  name: string;
+  email: string;
+  discipline: string;
+  link: string;
+  message: string;
+};
+
+/** Production page application — multipart (optional CV file) to /api/careers. */
+export async function submitCareer(
+  fields: CareerFields,
+  cv: File | null,
+  extras: FormExtras = {}
+): Promise<SubmitResult> {
+  if (!fields.name.trim()) return { ok: false, error: "Tell us your name." };
+  if (!validEmail(fields.email)) return { ok: false, error: "Enter a real email." };
+  if (!fields.discipline.trim())
+    return { ok: false, error: "Tell us what you do. One line is enough." };
+  const fd = new FormData();
+  fd.append("kind", fields.kind);
+  fd.append("name", fields.name);
+  fd.append("email", fields.email);
+  fd.append("discipline", fields.discipline);
+  fd.append("link", fields.link);
+  fd.append("message", fields.message);
+  if (extras.website) fd.append("website", extras.website);
+  if (extras.captchaToken) fd.append("captchaToken", extras.captchaToken);
+  if (cv) fd.append("cv", cv);
+  try {
+    const res = await fetch("/api/careers", { method: "POST", body: fd });
+    const data = await res.json().catch(() => null);
+    if (!res.ok || !data?.ok) {
+      return { ok: false, error: data?.error ?? GENERIC_FAIL };
+    }
+    return { ok: true };
+  } catch {
+    return { ok: false, error: GENERIC_FAIL };
+  }
+}

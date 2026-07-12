@@ -76,13 +76,13 @@ export default function Footer() {
             <Link href="/contact" className="footer__link footer__link--muted" data-letter-hover="1">
               Submissions →
             </Link>
-            <a
-              href="mailto:hello@angrytiger.in?subject=Jobs"
+            <Link
+              href="/production#join"
               className="footer__link footer__link--muted"
               data-letter-hover="1"
             >
               Jobs →
-            </a>
+            </Link>
           </div>
           <div className="footer__col">
             <span className="footer__col-title">Explore</span>
@@ -97,6 +97,9 @@ export default function Footer() {
             </Link>
             <Link href="/about" className="footer__link" data-letter-hover="1">
               About the House
+            </Link>
+            <Link href="/production" className="footer__link" data-letter-hover="1">
+              Production
             </Link>
           </div>
         </div>

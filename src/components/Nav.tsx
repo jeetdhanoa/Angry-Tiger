@@ -12,6 +12,7 @@ const LINKS = [
   { key: "television", label: "Television", href: "/television" },
   { key: "vertical", label: "Vertical", href: "/vertical" },
   { key: "about", label: "About", href: "/about" },
+  { key: "production", label: "Production", href: "/production" },
   { key: "contact", label: "Contact", href: "/contact" },
 ];
 
@@ -21,6 +22,16 @@ const SEARCH_INDEX = [
   { label: "Television", sub: "Series built to break the pattern", href: "/television" },
   { label: "Vertical", sub: "Vertical series, made for how people watch", href: "/vertical" },
   { label: "About", sub: "Built to break the pattern. What we believe", href: "/about" },
+  {
+    label: "Production",
+    sub: "A full unit under one roof. Whatever the story needs",
+    href: "/production",
+  },
+  {
+    label: "Jobs",
+    sub: "Join the crew, sign as cast or creative · open call",
+    href: "/production",
+  },
   { label: "Contact", sub: "Talk to the tiger · hello@angrytiger.in", href: "/contact" },
   {
     label: "Work with the house",

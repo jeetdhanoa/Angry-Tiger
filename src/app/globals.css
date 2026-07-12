@@ -3400,3 +3400,155 @@ select.input-dark option {
     transform-origin: top right;
   }
 }
+
+/* ============================================================
+   Production — the proof page: stills from the unit, open-call
+   department rows (honest jobs board), join-the-house form.
+   ============================================================ */
+
+.prod-stills {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  gap: clamp(12px, 2vw, 24px);
+  padding: 0 clamp(20px, 4vw, 40px) 88px;
+}
+
+.prod-still {
+  position: relative;
+  margin: 0;
+  background: var(--at-charcoal);
+}
+
+.prod-still img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
+/* Same contact-sheet tag as the home story photo. */
+.still-tag {
+  position: absolute;
+  left: 16px;
+  bottom: 14px;
+  font-family: var(--font-body);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  font-weight: 600;
+  color: rgba(244, 241, 231, 0.75);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.prod-depts {
+  border-top: 1px solid var(--hairline);
+  padding: 88px clamp(20px, 4vw, 40px) 104px;
+}
+
+.prod-depts__lede {
+  margin: 20px 0 36px;
+  font-family: var(--font-body);
+  font-size: var(--text-lede);
+  line-height: var(--leading-body);
+  color: var(--text-body);
+  max-width: 54ch;
+}
+
+.prod-depts__list {
+  display: flex;
+  flex-direction: column;
+}
+
+.prod-dept {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px 32px;
+  padding: 22px 0;
+  border-top: 1px solid var(--hairline);
+  text-decoration: none;
+}
+
+.prod-dept:last-child {
+  border-bottom: 1px solid var(--hairline);
+}
+
+.prod-dept__name {
+  font-family: var(--font-display);
+  font-size: clamp(30px, 4vw, 52px);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+  color: var(--at-white);
+  transition: color var(--duration-fast) var(--ease-cut);
+}
+
+.prod-dept:hover .prod-dept__name {
+  color: var(--at-red);
+}
+
+.prod-dept__status {
+  font-family: var(--font-display);
+  font-size: 19px;
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.prod-join {
+  border-top: 1px solid var(--hairline);
+  padding-top: 88px;
+}
+
+/* CV picker — native input visually hidden, styled as an outline button. */
+.file-pick {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+}
+
+.file-pick input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.file-pick__btn {
+  flex: none;
+  padding: 9px 16px;
+  border: 2px solid var(--at-white);
+  font-family: var(--font-display);
+  font-size: 19px;
+  line-height: 1;
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+  color: var(--at-white);
+  transition:
+    background var(--duration-fast) var(--ease-cut),
+    color var(--duration-fast) var(--ease-cut);
+}
+
+.file-pick:hover .file-pick__btn {
+  background: var(--at-white);
+  color: var(--at-black);
+}
+
+.file-pick input:focus-visible ~ .file-pick__btn {
+  outline: 2px solid var(--at-red);
+  outline-offset: 2px;
+}
+
+.file-pick__name {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
