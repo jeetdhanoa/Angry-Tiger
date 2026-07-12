@@ -72,11 +72,11 @@ def burn(src_path, out_path, caption):
 
 
 JOBS = [
-    ("public/photos/home-story.jpg", "Production Still 09"),
-    ("public/photos/production-01.jpg", "Production Still 27"),
-    ("public/photos/production-02.jpg", "Production Still 36"),
-    ("public/photos/about-story.jpg", "Production Still 18"),
+    ("Images for Website/IMG_4554.jpg", "public/photos/home-story.jpg", "Production Still 09"),
+    ("Images for Website/_MG_9030.jpg", "public/photos/production-01.jpg", "Production Still 27"),
+    ("Images for Website/IMG_0006.jpg", "public/photos/production-02.jpg", "Production Still 36"),
+    ("Images for Website/IMG_5750.jpg", "public/photos/about-story.jpg", "Production Still 18"),
 ]
 
-for path, caption in JOBS:
-    burn(f"{REPO}/{path}", f"{REPO}/{path}", caption)
+for src, out, caption in JOBS:
+    burn(f"{REPO}/{src}", f"{REPO}/{out}", caption)
