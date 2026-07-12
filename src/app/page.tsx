@@ -17,8 +17,8 @@ export default function Home() {
       <section className="home-story">
         <div className="home-story__photo">
           <img
-            src="/photos/home-story.jpg?v=3"
-            alt="Black and white widescreen shot of a film crew rigging a crane over a damaged vehicle prop on set"
+            src="/photos/home-story.jpg?v=4"
+            alt="Black and white shot of a camera crew on the back of a tracking truck, three cinema cameras rigged side by side under an umbrella"
             className="home-story__img"
           />
           <span className="home-story__caption">Production Still 09</span>
