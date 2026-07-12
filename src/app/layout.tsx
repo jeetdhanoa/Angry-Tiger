@@ -60,6 +60,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
+        {/* Keyboard/screen-reader users can skip the nav straight to the
+            page's <main id="main-content">. Visually hidden until focused. */}
+        <a href="#main-content" className="skip-link">
+          Skip to content
+        </a>
         {/* CartProvider is parked with the shop — every signed-in page view
             was paying a Supabase cart query for a cart no UI can open.
             Restore it around the tree when the shop un-parks with a drawer. */}

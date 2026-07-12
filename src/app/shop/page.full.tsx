@@ -45,7 +45,7 @@ export default function Shop() {
   };
 
   return (
-    <div className="page">
+    <main className="page" id="main-content">
       <section className="shop-drop">
         <div className="shop-drop__photo">
           <ImageSlot scene="The tiger tee" shot="002" />
@@ -140,6 +140,6 @@ export default function Shop() {
       </section>
 
       <Footer />
-    </div>
+    </main>
   );
 }

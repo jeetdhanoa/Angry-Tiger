@@ -18,6 +18,38 @@ owner's request (2026-07-13) — restored to black text on red everywhere**
 errors, home-row hover, admin badges). Still queued below under High Impact
 if the owner wants to revisit it later.
 
+**Phase 2 shipped (2026-07-13) — keyboard access & forms.** Verified live in
+the browser (button focusability, dialog focus traps/restore, form
+submission via real submit events, ARIA roles reflected in the DOM).
+- Zoomable is now a real `<button>` (was `div onClick`). First attempt used
+  `display: contents` to keep it invisible to the surrounding grid/flex
+  layout, but that turned out to make the button unfocusable in testing —
+  a genuine cross-browser gotcha, not just a lint nit. Fixed by making it a
+  plain `display: block; width: 100%; align-self: start` box instead, which
+  becomes the actual grid/flex item (same as the div did) without losing
+  focusability.
+- New shared `useFocusTrap` hook (`src/lib/useFocusTrap.ts`): moves focus
+  into an overlay on open (optionally to a specific element, e.g. the
+  search input rather than its own close button), cycles Tab/Shift+Tab at
+  the container's edges, restores focus to the trigger on close. Wired into
+  the lightbox and all three Nav overlays (search/account drawer/mobile
+  menu), each now `role="dialog" aria-modal="true"`.
+- Every live form (footer newsletter, contact, production careers, Nav
+  auth, account settings ×2, account addresses) is a real
+  `<form onSubmit>` — Enter now submits, errors carry `role="alert"`,
+  success states carry `role="status"`. Admin forms and the parked
+  membership/shop pages weren't touched — lower priority since they're
+  either internal-only or unrouted.
+- Global `:focus-visible` ring — red by default (matches the existing
+  file-pick precedent), overridden to black on red-background controls
+  (primary buttons, active chips, sign-in, checkout, skip link) so the ring
+  doesn't vanish against the fill. Per the owner's standing black-on-red
+  preference, this stayed red/black — not paper — unlike the audit's
+  original "paper white ring" suggestion.
+- Skip-to-content link + `id="main-content"` on every page's `<main>`
+  (was `<div className="page">` sitewide, 14 files) + a visually-hidden
+  `<h1>` on Home (its visible "heading" is the wordmark graphic).
+
 ---
 
 ## Quick Wins (under 30 minutes each)
@@ -41,10 +73,8 @@ if the owner wants to revisit it later.
 ## High Impact (worth doing before launch)
 
 - **Contrast pass on red surfaces (reverted 2026-07-13, owner's call)** — black-on-red is 3.55:1, below AA (4.5:1) for anything under display size: primary buttons, chips, home red-panel body, About manifesto body, form/account errors, home-row hover, admin badges. A paper-text version was built and shipped, then reverted because the owner prefers the black-on-red look. Revisit only if asked — the code for the paper version is in git history (commit `eab60ab`) if wanted again.
-- **Keyboard access**: Zoomable is a `div onClick` — make it a `<button>`; lightbox/search/drawer/mobile-menu need `role="dialog"`, focus trap, focus restore, `aria-modal`
-- **Real forms**: wrap in `<form onSubmit>`, Button accepts `type="submit"`, errors get `role="alert"` + `aria-invalid`, success gets `role="status"`
-- **Global `:focus-visible` ring** (paper white); inputs currently set `outline: none`
-- **`<main>` landmark + skip link + home `<h1>`** (page div → `<main>`, hidden h1 or h1-wrapped hero logo)
+- **Real forms on admin + parked pages**: Phase 2 converted every live public form (footer/contact/production/Nav auth/account); admin/products, admin/careers-review-type screens and the parked shop/membership/notes forms still use the old `onClick`-on-`type="button"` pattern
+- **Focus-visible on `:focus` fallback for older browsers** — verify graceful degradation where `:focus-visible` isn't supported (should just get no ring, not a broken one, but worth a manual check)
 - **Fonts**: 1.74MB TTF Inter → `next/font/local` woff2; drop the unused 884KB italic; preload Bebas
 - **Images**: `next/image` (or resized ~1600px JPEGs) + `loading="lazy"` below fold — 2.9MB of stills today
 - **Middleware short-circuit**: skip the Supabase round-trip when no `sb-*` cookie exists; narrow matcher to `/account`, `/admin`

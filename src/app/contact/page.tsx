@@ -56,7 +56,8 @@ export default function Contact() {
 
   const activePath = PATHS.find((p) => p.key === type) ?? PATHS[0];
 
-  const send = async () => {
+  const send = async (e: React.FormEvent) => {
+    e.preventDefault();
     setError("");
     setBusy(true);
     const res = await submitContact(
@@ -74,7 +75,7 @@ export default function Contact() {
   };
 
   return (
-    <div className="page">
+    <main className="page" id="main-content">
       <section className="contact-hero">
         <h1 className="display" data-parallax="0.1" data-letter-hover>
           Talk to <span className="red-period">the tiger.</span>
@@ -138,7 +139,7 @@ export default function Contact() {
 
         <div className="contact-form">
           {!sent ? (
-            <div className="contact-form__fields">
+            <form className="contact-form__fields" onSubmit={send}>
               <div className="field">
                 <span>I&apos;m here to</span>
                 <div className="contact-type-row">
@@ -185,20 +186,24 @@ export default function Contact() {
                 onChange={(e) => setHp(e.target.value)}
               />
               <Button
+                type="submit"
                 variant="primary"
                 size="md"
                 style={{ alignSelf: "flex-start" }}
-                onClick={send}
                 disabled={busy}
               >
                 {busy ? "Sending…" : "Send it"}
               </Button>
               <p className="contact-form__note">We read everything, and we reply fast.</p>
               <Turnstile onToken={setCaptcha} />
-              {error && <span className="form-error">{error}</span>}
-            </div>
+              {error && (
+                <span className="form-error" role="alert">
+                  {error}
+                </span>
+              )}
+            </form>
           ) : (
-            <div className="contact-form__sent">
+            <div className="contact-form__sent" role="status">
               <p className="contact-form__sent-title">Received.</p>
               <p className="contact-form__sent-body">
                 We read everything. You&apos;ll hear from {activePath.email}.
@@ -209,6 +214,6 @@ export default function Contact() {
       </section>
 
       <Footer />
-    </div>
+    </main>
   );
 }

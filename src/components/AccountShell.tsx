@@ -30,7 +30,7 @@ export default function AccountShell({ children }: { children: React.ReactNode }
   }, [user]);
 
   return (
-    <div className="page">
+    <main className="page" id="main-content">
       {loading ? (
         <section className="acct" aria-busy="true" />
       ) : !configured || !user ? (
@@ -84,6 +84,6 @@ export default function AccountShell({ children }: { children: React.ReactNode }
         </section>
       )}
       <Footer />
-    </div>
+    </main>
   );
 }

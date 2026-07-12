@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 // they launch). Reuses the projects-hero layout so it needs no new styles.
 export default function ComingSoon({ eyebrow, line }: { eyebrow: string; line: string }) {
   return (
-    <div className="page">
+    <main className="page" id="main-content">
       <section className="projects-hero">
         <span className="caption-label">{eyebrow}</span>
         <h1 className="display" data-parallax="0.1" data-letter-hover>
@@ -18,6 +18,6 @@ export default function ComingSoon({ eyebrow, line }: { eyebrow: string; line: s
         </Link>
       </section>
       <Footer />
-    </div>
+    </main>
   );
 }

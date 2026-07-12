@@ -75,7 +75,8 @@ export default function Production() {
     setCv(file);
   };
 
-  const send = async () => {
+  const send = async (e: React.FormEvent) => {
+    e.preventDefault();
     setError("");
     setBusy(true);
     const res = await submitCareer(
@@ -92,7 +93,7 @@ export default function Production() {
   };
 
   return (
-    <div className="page">
+    <main className="page" id="main-content">
       {/* Hero — same poster language as About (white line, red line, aside). */}
       <section className="abt-hero">
         <span className="caption-label abt-eyebrow">Production</span>
@@ -186,7 +187,7 @@ export default function Production() {
 
         <div className="contact-form">
           {!sent ? (
-            <div className="contact-form__fields">
+            <form className="contact-form__fields" onSubmit={send}>
               <div className="field">
                 <span>I want to</span>
                 <div className="contact-type-row">
@@ -259,10 +260,10 @@ export default function Production() {
                 onChange={(e) => setHp(e.target.value)}
               />
               <Button
+                type="submit"
                 variant="primary"
                 size="md"
                 style={{ alignSelf: "flex-start" }}
-                onClick={send}
                 disabled={busy}
               >
                 {busy ? "Sending…" : "Send it"}
@@ -271,10 +272,14 @@ export default function Production() {
                 Every application gets read. If it's a fit, you'll hear from us.
               </p>
               <Turnstile onToken={setCaptcha} />
-              {error && <span className="form-error">{error}</span>}
-            </div>
+              {error && (
+                <span className="form-error" role="alert">
+                  {error}
+                </span>
+              )}
+            </form>
           ) : (
-            <div className="contact-form__sent">
+            <div className="contact-form__sent" role="status">
               <p className="contact-form__sent-title">Received.</p>
               <p className="contact-form__sent-body">
                 Your application is in the house. If it's a fit, you'll hear from
@@ -286,6 +291,6 @@ export default function Production() {
       </section>
 
       <Footer />
-    </div>
+    </main>
   );
 }

@@ -40,7 +40,8 @@ export default function AddressesSection() {
   const set = (key: keyof NewAddress) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((f) => ({ ...f, [key]: e.target.value }));
 
-  const save = async () => {
+  const save = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (!user) return;
     if (!form.name.trim() || !form.line1.trim() || !form.city.trim() || !form.pincode.trim()) {
       setError("Name, address, city and PIN are the minimum.");
@@ -136,7 +137,7 @@ export default function AddressesSection() {
             </div>
           )}
           {adding ? (
-            <div className="acct-form">
+            <form className="acct-form" onSubmit={save}>
               <div className="acct-form__row">
                 <label className="field">
                   <span>Label</span>
@@ -176,15 +177,24 @@ export default function AddressesSection() {
                 </label>
               </div>
               <div className="acct-form__actions">
-                <Button variant="primary" size="md" onClick={save} disabled={busy}>
+                <Button type="submit" variant="primary" size="md" disabled={busy}>
                   {busy ? "Saving…" : "Save address"}
                 </Button>
-                <Button variant="secondary" size="md" onClick={() => setAdding(false)}>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="md"
+                  onClick={() => setAdding(false)}
+                >
                   Cancel
                 </Button>
               </div>
-              {error && <span className="form-error">{error}</span>}
-            </div>
+              {error && (
+                <span className="form-error" role="alert">
+                  {error}
+                </span>
+              )}
+            </form>
           ) : (
             <Button
               variant="secondary"

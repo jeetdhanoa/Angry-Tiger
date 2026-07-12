@@ -5,8 +5,14 @@ import Zoomable from "@/components/Zoomable";
 
 export default function Home() {
   return (
-    <div className="page">
+    <main className="page" id="main-content">
       <section className="home-hero">
+        {/* The visible "heading" here is the wordmark graphic below — this
+            gives the page a real <h1> for screen readers/SEO without
+            duplicating it visually. */}
+        <h1 className="visually-hidden">
+          Angry Tiger — an independent production house. Don&apos;t follow the formula.
+        </h1>
         <img
           className="home-hero__logo"
           data-parallax="0.12"
@@ -81,6 +87,6 @@ export default function Home() {
       </section>
 
       <Footer />
-    </div>
+    </main>
   );
 }

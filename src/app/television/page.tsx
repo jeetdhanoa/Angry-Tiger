@@ -15,7 +15,7 @@ const SLATES = [
 
 export default function Television() {
   return (
-    <div className="page">
+    <main className="page" id="main-content">
       <FormatBlock
         heading="Television."
         lede="Series built to break the pattern. Our first television slate is in development."
@@ -23,6 +23,6 @@ export default function Television() {
         full
       />
       <Footer />
-    </div>
+    </main>
   );
 }

@@ -20,7 +20,8 @@ export default function SettingsSection() {
     if (user) getProfile(user.id).then((p) => setName(p?.name ?? ""));
   }, [user]);
 
-  const saveName = async () => {
+  const saveName = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (!user) return;
     setNameNotice("");
     setNameBusy(true);
@@ -29,7 +30,8 @@ export default function SettingsSection() {
     setNameNotice(err ?? "Saved.");
   };
 
-  const savePassword = async () => {
+  const savePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
     setPwError("");
     setPwNotice("");
     if (pw.length < 6) {
@@ -51,7 +53,7 @@ export default function SettingsSection() {
     <div className="acct-section">
       <h2 className="display acct-section__title">Account settings</h2>
 
-      <div className="acct-form">
+      <form className="acct-form" onSubmit={saveName}>
         <label className="field">
           <span>Your name</span>
           <input
@@ -62,14 +64,18 @@ export default function SettingsSection() {
           />
         </label>
         <div className="acct-form__actions">
-          <Button variant="primary" size="md" onClick={saveName} disabled={nameBusy}>
+          <Button type="submit" variant="primary" size="md" disabled={nameBusy}>
             {nameBusy ? "Saving…" : "Save name"}
           </Button>
-          {nameNotice && <span className="acct-notice">{nameNotice}</span>}
+          {nameNotice && (
+            <span className="acct-notice" role="status">
+              {nameNotice}
+            </span>
+          )}
         </div>
-      </div>
+      </form>
 
-      <div className="acct-form">
+      <form className="acct-form" onSubmit={savePassword}>
         <label className="field">
           <span>New password</span>
           <input
@@ -78,16 +84,25 @@ export default function SettingsSection() {
             placeholder="••••••••"
             value={pw}
             onChange={(e) => setPw(e.target.value)}
+            aria-invalid={!!pwError}
           />
         </label>
         <div className="acct-form__actions">
-          <Button variant="secondary" size="md" onClick={savePassword} disabled={pwBusy}>
+          <Button type="submit" variant="secondary" size="md" disabled={pwBusy}>
             {pwBusy ? "Updating…" : "Update password"}
           </Button>
-          {pwNotice && <span className="acct-notice">{pwNotice}</span>}
-          {pwError && <span className="form-error">{pwError}</span>}
+          {pwNotice && (
+            <span className="acct-notice" role="status">
+              {pwNotice}
+            </span>
+          )}
+          {pwError && (
+            <span className="form-error" role="alert">
+              {pwError}
+            </span>
+          )}
         </div>
-      </div>
+      </form>
 
       <div className="acct-form acct-form--signout">
         <span className="caption-label">Signed in as {user?.email}</span>

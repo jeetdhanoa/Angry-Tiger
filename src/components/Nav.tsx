@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import Turnstile from "@/components/Turnstile";
 import Icon from "@/components/Icon";
+import { useFocusTrap } from "@/lib/useFocusTrap";
 
 const LINKS = [
   { key: "films", label: "Films", href: "/films" },
@@ -65,6 +66,9 @@ export default function Nav() {
   const [captchaNonce, setCaptchaNonce] = useState(0);
 
   const searchRef = useRef<HTMLInputElement>(null);
+  const searchTrapRef = useFocusTrap<HTMLDivElement>(searchOpen, searchRef);
+  const drawerTrapRef = useFocusTrap<HTMLElement>(accountOpen);
+  const menuTrapRef = useFocusTrap<HTMLDivElement>(menuOpen);
 
   const closeAll = useCallback(() => {
     setSearchOpen(false);
@@ -110,7 +114,8 @@ export default function Nav() {
     setMenuOpen(true);
   };
 
-  const submitAuth = async () => {
+  const submitAuth = async (e: React.FormEvent) => {
+    e.preventDefault();
     const em = email.trim();
     if (!em || !pw) {
       setAuthError("Enter your email and password.");
@@ -188,7 +193,13 @@ export default function Nav() {
       </header>
 
       {searchOpen && (
-        <div className="search">
+        <div
+          ref={searchTrapRef}
+          className="search"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Search the site"
+        >
           <div className="search__top">
             <span className="caption-label">Search</span>
             <button
@@ -232,7 +243,13 @@ export default function Nav() {
             aria-label="Close account"
             onClick={() => setAccountOpen(false)}
           />
-          <aside className="drawer">
+          <aside
+            ref={drawerTrapRef}
+            className="drawer"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Account"
+          >
             <div className="drawer__head">
               <span className="drawer__title">Account</span>
               <button
@@ -254,45 +271,52 @@ export default function Nav() {
                     ? "Create your Angry Tiger account to stay close to what we're building."
                     : "Sign in to your Angry Tiger account."}
                 </p>
-                <label className="field">
-                  <span>Email</span>
-                  <input
-                    type="email"
-                    className="input-dark"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    onKeyDown={(e) => e.key === "Enter" && submitAuth()}
-                    placeholder="your@email.com"
-                    autoComplete="email"
-                  />
-                </label>
-                <label className="field">
-                  <span>Password</span>
-                  <input
-                    type="password"
-                    className="input-dark"
-                    value={pw}
-                    onChange={(e) => setPw(e.target.value)}
-                    onKeyDown={(e) => e.key === "Enter" && submitAuth()}
-                    placeholder="••••••••"
-                    autoComplete={mode === "signup" ? "new-password" : "current-password"}
-                  />
-                </label>
-                <Turnstile key={captchaNonce} onToken={setCaptcha} />
-                <button
-                  type="button"
-                  className="account__signin"
-                  onClick={submitAuth}
-                  disabled={busy}
-                >
-                  {busy
-                    ? "One moment…"
-                    : mode === "signup"
-                      ? "Create account"
-                      : "Sign in"}
-                </button>
-                {authError && <span className="account__error">{authError}</span>}
-                {notice && <span className="account__notice">{notice}</span>}
+                <form onSubmit={submitAuth}>
+                  <label className="field">
+                    <span>Email</span>
+                    <input
+                      type="email"
+                      className="input-dark"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="your@email.com"
+                      autoComplete="email"
+                    />
+                  </label>
+                  <label className="field">
+                    <span>Password</span>
+                    <input
+                      type="password"
+                      className="input-dark"
+                      value={pw}
+                      onChange={(e) => setPw(e.target.value)}
+                      placeholder="••••••••"
+                      autoComplete={mode === "signup" ? "new-password" : "current-password"}
+                    />
+                  </label>
+                  <Turnstile key={captchaNonce} onToken={setCaptcha} />
+                  <button
+                    type="submit"
+                    className="account__signin"
+                    disabled={busy}
+                  >
+                    {busy
+                      ? "One moment…"
+                      : mode === "signup"
+                        ? "Create account"
+                        : "Sign in"}
+                  </button>
+                  {authError && (
+                    <span className="account__error" role="alert">
+                      {authError}
+                    </span>
+                  )}
+                  {notice && (
+                    <span className="account__notice" role="status">
+                      {notice}
+                    </span>
+                  )}
+                </form>
                 <button
                   type="button"
                   className="account__toggle"
@@ -333,7 +357,13 @@ export default function Nav() {
       )}
 
       {menuOpen && (
-        <div className="menu">
+        <div
+          ref={menuTrapRef}
+          className="menu"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Menu"
+        >
           <div className="menu__top">
             <img src="/logos/at-primary-monogram-red.svg" alt="Angry Tiger" />
             <button

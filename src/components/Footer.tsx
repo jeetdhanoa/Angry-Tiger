@@ -15,7 +15,8 @@ export default function Footer() {
   const [hp, setHp] = useState("");
   const [captcha, setCaptcha] = useState("");
 
-  const signUp = async () => {
+  const signUp = async (e: React.FormEvent) => {
+    e.preventDefault();
     setError("");
     setBusy(true);
     const res = await joinNewsletter(email, { website: hp, captchaToken: captcha });
@@ -35,16 +36,14 @@ export default function Footer() {
           <span className="sub">Announcements, premieres, drops. No noise.</span>
         </div>
         {!joined ? (
-          <div className="footer__signup">
+          <form className="footer__signup" onSubmit={signUp}>
             <Input
               type="email"
               placeholder="your@email.com"
               aria-label="Email address"
+              aria-invalid={!!error}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") signUp();
-              }}
             />
             <input
               type="text"
@@ -56,14 +55,20 @@ export default function Footer() {
               value={hp}
               onChange={(e) => setHp(e.target.value)}
             />
-            <Button variant="primary" size="md" onClick={signUp} disabled={busy}>
+            <Button type="submit" variant="primary" size="md" disabled={busy}>
               {busy ? "Signing up…" : "Sign up"}
             </Button>
             <Turnstile onToken={setCaptcha} />
-            {error && <span className="form-error">{error}</span>}
-          </div>
+            {error && (
+              <span className="form-error" role="alert">
+                {error}
+              </span>
+            )}
+          </form>
         ) : (
-          <p className="footer__joined">You&apos;re on the list.</p>
+          <p className="footer__joined" role="status">
+            You&apos;re on the list.
+          </p>
         )}
       </div>
       <div className="footer__cols">

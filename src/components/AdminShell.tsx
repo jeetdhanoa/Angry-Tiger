@@ -38,7 +38,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
   const checking = loading || (user && admin === null);
 
   return (
-    <div className="page">
+    <main className="page" id="main-content">
       {checking ? (
         <section className="acct" aria-busy="true" />
       ) : !configured || !user || !admin ? (
@@ -87,6 +87,6 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
         </section>
       )}
       <Footer />
-    </div>
+    </main>
   );
 }

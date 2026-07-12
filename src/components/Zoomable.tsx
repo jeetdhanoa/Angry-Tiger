@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useFocusTrap } from "@/lib/useFocusTrap";
 
 export default function Zoomable({
   src,
@@ -12,6 +13,7 @@ export default function Zoomable({
   children: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
+  const dialogRef = useFocusTrap<HTMLDivElement>(open);
 
   useEffect(() => {
     if (!open) return;
@@ -28,12 +30,32 @@ export default function Zoomable({
 
   return (
     <>
-      <div className="zoomable" onClick={() => setOpen(true)}>
+      {/* display: contents keeps this out of the surrounding grid/flex
+          layout — a <button> here still triggers on click same as the div
+          did, but is now reachable and activatable by keyboard. */}
+      <button
+        type="button"
+        className="zoomable"
+        onClick={() => setOpen(true)}
+        aria-label={`Enlarge photo: ${alt}`}
+      >
         {children}
-      </div>
+      </button>
       {open && (
-        <div className="lightbox" onClick={() => setOpen(false)}>
-          <button type="button" className="lightbox__close" aria-label="Close">
+        <div
+          ref={dialogRef}
+          className="lightbox"
+          role="dialog"
+          aria-modal="true"
+          aria-label={alt}
+          onClick={() => setOpen(false)}
+        >
+          <button
+            type="button"
+            className="lightbox__close"
+            aria-label="Close"
+            onClick={() => setOpen(false)}
+          >
             ×
           </button>
           {/* The still-number and brand symbol are burned into the JPEG

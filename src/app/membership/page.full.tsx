@@ -76,7 +76,7 @@ export default function Membership() {
   };
 
   return (
-    <div className="page">
+    <main className="page" id="main-content">
       <section className="mem-hero">
         <span className="caption-label">Membership · Coming soon</span>
         <h1 className="display" data-parallax="0.1" data-letter-hover>
@@ -215,6 +215,6 @@ export default function Membership() {
       </section>
 
       <Footer />
-    </div>
+    </main>
   );
 }

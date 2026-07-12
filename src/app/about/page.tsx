@@ -35,7 +35,7 @@ const PRINCIPLES = [
 
 export default function About() {
   return (
-    <div className="page">
+    <main className="page" id="main-content">
       {/* Hero — the guideline's own typography-spread line (§4.05), swapped in
           for the billboard copy (§6): "every generation rewrites it" read as
           dismissive of the industry's experienced people, which isn't the
@@ -137,6 +137,6 @@ export default function About() {
       </section>
 
       <Footer />
-    </div>
+    </main>
   );
 }

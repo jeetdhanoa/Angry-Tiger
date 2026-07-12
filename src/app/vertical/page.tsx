@@ -15,7 +15,7 @@ const SLATES = [
 
 export default function Vertical() {
   return (
-    <div className="page">
+    <main className="page" id="main-content">
       <FormatBlock
         heading="Vertical series."
         lede="Vertical series made for the way people actually watch. In development now."
@@ -23,6 +23,6 @@ export default function Vertical() {
         full
       />
       <Footer />
-    </div>
+    </main>
   );
 }

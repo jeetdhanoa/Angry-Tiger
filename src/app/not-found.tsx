@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <div className="page">
+    <main className="page" id="main-content">
       <section className="nf">
         <img src="/logos/at-brand-symbol-red.svg" alt="" className="nf__mark" />
         <span className="caption-label">404 · Scene missing</span>
@@ -35,6 +35,6 @@ export default function NotFound() {
         </div>
       </section>
       <Footer />
-    </div>
+    </main>
   );
 }

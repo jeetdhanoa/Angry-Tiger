@@ -20,7 +20,7 @@ const SHORTS = [
 
 export default function Films() {
   return (
-    <div className="page">
+    <main className="page" id="main-content">
       <FormatBlock
         heading="Feature films."
         lede="Our first feature slate is in development. No titles yet. New films get announced here first."
@@ -33,6 +33,6 @@ export default function Films() {
         slates={SHORTS}
       />
       <Footer />
-    </div>
+    </main>
   );
 }

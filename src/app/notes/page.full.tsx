@@ -24,7 +24,7 @@ const ROWS = [
 
 export default function Notes() {
   return (
-    <div className="page">
+    <main className="page" id="main-content">
       <section className="notes-hero">
         <span className="caption-label">Notes · Coming soon</span>
         <h1 className="display" data-parallax="0.1" data-letter-hover>
@@ -50,6 +50,6 @@ export default function Notes() {
       </section>
 
       <Footer />
-    </div>
+    </main>
   );
 }
