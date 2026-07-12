@@ -17,7 +17,7 @@ export default function Home() {
       <section className="home-story">
         <div className="home-story__photo">
           <img
-            src="/photos/home-story.jpg?v=4"
+            src="/photos/home-story.jpg?v=5"
             alt="Black and white shot of a camera crew on the back of a tracking truck, three cinema cameras rigged side by side under an umbrella"
             className="home-story__img"
           />
