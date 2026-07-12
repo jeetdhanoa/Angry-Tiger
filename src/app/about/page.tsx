@@ -5,7 +5,7 @@ import MarkerStroke from "@/components/MarkerStroke";
 export const metadata: Metadata = {
   title: "About — Angry Tiger",
   description:
-    "Every industry develops a formula. Every generation rewrites it. Angry Tiger is an independent Bollywood production house making feature films, television and vertical series.",
+    "Built on instinct. Refined through craft. Angry Tiger is an independent Bollywood production house making feature films, television and vertical series.",
 };
 
 // §1.02 of the Brand Guidelines — the five creative principles.
@@ -35,14 +35,15 @@ const PRINCIPLES = [
 export default function About() {
   return (
     <div className="page">
-      {/* Hero — the guideline's own billboard lines (§6 Visual Application). */}
+      {/* Hero — the guideline's own typography-spread line (§4.05), swapped in
+          for the billboard copy (§6): "every generation rewrites it" read as
+          dismissive of the industry's experienced people, which isn't the
+          point we want to make. This line honours craft instead. */}
       <section className="abt-hero">
         <span className="caption-label abt-eyebrow">About the house</span>
         <h1 className="display abt-hero__title">
-          <span className="abt-hero__line">Every industry develops a formula.</span>
-          <span className="abt-hero__line abt-hero__line--red">
-            Every generation rewrites it.
-          </span>
+          <span className="abt-hero__line">Built on instinct.</span>
+          <span className="abt-hero__line abt-hero__line--red">Refined through craft.</span>
         </h1>
         {/* The line off the back of the business card. */}
         <span className="script abt-hero__script">
