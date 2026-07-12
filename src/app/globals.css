@@ -1312,7 +1312,6 @@ button {
 }
 
 .home-story__photo {
-  filter: var(--filter-bw);
   background: var(--at-charcoal);
   display: grid;
   min-height: 560px;
