@@ -22,6 +22,7 @@ import {
 } from "react";
 import { useAuth } from "@/lib/auth";
 import { createClient, supabaseConfigured } from "@/lib/supabase/client";
+import { legacySlug } from "@/lib/cart-slug";
 
 export type CartItem = {
   id: string; // stable UI key: "<productId>|<size>" for DB rows, legacy id for local rows
@@ -56,14 +57,6 @@ type CartContextValue = {
 const CartContext = createContext<CartContextValue | null>(null);
 
 const CART_KEY = "at-cart-v1";
-
-// Legacy local ids were "<prefix>-<size>"; map prefixes to catalog slugs.
-const LEGACY_SLUGS: Record<string, string> = { tee: "tiger-tee" };
-
-function legacySlug(id: string): string | null {
-  const m = /^([a-z]+)-/i.exec(id);
-  return m ? (LEGACY_SLUGS[m[1].toLowerCase()] ?? null) : null;
-}
 
 /* ---------- localStorage (guest mode) ---------- */
 
