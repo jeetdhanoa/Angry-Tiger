@@ -58,9 +58,12 @@ export function useFocusTrap<T extends HTMLElement>(
       container.removeEventListener("keydown", onKeyDown);
       previouslyFocused.current?.focus();
     };
-    // initialFocusRef is a ref (stable identity) — listed to satisfy the
-    // exhaustive-deps rule; it never actually causes a re-run.
-  }, [active, initialFocusRef]);
+    // Only re-run when `active` flips. initialFocusRef is a ref (or undefined)
+    // read at effect time; it never needs to trigger a re-run, and putting it
+    // in the deps array made the array's size vary (undefined when omitted),
+    // which React rejects.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active]);
 
   return ref;
 }
