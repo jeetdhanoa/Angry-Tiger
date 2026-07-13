@@ -6,10 +6,14 @@ import { useFocusTrap } from "@/lib/useFocusTrap";
 export default function Zoomable({
   src,
   alt,
+  revealFrame = false,
   children,
 }: {
   src: string;
   alt: string;
+  /** Reveal this still as a film frame (letterbox slit → full frame) when it
+   *  scrolls into view — the motion engine picks up the data attribute. */
+  revealFrame?: boolean;
   children: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
@@ -38,6 +42,7 @@ export default function Zoomable({
         className="zoomable"
         onClick={() => setOpen(true)}
         aria-label={`Enlarge photo: ${alt}`}
+        {...(revealFrame ? { "data-reveal-frame": "" } : {})}
       >
         {children}
       </button>

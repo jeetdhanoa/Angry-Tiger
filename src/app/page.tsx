@@ -7,10 +7,12 @@ import Zoomable from "@/components/Zoomable";
 export default function Home() {
   return (
     <main className="page" id="main-content">
-      <section className="home-hero">
+      <section className="home-hero" data-no-reveal>
         {/* The visible "heading" here is the wordmark graphic below — this
             gives the page a real <h1> for screen readers/SEO without
-            duplicating it visually. */}
+            duplicating it visually. The logo carries its own film-frame
+            open (see .home-hero__logo), so the section opts out of the
+            generic reveal to avoid stacking two entrances. */}
         <h1 className="visually-hidden">
           Angry Tiger — an independent production house. Don&apos;t follow the formula.
         </h1>
@@ -22,10 +24,12 @@ export default function Home() {
         />
       </section>
 
-      <section className="home-story">
+      {/* Sequenced: the still opens as a film frame, then the panel rises in. */}
+      <section className="home-story" data-seq>
         <Zoomable
           src="/photos/home-story.jpg?v=7"
           alt="Black and white shot of a camera crew on the back of a tracking truck, three cinema cameras rigged side by side under an umbrella. Watermarked Production Still 09."
+          revealFrame
         >
           <div className="home-story__photo">
             <Image
@@ -64,8 +68,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* §5.02 Intentional Disruption — an oversized rough mark breaks the grid behind the rows. */}
-      <section className="home-rows gfx-disrupt">
+      {/* §5.02 Intentional Disruption — an oversized rough mark breaks the grid behind the rows.
+          Sequenced so the label and the three rows arrive one after another. */}
+      <section className="home-rows gfx-disrupt" data-seq>
         <span className="gfx-disrupt__mark home-rows__mark" aria-hidden="true" />
         <div className="home-rows__label">
           <span className="caption-label">Coming soon</span>

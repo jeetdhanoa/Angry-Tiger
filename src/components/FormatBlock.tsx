@@ -34,7 +34,8 @@ export default function FormatBlock({
 
       <section className="slate gfx-disrupt">
         <span className="gfx-disrupt__mark slate__mark" aria-hidden="true" />
-        <div className="slate__list">
+        {/* Classified rows lay themselves out one by one, like case files. */}
+        <div className="slate__list" data-seq>
           {slates.map((s) => (
             <div key={s.code} className="slate-row">
               <div className="slate-row__head">

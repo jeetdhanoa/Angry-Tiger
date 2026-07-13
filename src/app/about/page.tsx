@@ -41,7 +41,7 @@ export default function About() {
           for the billboard copy (§6): "every generation rewrites it" read as
           dismissive of the industry's experienced people, which isn't the
           point we want to make. This line honours craft instead. */}
-      <section className="abt-hero">
+      <section className="abt-hero" data-seq>
         <span className="caption-label abt-eyebrow">About the house</span>
         <h1 className="display abt-hero__title">
           <span className="abt-hero__line">Built on instinct.</span>
@@ -53,11 +53,13 @@ export default function About() {
         </span>
       </section>
 
-      {/* On-set proof — a full-bleed still, dropped in above the philosophy. */}
-      <section className="abt-photo">
+      {/* On-set proof — a full-bleed still, dropped in above the philosophy.
+          Opens as a film frame when it scrolls in. */}
+      <section className="abt-photo" data-seq>
         <Zoomable
           src="/photos/about-story.jpg?v=3"
           alt="Black and white shot of a jib crane rigged on a city courtyard set, crew gathered around monitors and lighting stands. Watermarked Production Still 18."
+          revealFrame
         >
           <figure className="prod-still">
             <Image
@@ -72,7 +74,7 @@ export default function About() {
 
       {/* The philosophy (§1.01 + §1.03) — the page's one red panel, with the
           rough AT mark looming behind (§5.02). */}
-      <section className="abt-manifesto gfx-disrupt">
+      <section className="abt-manifesto gfx-disrupt" data-seq>
         <span className="gfx-disrupt__mark abt-manifesto__mark" aria-hidden="true" />
         <span className="caption-label abt-eyebrow">The philosophy</span>
         <p className="abt-manifesto__lede">
@@ -98,8 +100,11 @@ export default function About() {
 
       {/* Creative principles (§1.02) — a numbered editorial list. */}
       <section className="abt-principles">
-        <span className="caption-label abt-eyebrow">Creative principles</span>
-        <div className="abt-principles__list">
+        <span className="caption-label abt-eyebrow" data-reveal>
+          Creative principles
+        </span>
+        {/* Each principle rises in turn as you read down the column. */}
+        <div className="abt-principles__list" data-seq>
           {PRINCIPLES.map((p, i) => (
             <div key={p.title} className="abt-principle">
               <span className="abt-principle__n">{String(i + 1).padStart(2, "0")}</span>
@@ -116,7 +121,7 @@ export default function About() {
       </section>
 
       {/* Closing — the guideline's closing card: statement, lockup, contact. */}
-      <section className="abt-close">
+      <section className="abt-close" data-seq>
         <span className="caption-label abt-eyebrow">The house</span>
         <h2 className="display abt-close__line">
           The most memorable stories begin with fearless ideas.

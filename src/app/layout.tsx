@@ -5,6 +5,7 @@ import { AuthProvider } from "@/lib/auth";
 import Nav from "@/components/Nav";
 import Splash from "@/components/Splash";
 import Motion from "@/components/Motion";
+import RouteTransition from "@/components/RouteTransition";
 
 // Canonical site URL — the custom production domain. Used as the base for
 // absolute OG/Twitter image URLs and canonical links. Falls back to the
@@ -75,7 +76,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <AuthProvider>
           <Splash />
           <Nav />
-          {children}
+          <RouteTransition>{children}</RouteTransition>
           <Motion />
         </AuthProvider>
       </body>

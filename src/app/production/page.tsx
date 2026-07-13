@@ -96,7 +96,7 @@ export default function Production() {
   return (
     <main className="page" id="main-content">
       {/* Hero — same poster language as About (white line, red line, aside). */}
-      <section className="abt-hero">
+      <section className="abt-hero" data-seq>
         <span className="caption-label abt-eyebrow">Production</span>
         <h1 className="display abt-hero__title">
           <span className="abt-hero__line">Whatever the story needs,</span>
@@ -111,11 +111,12 @@ export default function Production() {
         <span className="script abt-hero__script">lights, camera, everything.</span>
       </section>
 
-      {/* Proof — two stills from the unit. */}
-      <section className="prod-stills">
+      {/* Proof — two stills from the unit; each opens as a film frame. */}
+      <section className="prod-stills" data-seq>
         <Zoomable
           src="/photos/production-01.jpg?v=3"
           alt="Black and white shot of an SUV mid-air, launched off a ramp in a stunt, with a crane truck rigged in the background. Watermarked Production Still 27."
+          revealFrame
         >
           <figure className="prod-still">
             <Image
@@ -129,6 +130,7 @@ export default function Production() {
         <Zoomable
           src="/photos/production-02.jpg?v=4"
           alt="Black and white shot of two stunt performers flying through a fireball explosion in a street stunt sequence. Watermarked Production Still 36."
+          revealFrame
         >
           <figure className="prod-still">
             <Image
@@ -141,14 +143,17 @@ export default function Production() {
         </Zoomable>
       </section>
 
-      {/* The unit — open call by department, honest version of a jobs board. */}
+      {/* The unit — open call by department, honest version of a jobs board.
+          The department rows arrive one by one, like a credits crawl. */}
       <section className="prod-depts">
-        <span className="caption-label abt-eyebrow">The unit</span>
-        <p className="prod-depts__lede">
+        <span className="caption-label abt-eyebrow" data-reveal>
+          The unit
+        </span>
+        <p className="prod-depts__lede" data-reveal>
           Productions are spinning up, and the house crews for every department.
           No listings, no gatekeeping. If you're good, we want to know you exist.
         </p>
-        <div className="prod-depts__list">
+        <div className="prod-depts__list" data-seq>
           {DEPARTMENTS.map((d) => (
             <a key={d} href="#join" className="prod-dept">
               <span className="prod-dept__name" data-letter-hover="1">

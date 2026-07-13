@@ -117,6 +117,40 @@ lightbox animation on open, splash render states).
 - **Production/About still hover**: slow filmic scale push-in (1.03 over
   1200ms on the brand ease), `overflow:hidden` clip, reduced-motion guarded.
 
+**Phase 5 shipped (2026-07-13) — cinematic motion language (owner reversed
+the Phase-4 hold).** The owner explicitly retired the "120–200ms hard-cut"
+spec for a film-title-sequence direction (see memory `feedback-cinematic-motion`).
+Built and verified in the browser (had to force a real viewport + real scroll
+gestures to beat the headless zero-viewport/rAF throttling; frame reveals and
+transitions confirmed via CSSOM + forced-final-state since CSS transitions
+don't paint-advance headless).
+- **Reveal engine rewritten to be fail-safe.** The old IntersectionObserver
+  reveal *left whole pages blank* when the observer didn't fire (100%
+  reproducible: About rendered all-black — the reviewer's "content stuck
+  invisible"). Replaced with a geometry-based trigger + a **rolling safety
+  net**: any content still hidden after 2s is shown regardless, rescheduled on
+  every content change so **client navigations are covered too** (a second bug:
+  late-mounted content had no net and depended entirely on rAF). Content can
+  no longer be stranded invisible on any path. Verified: load reveal, scroll
+  reveal (real gesture), client-nav reveal, and the net all fire.
+- **Cinematic entrances**: `--ease-cinematic` (expo-out `cubic-bezier(0.16,1,0.3,1)`),
+  ~820ms rise+fade — replaces the timid 180ms/14px fade.
+- **Sequential choreography** via `[data-seq]`: a container cascades its
+  children ~110ms apart (decorative/aria-hidden children skipped). Applied to
+  every hero, the About principles (per-row), the Production department list
+  (credits-roll), the Films/TV/Vertical redacted slates (per-row), the home
+  rows. Composition rule: a bare section that contains an explicit reveal
+  target defers to it (no double entrance).
+- **Film-frame reveals** (`[data-reveal-frame]` via `Zoomable revealFrame`):
+  stills open from a letterbox slit to full frame (`clip-path inset(46%)→0`,
+  1050ms) — the hero's signature, generalized. Home/Production/About stills.
+- **Route transition**: incoming page rises-through (620ms) on client nav
+  only (not first paint / splash's moment). `RouteTransition` keyed on
+  pathname; transform resolves to none (no lingering containing block).
+- Hero-logo film-frame open re-timed onto `--ease-cinematic`.
+- All reduced-motion guarded (engine early-returns → nothing hidden; CSS
+  media queries disable the keyframes/transitions).
+
 ---
 
 ## Quick Wins (under 30 minutes each)
@@ -144,13 +178,10 @@ lightbox animation on open, splash render states).
 - **Organization JSON-LD** in root layout (canonicals shipped in Phase 1)
 - **Rewrite the five About principles** — the one AI-sounding block on the site
 - Home body: kill "audiences of every demographic"
-- **Motion — cinematic additions, HELD FOR OWNER SIGN-OFF (Phase 4 decision).** These conflict with the brand's own documented motion spec ("hard cuts and quick fades, 120–200ms, no springs"), so they weren't shipped unilaterally — the owner reverted the last taste-driven change (contrast) and this is squarely a taste call:
-  - Lengthen entrance reveals to a ~800ms decelerating tail (`cubic-bezier(0.22,1,0.36,1)`) — directly contradicts the 120–200ms spec. Decide whether the brand spec bends for entrances.
-  - `data-reveal-seq` child stagger inside sections (eyebrow→headline→lede→CTA cascade). Additive, but **the reveal system is unverifiable in this environment** (zero-height viewport, throttled rAF/IntersectionObserver) and the reviewer already saw "content stuck invisible" once — risky to change blind. Do with a real device in the loop.
-  - **Film-frame clip-path wipes** on production stills (letterbox/slate wipe instead of fade) — same scroll-driven unverifiability.
-  - **View Transitions crossfade** between pages — needs an experimental Next flag that intercepts core navigation; unverifiable here, so deferred to do on the live deploy where it can be checked. A hard cut is the brand default and already the graceful-degradation baseline.
-  - Reduce letter-hover deployment from ~40 sites to nav + home rows (subjective — "a signature everywhere is a tic").
-  - Pre-paint FOUC fix for the first-paint reveal flicker (`data-js` stamp, hide-before-paint) — same "could strand content invisible if JS fails, can't see it here" risk.
+- **Motion — cinematic additions: SHIPPED in Phase 5** (owner retired the 120–200ms hard-cut spec for a film-title direction). Entrance decel, per-section sequencing, film-frame still reveals, and the page-to-page transition all landed and are verified. Two related items from the original list resolved differently:
+  - **Reduce letter-hover deployment** from ~40 sites to nav + home rows — still open, subjective ("a signature everywhere is a tic"). Not touched in Phase 5.
+  - **Pre-paint FOUC fix** for the first-paint reveal flicker — the Phase-5 engine mitigates the worst case (fail-safe net, direct settle) but the true fix (hide-before-paint via an inline `data-js` stamp so there's zero flash on first load) is still open. Do it with a real device confirming no stranding.
+  - **Hero headline mask-rise** (text rising out of a clipped baseline band — the quintessential title-sequence move) was *deliberately deferred*: it needs per-hero markup surgery and descender-clipping checks that can't be verified here (CSS transitions don't paint-advance in this headless browser). The heroes already rise+fade via `[data-seq]`; the mask-rise is the one remaining escalation, best done on a real device.
 - **Splash: skippable on any input** (click/key dismisses early) — small, do anytime.
 - Branded `global-error.tsx` (the 404 proves the voice exists)
 - Debounce the whole-body MutationObservers (they re-query the DOM on every keystroke in the search field)

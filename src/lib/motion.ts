@@ -1,14 +1,20 @@
 /* Angry Tiger — motion layer.
-   Brand spec: hard cuts and quick fades (120–200ms, --ease-cut). No bounces, no springs.
-   - initReveals: sections quick-fade up on viewport entry; batches cascade apart.
-   - initParallax: [data-parallax] elements drift on scroll (poster-crop clipping is intended).
-   - initLetterHover: [data-letter-hover] text lifts letter by letter, cascading apart.
-   All respect prefers-reduced-motion.
+   Motion language: a film title sequence, not a SaaS site. Entrances are long
+   and decelerating; interactions stay decisive. The signature is the
+   letterbox/film-frame reveal. All timings/easing come from the shared design
+   tokens (src/design/motion.ts) so CSS and this engine can't drift.
 
-   Timings/easing come from the shared design tokens (src/design/motion.ts),
-   so CSS custom properties and this engine can't drift apart. */
+   - initReveals: sections + [data-reveal] rise-fade in on scroll; [data-seq]
+     containers cascade their children in sequence; [data-reveal-frame] stills
+     open like a film frame (letterbox clip). FAIL-SAFE: geometry-based, with a
+     safety-net timeout so content is never stranded invisible if geometry or
+     an observer misbehaves (the old IntersectionObserver version could, and
+     did, leave whole pages blank).
+   - initParallax: [data-parallax] elements drift on scroll.
+   - initLetterHover: [data-letter-hover] text lifts letter by letter.
+   All respect prefers-reduced-motion. */
 
-import { easeCut, reveal, letterHover } from "@/design/motion";
+import { easeCut, reveal, frame, letterHover } from "@/design/motion";
 
 const reduced = () =>
   window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -22,62 +28,163 @@ export function initMotion() {
 
 let revealsStarted = false;
 
+type RevealGroup = {
+  trigger: HTMLElement; // element whose position gates the group
+  members: { el: HTMLElement; frame: boolean }[];
+  revealed: boolean;
+};
+
 export function initReveals() {
   if (revealsStarted) return;
   revealsStarted = true;
-  if (typeof IntersectionObserver === "undefined") return;
+  // Reduced-motion (or no matchMedia): never hide anything — content is shown
+  // as-is, no reveal. Nothing is ever prepped to opacity:0, so nothing can be
+  // stranded.
   if (reduced()) return;
 
   const prepped = new WeakSet<Element>();
+  const groups: RevealGroup[] = [];
 
-  const io = new IntersectionObserver(
-    (entries) => {
-      const batch = entries
-        .filter((e) => e.isIntersecting)
-        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-      batch.forEach((e, i) => {
-        const el = e.target as HTMLElement;
-        io.unobserve(el);
-        const extra = parseInt(el.getAttribute("data-reveal") || "0", 10) || 0;
-        setTimeout(() => {
-          el.style.opacity = "1";
-          el.style.transform = "none";
-          setTimeout(() => {
-            el.style.willChange = "auto";
-          }, reveal.transitionMs + 80);
-        }, i * reveal.staggerMs + extra);
-      });
-    },
-    { threshold: 0.06 }
-  );
-
-  const ms = reveal.transitionMs;
-  const prep = (el: HTMLElement) => {
-    if (prepped.has(el)) return;
-    prepped.add(el);
+  const prepText = (el: HTMLElement) => {
     const existing = el.style.transition;
     el.style.opacity = "0";
     el.style.transform = "translateY(" + reveal.distancePx + "px)";
     el.style.transition =
       (existing ? existing + ", " : "") +
-      "opacity " + ms + "ms var(--ease-cut, " + easeCut + "), transform " + ms + "ms var(--ease-cut, " + easeCut + ")";
+      "opacity " + reveal.transitionMs + "ms " + reveal.ease +
+      ", transform " + reveal.transitionMs + "ms " + reveal.ease;
     el.style.willChange = "opacity, transform";
-    io.observe(el);
   };
 
+  const prepFrame = (el: HTMLElement) => {
+    // The letterbox slit + its open transition live in CSS (.reveal-frame);
+    // JS only toggles the state class so the clip-path can be tuned in one place.
+    el.classList.add("reveal-frame");
+    el.style.willChange = "clip-path";
+  };
+
+  const revealMember = (m: { el: HTMLElement; frame: boolean }, delay: number) => {
+    setTimeout(() => {
+      if (m.frame) {
+        m.el.classList.add("reveal-frame--in");
+        setTimeout(() => (m.el.style.willChange = "auto"), frame.transitionMs + 120);
+      } else {
+        m.el.style.opacity = "1";
+        m.el.style.transform = "none";
+        setTimeout(() => (m.el.style.willChange = "auto"), reveal.transitionMs + 120);
+      }
+    }, delay);
+  };
+
+  const fire = (g: RevealGroup) => {
+    if (g.revealed) return;
+    g.revealed = true;
+    g.members.forEach((m, i) => revealMember(m, i * reveal.staggerMs));
+  };
+
+  // Build a group from an element. A [data-seq] element sequences its direct
+  // children; anything else is a group of one. A [data-reveal-frame] member
+  // opens as a film frame; otherwise it rises + fades.
+  const register = (el: HTMLElement) => {
+    if (prepped.has(el)) return;
+    prepped.add(el);
+    let members: { el: HTMLElement; frame: boolean }[];
+    if (el.hasAttribute("data-seq")) {
+      const kids = (Array.prototype.slice.call(el.children) as HTMLElement[]).filter(
+        // Decorative (aria-hidden) and opted-out children aren't part of the
+        // content choreography — e.g. absolutely-positioned graphic marks.
+        (k) => k.getAttribute("aria-hidden") !== "true" && !k.hasAttribute("data-no-reveal")
+      );
+      members = kids.map((k) => ({ el: k, frame: k.hasAttribute("data-reveal-frame") }));
+    } else {
+      members = [{ el, frame: el.hasAttribute("data-reveal-frame") }];
+    }
+    members.forEach((m) => (m.frame ? prepFrame(m.el) : prepText(m.el)));
+    groups.push({ trigger: el, members, revealed: false });
+  };
+
+  const SELECTOR = "section, footer, [data-reveal], [data-reveal-frame], [data-seq]";
+  const EXPLICIT = "[data-seq], [data-reveal], [data-reveal-frame]";
+  const isExplicit = (n: HTMLElement) =>
+    n.hasAttribute("data-seq") ||
+    n.hasAttribute("data-reveal") ||
+    n.hasAttribute("data-reveal-frame");
+  const eligible = (n: HTMLElement) => {
+    if (n.hasAttribute("data-no-reveal")) return false;
+    // A [data-seq] container owns its children — a child inside one is revealed
+    // by that container, not registered on its own (would double-prep it).
+    if (n.closest("[data-seq]") && !n.hasAttribute("data-seq")) return false;
+    // A bare section matched only by tag defers to any explicit reveal targets
+    // inside it — otherwise the section fades as one unit *and* its children
+    // choreograph, stacking two entrances on the same content.
+    if (!isExplicit(n) && n.querySelector(EXPLICIT)) return false;
+    return true;
+  };
   const scan = (root: Node) => {
     if (!root || root.nodeType !== 1) return;
     const el = root as HTMLElement;
-    if (el.matches && el.matches("section, footer, [data-reveal]")) prep(el);
+    if (el.matches && el.matches(SELECTOR) && eligible(el)) register(el);
     if (el.querySelectorAll)
-      el.querySelectorAll<HTMLElement>("section, footer, [data-reveal]").forEach(prep);
+      el.querySelectorAll<HTMLElement>(SELECTOR).forEach((n) => {
+        if (eligible(n)) register(n);
+      });
   };
-
   scan(document.body);
 
-  // Content mounts progressively (client navigation) — catch sections that mount later.
+  // Geometry-based trigger — reveal a group once its trigger's top clears the
+  // bottom ~12% of the viewport. Replaces IntersectionObserver, which did not
+  // reliably fire (leaving prepped content permanently invisible).
+  let ticking = false;
+  const check = () => {
+    ticking = false;
+    const vh = window.innerHeight || document.documentElement.clientHeight || 0;
+    if (!vh) return;
+    const line = vh * 0.88;
+    for (const g of groups) {
+      if (g.revealed) continue;
+      const top = g.trigger.getBoundingClientRect().top;
+      if (top < line) fire(g);
+    }
+  };
+  // Scroll path is rAF-throttled (cheap under a stream of scroll events).
+  const req = () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(check);
+    }
+  };
+  window.addEventListener("scroll", req, { passive: true });
+  window.addEventListener("resize", req);
+
+  // Fail-safe net: reveal whatever is still pending after safetyMs, so content
+  // is never stranded invisible (broken geometry, a device that never scrolls,
+  // rAF that never fires). Rescheduled on every content change so *client
+  // navigations* are covered too, not just the first load — the earlier bug
+  // was that late-mounted content had no net and depended entirely on rAF.
+  let safetyTimer: ReturnType<typeof setTimeout>;
+  const scheduleSafety = () => {
+    clearTimeout(safetyTimer);
+    safetyTimer = setTimeout(() => groups.forEach(fire), reveal.safetyMs);
+  };
+  // Direct (non-rAF) settle after any content change: reveals what's in view
+  // immediately — this is what makes a client-navigated page's above-fold
+  // content appear without waiting on the scroll/rAF path.
+  let settleTimer: ReturnType<typeof setTimeout>;
+  const settle = () => {
+    clearTimeout(settleTimer);
+    settleTimer = setTimeout(() => {
+      check();
+      scheduleSafety();
+    }, 50);
+  };
+
+  settle();
+
+  // Client navigation mounts content progressively — register late arrivals
+  // and settle them (immediate in-view reveal + a fresh safety net).
   const mo = new MutationObserver((muts) => {
     for (const m of muts) for (const n of m.addedNodes) scan(n);
+    settle();
   });
   mo.observe(document.body, { childList: true, subtree: true });
 }

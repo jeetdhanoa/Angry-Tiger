@@ -98,11 +98,16 @@
   --hairline-strong: rgba(244, 241, 231, 0.18);
   --hairline-ink: rgba(0, 0, 0, 0.25);
 
-  /* Motion */
+  /* Motion. --ease-cut: decisive interactions (hovers, state swaps).
+     --ease-cinematic: exponential deceleration for entrances — content
+     arrives fast then settles slowly, the way a title card resolves. Kept in
+     sync with src/design/motion.ts. */
   --ease-cut: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
   --duration-fast: 120ms;
   --duration-base: 200ms;
   --duration-slow: 400ms;
+  --duration-frame: 1050ms;
 
   /* States — feedback is a colour swap between the site's exact three
      colours (see .btn--primary:hover etc.), never a filter/brightness shift. */
@@ -1320,7 +1325,8 @@ button {
   max-height: calc(100svh - 76px - 2 * clamp(24px, 4vw, 56px));
   object-fit: contain;
   display: block;
-  animation: at-hero-logo-in 1400ms var(--ease-cut) 300ms both;
+  /* The brand's signature film-frame open, on the cinematic decel curve. */
+  animation: at-hero-logo-in 1500ms var(--ease-cinematic) 260ms both;
 }
 
 @keyframes at-hero-logo-in {
@@ -1342,6 +1348,55 @@ button {
     animation: none;
     clip-path: none;
     opacity: 1;
+  }
+}
+
+/* ============================================================
+   Reveal grammar — the site's shared entrance language.
+   JS (src/lib/motion.ts) toggles the state classes; the look lives here.
+   ============================================================ */
+
+/* Film-frame reveal for still photography — the hero's letterbox open,
+   generalized. Starts as a thin horizontal slit, opens to full frame. The
+   element is visible the whole time (never opacity:0), so even if the JS
+   never flips the state, the still just shows fully — nothing stranded. */
+.reveal-frame {
+  clip-path: inset(46% 0 46% 0);
+  transition: clip-path var(--duration-frame) var(--ease-cinematic);
+}
+
+.reveal-frame--in {
+  clip-path: inset(0 0 0 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-frame {
+    clip-path: none;
+    transition: none;
+  }
+}
+
+/* Page-to-page transition — the incoming route resolves with a short rise, a
+   cut with just enough settle to feel authored rather than instant. Keyed on
+   pathname (see RouteTransition), so it replays every navigation. */
+.route-enter {
+  animation: at-route-in 620ms var(--ease-cinematic) both;
+}
+
+@keyframes at-route-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route-enter {
+    animation: none;
   }
 }
 
