@@ -256,7 +256,7 @@ Phases 1 & 3. What landed here:
 - JobPosting structured data on production open calls
 - Marker-scrub → CSS scroll-driven animations (JS fallback)
 - apple-touch-icon; widen CSP img-src only if image optimization moves domains
-- Deploy the unused brand arsenal: Intervention component, matchstick/umbrella/chair illustrations (About principles' empty right column), extended monogram, `circle`/`slash` marker variants
+- Brand arsenal — **ghost-mark device now complete site-wide** (2026-07-13): the faint §5.04 illustration mark (About umbrella/AT) was extended to the two pages that had none — Contact (chair-dining) and Production (matchstick). Every non-parked page now carries exactly one faint red mark. Still unused and **held for owner sign-off**: the **Intervention** component (red bar over B&W photo — needs a *dedicated* B&W photo; won't force it onto the watermarked/zoomable stills), the **extended monogram** (a 2-tone patterned asset — needs a colour-treatment call, not a straight red-mask like the silhouettes), and the `circle`/`slash` marker-stroke variants (only underline/strike are used)
 - Archive the stale design-handoff token folder so nobody copies `#d9010f` back in
 - Verify nav monogram clear-space (width of "g") — may need 48px logo or taller nav
 
