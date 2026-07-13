@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
 import { Input, Textarea } from "@/components/Input";
@@ -117,9 +118,11 @@ export default function Production() {
           alt="Black and white shot of an SUV mid-air, launched off a ramp in a stunt, with a crane truck rigged in the background. Watermarked Production Still 27."
         >
           <figure className="prod-still">
-            <img
+            <Image
               src="/photos/production-01.jpg?v=3"
               alt="Black and white shot of an SUV mid-air, launched off a ramp in a stunt, with a crane truck rigged in the background. Watermarked Production Still 27."
+              fill
+              sizes="100vw"
             />
           </figure>
         </Zoomable>
@@ -128,9 +131,11 @@ export default function Production() {
           alt="Black and white shot of two stunt performers flying through a fireball explosion in a street stunt sequence. Watermarked Production Still 36."
         >
           <figure className="prod-still">
-            <img
+            <Image
               src="/photos/production-02.jpg?v=4"
               alt="Black and white shot of two stunt performers flying through a fireball explosion in a street stunt sequence. Watermarked Production Still 36."
+              fill
+              sizes="100vw"
             />
           </figure>
         </Zoomable>

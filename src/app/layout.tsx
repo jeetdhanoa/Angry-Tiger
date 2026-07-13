@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { bebasNeue, inter, homemadeApple } from "./fonts";
 import { AuthProvider } from "@/lib/auth";
 import Nav from "@/components/Nav";
 import Splash from "@/components/Splash";
@@ -58,7 +59,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      className={`${bebasNeue.variable} ${inter.variable} ${homemadeApple.variable}`}
+    >
       <body>
         {/* Keyboard/screen-reader users can skip the nav straight to the
             page's <main id="main-content">. Visually hidden until focused. */}

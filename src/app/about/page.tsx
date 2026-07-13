@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Footer from "@/components/Footer";
 import MarkerStroke from "@/components/MarkerStroke";
 import Zoomable from "@/components/Zoomable";
@@ -59,9 +60,11 @@ export default function About() {
           alt="Black and white shot of a jib crane rigged on a city courtyard set, crew gathered around monitors and lighting stands. Watermarked Production Still 18."
         >
           <figure className="prod-still">
-            <img
+            <Image
               src="/photos/about-story.jpg?v=3"
               alt="Black and white shot of a jib crane rigged on a city courtyard set, crew gathered around monitors and lighting stands. Watermarked Production Still 18."
+              fill
+              sizes="100vw"
             />
           </figure>
         </Zoomable>

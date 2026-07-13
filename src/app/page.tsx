@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import Footer from "@/components/Footer";
 import MarkerStroke from "@/components/MarkerStroke";
 import Zoomable from "@/components/Zoomable";
@@ -27,10 +28,13 @@ export default function Home() {
           alt="Black and white shot of a camera crew on the back of a tracking truck, three cinema cameras rigged side by side under an umbrella. Watermarked Production Still 09."
         >
           <div className="home-story__photo">
-            <img
+            <Image
               src="/photos/home-story.jpg?v=7"
               alt="Black and white shot of a camera crew on the back of a tracking truck, three cinema cameras rigged side by side under an umbrella. Watermarked Production Still 09."
               className="home-story__img"
+              fill
+              sizes="(max-width: 719px) 100vw, 60vw"
+              priority
             />
           </div>
         </Zoomable>

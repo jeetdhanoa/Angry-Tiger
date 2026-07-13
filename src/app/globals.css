@@ -4,34 +4,11 @@
    brandboard (identity by Shanaya.Studio).
    ============================================================ */
 
-@font-face {
-  font-family: "Bebas Neue";
-  src: url("/fonts/BebasNeue-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Inter";
-  src: url("/fonts/Inter-Variable.ttf") format("truetype");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Inter";
-  src: url("/fonts/Inter-Italic-Variable.ttf") format("truetype");
-  font-weight: 100 900;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Homemade Apple";
-  src: url("/fonts/HomemadeApple-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
+/* Fonts are self-hosted via next/font/local (src/app/fonts.ts), not
+   @font-face here — Next generates that (as woff2, from the pre-converted
+   files in public/fonts/) and auto-preloads them since they're used in the
+   root layout. --font-bebas/--font-inter/--font-homemade-apple below are
+   the CSS custom properties next/font's `variable` option puts on <html>. */
 
 :root {
   /* Base palette — per official Brand Guidelines §3 (Shanaya.Studio, Jul 2026):
@@ -77,9 +54,9 @@
   --interactive-primary-active: var(--at-red-deep);
 
   /* Typography */
-  --font-display: "Bebas Neue", "Arial Narrow", sans-serif;
-  --font-body: "Inter", "Helvetica Neue", sans-serif;
-  --font-script: "Homemade Apple", cursive;
+  --font-display: var(--font-bebas), "Arial Narrow", sans-serif;
+  --font-body: var(--font-inter), "Helvetica Neue", sans-serif;
+  --font-script: var(--font-homemade-apple), cursive;
 
   --text-poster: clamp(72px, 12vw, 180px);
   --text-hero: 96px;
@@ -1395,8 +1372,8 @@ button {
 }
 
 .home-story__img {
-  width: 100%;
-  height: 100%;
+  /* next/image's fill mode sets width/height/position inline — only
+     object-fit needs to be declared here. */
   object-fit: contain;
   display: block;
 }
@@ -3477,13 +3454,14 @@ select.input-dark option {
   margin: 0;
   background: var(--at-charcoal);
   cursor: zoom-in;
+  /* next/image's fill mode sizes the <img> to match this box exactly (via
+     inline position:absolute/inset:0), so the aspect-ratio that used to
+     live on the img now has to live on its container instead. */
+  aspect-ratio: 16 / 9;
 }
 
 .prod-still img {
   display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 16 / 9;
   object-fit: cover;
 }
 

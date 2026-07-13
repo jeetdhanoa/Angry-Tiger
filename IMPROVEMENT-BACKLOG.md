@@ -50,6 +50,44 @@ submission via real submit events, ARIA roles reflected in the DOM).
   (was `<div className="page">` sitewide, 14 files) + a visually-hidden
   `<h1>` on Home (its visible "heading" is the wordmark graphic).
 
+**Phase 3 shipped (2026-07-13) — speed.** Verified with a real production
+build (`npm run build`), not just dev mode, since dev doesn't reflect real
+bundle-splitting or font optimization.
+- **Fonts**: Bebas/Inter/Homemade Apple converted TTF → woff2 (via
+  fontTools, since `next/font/local` doesn't itself transcode format) —
+  Bebas 57.7KB→20.7KB, Homemade Apple 109KB→49.9KB, Inter 874.7KB→349.3KB.
+  Wired through `next/font/local` (`src/app/fonts.ts`) instead of manual
+  `@font-face`, so Next auto-preloads all three (confirmed via
+  `<link rel="preload" as="font">` in `<head>`). The unused 904KB italic
+  Inter face was deleted outright — nothing in the codebase ever sets
+  `font-style: italic`.
+- **Images**: the four photo stills (home/production×2/about) now go
+  through `next/image` with `fill` + `sizes`. Home's is `priority` (above
+  the fold — confirmed a `<link rel="preload" as="image">` with the full
+  responsive `imagesrcset` gets injected); Production/About default to
+  `loading="lazy"` (below the fold). Verified the responsive `srcset`
+  (384w→3840w) generates correctly; couldn't verify the lazy-load
+  IntersectionObserver actually firing on scroll in this environment (same
+  zero-viewport tooling limitation noted elsewhere in this doc) but the
+  wiring (`loading="lazy"`, correct aspect-ratio reserved via the
+  container, no layout shift) checks out.
+- **Middleware**: matcher narrowed from "every non-static route" to just
+  `/account/:path*` and `/admin/:path*` — `updateSession()`'s only job is
+  refreshing the Supabase cookie, and the only pages that read it
+  (client-side, via `useAuth()`) are those two. Every marketing-page
+  request was paying an Edge Function invocation + a Supabase network
+  round-trip for a refresh nobody consumed. Added a cookie check
+  (`sb-*` prefix) inside `updateSession()` too, as defense-in-depth in case
+  the matcher gets widened again later without this in mind.
+- **AuthProvider**: `@/lib/supabase/client` (pulls in `@supabase/ssr` +
+  `@supabase/supabase-js`) is now dynamically `import()`ed inside a
+  `useEffect` instead of statically imported — code-splits it out of the
+  bundle every marketing page paid for, since `AuthProvider` wraps the
+  whole site (Nav needs it) but most visits never touch auth. Confirmed
+  with a real build: marketing pages are 108–117 kB First Load JS vs.
+  169–172 kB for `/account/*` and `/admin/*` — a ~55–60 kB difference,
+  exactly matching the Supabase chunk now loading only where it's used.
+
 ---
 
 ## Quick Wins (under 30 minutes each)
@@ -68,16 +106,12 @@ submission via real submit events, ARIA roles reflected in the DOM).
 - Update stale JSDoc on CaptionLabel ("Inter, uppercase" → Bebas)
 - Escape listener scope: only `closeAll()` when an overlay is actually open (`src/components/Nav.tsx:75`)
 - Footer tiger mark `alt=""` (decorative); About closing wordmark `alt=""`
-- Middleware matcher: exclude `/sitemap.xml`, `/robots.txt`
 
 ## High Impact (worth doing before launch)
 
 - **Contrast pass on red surfaces (reverted 2026-07-13, owner's call)** — black-on-red is 3.55:1, below AA (4.5:1) for anything under display size: primary buttons, chips, home red-panel body, About manifesto body, form/account errors, home-row hover, admin badges. A paper-text version was built and shipped, then reverted because the owner prefers the black-on-red look. Revisit only if asked — the code for the paper version is in git history (commit `eab60ab`) if wanted again.
 - **Real forms on admin + parked pages**: Phase 2 converted every live public form (footer/contact/production/Nav auth/account); admin/products, admin/careers-review-type screens and the parked shop/membership/notes forms still use the old `onClick`-on-`type="button"` pattern
 - **Focus-visible on `:focus` fallback for older browsers** — verify graceful degradation where `:focus-visible` isn't supported (should just get no ring, not a broken one, but worth a manual check)
-- **Fonts**: 1.74MB TTF Inter → `next/font/local` woff2; drop the unused 884KB italic; preload Bebas
-- **Images**: `next/image` (or resized ~1600px JPEGs) + `loading="lazy"` below fold — 2.9MB of stills today
-- **Middleware short-circuit**: skip the Supabase round-trip when no `sb-*` cookie exists; narrow matcher to `/account`, `/admin`
 - **Organization JSON-LD** in root layout (canonicals shipped in Phase 1)
 - **Rewrite the five About principles** — the one AI-sounding block on the site
 - Home body: kill "audiences of every demographic"

@@ -6,8 +6,11 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    // Run on all routes except static assets and the OG image endpoints.
-    "/((?!_next/static|_next/image|favicon.ico|opengraph-image|twitter-image|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ttf|ico)$).*)",
-  ],
+  // updateSession only refreshes the Supabase auth cookie — nothing else in
+  // this file has a site-wide effect. The only pages that read that cookie
+  // (client-side, via useAuth()) are /account and /admin, so every public
+  // marketing route was paying an Edge Function invocation + a Supabase
+  // round-trip for a refresh nobody consumed. Narrowed to just the two
+  // routes that actually need it.
+  matcher: ["/account/:path*", "/admin/:path*"],
 };

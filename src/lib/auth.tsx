@@ -12,7 +12,14 @@ import {
   type ReactNode,
 } from "react";
 import type { User } from "@supabase/supabase-js";
-import { createClient, supabaseConfigured } from "@/lib/supabase/client";
+import { supabaseConfigured, type createClient } from "@/lib/supabase/client";
+
+/* @supabase/ssr (and the supabase-js it pulls in) is a real chunk of JS —
+   dynamically imported here instead of statically, so it code-splits out of
+   the bundle every marketing page pays for. AuthProvider wraps the whole
+   site (Nav needs it for the account drawer), but most visits never touch
+   auth at all. */
+type SupabaseBrowserClient = ReturnType<typeof createClient>;
 
 type AuthResult = { error: string | null; needsConfirmation?: boolean };
 
@@ -30,10 +37,22 @@ const AuthContext = createContext<AuthValue | null>(null);
 const NOT_CONFIGURED = "Sign-in isn't connected yet. Check back soon.";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  // Create the client once; null until Supabase is configured.
-  const [supabase] = useState(() => (supabaseConfigured ? createClient() : null));
+  const [supabase, setSupabase] = useState<SupabaseBrowserClient | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(supabaseConfigured);
+
+  // Load the Supabase client lazily, after mount — keeps @supabase/ssr out
+  // of the initial bundle for pages that never touch auth.
+  useEffect(() => {
+    if (!supabaseConfigured) return;
+    let cancelled = false;
+    import("@/lib/supabase/client").then(({ createClient }) => {
+      if (!cancelled) setSupabase(createClient());
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     if (!supabase) return;
