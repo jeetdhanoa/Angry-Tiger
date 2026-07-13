@@ -1720,61 +1720,8 @@ button {
 
 /* Creative principles — numbered editorial rows. */
 .abt-principles {
-  position: relative;
-  overflow: hidden;
   border-top: 1px solid var(--hairline);
   padding: 88px clamp(20px, 4vw, 40px) 104px;
-}
-
-/* §5.04 hand-drawn umbrella, faint in the empty right column — same device
-   as the manifesto's ghost AT, in Signal Red. */
-.gfx-disrupt__mark.abt-principles__mark {
-  --illo-src: url("/graphics/umbrella.svg");
-  opacity: 0.07;
-  width: min(42%, 520px);
-  aspect-ratio: 410.99 / 302.74;
-  right: -3%;
-  top: 16%;
-  transform: rotate(-7deg);
-}
-@media (max-width: 719px) {
-  .gfx-disrupt__mark.abt-principles__mark {
-    display: none;
-  }
-}
-
-/* §5.04 hand-drawn chair, faint behind the contact columns — pull up a chair.
-   Same ghost-mark device as About, in Signal Red. */
-.gfx-disrupt__mark.contact-body__mark {
-  --illo-src: url("/graphics/chair-dining.svg");
-  opacity: 0.06;
-  width: min(30%, 360px);
-  aspect-ratio: 293.57 / 530.17;
-  right: 2%;
-  top: 12%;
-  transform: rotate(6deg);
-}
-@media (max-width: 899px) {
-  .gfx-disrupt__mark.contact-body__mark {
-    display: none;
-  }
-}
-
-/* §5.04 scattered matchsticks, faint behind the department list — the spark of
-   a unit crewing up. Same ghost-mark device, in Signal Red. */
-.gfx-disrupt__mark.prod-depts__mark {
-  --illo-src: url("/graphics/matchstick.svg");
-  opacity: 0.06;
-  width: min(46%, 560px);
-  aspect-ratio: 539.08 / 416.38;
-  right: -4%;
-  top: 40%;
-  transform: rotate(-4deg);
-}
-@media (max-width: 719px) {
-  .gfx-disrupt__mark.prod-depts__mark {
-    display: none;
-  }
 }
 
 .abt-principles__list {
@@ -1821,6 +1768,30 @@ button {
   line-height: var(--leading-body);
   color: var(--text-muted);
   max-width: 62ch;
+}
+
+/* Founder's line — a single voiced quote in the brand's script face, its own
+   quiet beat between the principles and the closing card. */
+.abt-quote {
+  border-top: 1px solid var(--hairline);
+  padding: 96px clamp(20px, 4vw, 40px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+}
+
+.abt-quote__line {
+  margin: 0;
+  color: var(--at-red);
+  font-size: clamp(28px, 4vw, 48px);
+  line-height: 1.3;
+  max-width: 20ch;
+}
+
+.abt-quote__attr {
+  color: var(--text-muted);
 }
 
 /* Closing card — white as the supporting neutral (§3); the black Extended
@@ -2568,8 +2539,14 @@ button {
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
   gap: 72px;
   align-items: start;
-  /* clip the faint §5.04 ghost chair that bleeds off the right edge */
-  overflow: hidden;
+}
+
+/* §5.04 — full-opacity red dining chair, between the contact box and the
+   footer's newsletter signup. */
+.contact-chair {
+  display: flex;
+  justify-content: center;
+  padding: 0 clamp(20px, 4vw, 40px) 88px;
 }
 
 .contact-info {
@@ -3693,8 +3670,6 @@ select.input-dark option {
 .prod-depts {
   border-top: 1px solid var(--hairline);
   padding: 88px clamp(20px, 4vw, 40px) 104px;
-  /* clip the faint §5.04 ghost matchsticks that bleed off the edges */
-  overflow: hidden;
 }
 
 .prod-depts__lede {
@@ -3720,6 +3695,14 @@ select.input-dark option {
   padding: 22px 0;
   border-top: 1px solid var(--hairline);
   text-decoration: none;
+}
+
+/* §5.04 AT Chair 2 (office chair) — full-opacity red, left-aligned, above
+   the footer's newsletter signup. */
+.prod-chair {
+  display: flex;
+  justify-content: flex-start;
+  padding: 0 clamp(20px, 4vw, 40px) 88px;
 }
 
 .prod-dept:last-child {

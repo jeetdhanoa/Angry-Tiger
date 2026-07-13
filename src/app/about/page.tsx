@@ -98,10 +98,8 @@ export default function About() {
         </p>
       </section>
 
-      {/* Creative principles (§1.02) — a numbered editorial list, with a
-          faint §5.04 hand-drawn object filling the empty right column. */}
-      <section className="abt-principles gfx-disrupt">
-        <span className="gfx-disrupt__mark abt-principles__mark" aria-hidden="true" />
+      {/* Creative principles (§1.02) — a numbered editorial list. */}
+      <section className="abt-principles">
         <span className="caption-label abt-eyebrow" data-reveal>
           Creative principles
         </span>
@@ -120,6 +118,14 @@ export default function About() {
             </div>
           ))}
         </div>
+      </section>
+
+      {/* Founder's line — the one voice on the site that isn't the brand's. */}
+      <section className="abt-quote" data-reveal>
+        <p className="script abt-quote__line">
+          &ldquo;We&apos;re not here to take part, we&apos;re here to take over.&rdquo;
+        </p>
+        <span className="caption-label abt-quote__attr">Jeet Dhanoa, Founder</span>
       </section>
 
       {/* Closing — the guideline's closing card: statement, lockup, contact. */}

@@ -9,6 +9,7 @@ import { Input, Textarea } from "@/components/Input";
 import CaptionLabel from "@/components/CaptionLabel";
 import Turnstile from "@/components/Turnstile";
 import Zoomable from "@/components/Zoomable";
+import Illustration from "@/components/Illustration";
 import { submitCareer, type CareerFields } from "@/lib/submissions";
 
 /* The proof page: the house is a working production unit, and the door for
@@ -145,11 +146,7 @@ export default function Production() {
 
       {/* The unit — open call by department, honest version of a jobs board.
           The department rows arrive one by one, like a credits crawl. */}
-      <section className="prod-depts gfx-disrupt">
-        {/* §5.04 scattered matchsticks, faint behind the department list — the
-            spark of a new unit crewing up. Same ghost-mark device as About, in
-            Signal Red. */}
-        <span className="gfx-disrupt__mark prod-depts__mark" aria-hidden="true" />
+      <section className="prod-depts">
         <span className="caption-label abt-eyebrow" data-reveal>
           The unit
         </span>
@@ -302,6 +299,12 @@ export default function Production() {
             </div>
           )}
         </div>
+      </section>
+
+      {/* §5.04 AT Chair 2 (office chair) — full-opacity red, left-aligned,
+          above the footer's newsletter signup. */}
+      <section className="prod-chair" data-reveal>
+        <Illustration name="chair-office" width={220} />
       </section>
 
       <Footer />

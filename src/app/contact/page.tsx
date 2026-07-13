@@ -6,6 +6,7 @@ import Button from "@/components/Button";
 import { Input, Textarea } from "@/components/Input";
 import CaptionLabel from "@/components/CaptionLabel";
 import Turnstile from "@/components/Turnstile";
+import Illustration from "@/components/Illustration";
 import { submitContact } from "@/lib/submissions";
 
 /* The page is built around the three ways people approach a production
@@ -88,11 +89,7 @@ export default function Contact() {
         <span className="contact-hero__script">let&apos;s shoot something</span>
       </section>
 
-      <section className="contact-body gfx-disrupt">
-        {/* §5.04 hand-drawn chair, faint behind the columns — pull up a
-            chair. Same ghost-mark device as About (manifesto AT / principles
-            umbrella), in Signal Red. */}
-        <span className="gfx-disrupt__mark contact-body__mark" aria-hidden="true" />
+      <section className="contact-body">
         <div className="contact-info">
           {PATHS.map((p) => (
             <div key={p.key} className="contact-block">
@@ -215,6 +212,12 @@ export default function Contact() {
             </div>
           )}
         </div>
+      </section>
+
+      {/* §5.04 — pull up a chair. Full-opacity red, between the contact box
+          and the footer's newsletter signup. */}
+      <section className="contact-chair" data-reveal>
+        <Illustration name="chair-dining" width={220} />
       </section>
 
       <Footer />
