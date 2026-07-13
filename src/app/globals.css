@@ -1743,6 +1743,40 @@ button {
   }
 }
 
+/* §5.04 hand-drawn chair, faint behind the contact columns — pull up a chair.
+   Same ghost-mark device as About, in Signal Red. */
+.gfx-disrupt__mark.contact-body__mark {
+  --illo-src: url("/graphics/chair-dining.svg");
+  opacity: 0.06;
+  width: min(30%, 360px);
+  aspect-ratio: 293.57 / 530.17;
+  right: 2%;
+  top: 12%;
+  transform: rotate(6deg);
+}
+@media (max-width: 899px) {
+  .gfx-disrupt__mark.contact-body__mark {
+    display: none;
+  }
+}
+
+/* §5.04 scattered matchsticks, faint behind the department list — the spark of
+   a unit crewing up. Same ghost-mark device, in Signal Red. */
+.gfx-disrupt__mark.prod-depts__mark {
+  --illo-src: url("/graphics/matchstick.svg");
+  opacity: 0.06;
+  width: min(46%, 560px);
+  aspect-ratio: 539.08 / 416.38;
+  right: -4%;
+  top: 40%;
+  transform: rotate(-4deg);
+}
+@media (max-width: 719px) {
+  .gfx-disrupt__mark.prod-depts__mark {
+    display: none;
+  }
+}
+
 .abt-principles__list {
   margin-top: 36px;
   display: flex;
@@ -2534,6 +2568,8 @@ button {
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
   gap: 72px;
   align-items: start;
+  /* clip the faint §5.04 ghost chair that bleeds off the right edge */
+  overflow: hidden;
 }
 
 .contact-info {
@@ -3657,6 +3693,8 @@ select.input-dark option {
 .prod-depts {
   border-top: 1px solid var(--hairline);
   padding: 88px clamp(20px, 4vw, 40px) 104px;
+  /* clip the faint §5.04 ghost matchsticks that bleed off the edges */
+  overflow: hidden;
 }
 
 .prod-depts__lede {

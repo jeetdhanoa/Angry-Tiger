@@ -145,7 +145,11 @@ export default function Production() {
 
       {/* The unit — open call by department, honest version of a jobs board.
           The department rows arrive one by one, like a credits crawl. */}
-      <section className="prod-depts">
+      <section className="prod-depts gfx-disrupt">
+        {/* §5.04 scattered matchsticks, faint behind the department list — the
+            spark of a new unit crewing up. Same ghost-mark device as About, in
+            Signal Red. */}
+        <span className="gfx-disrupt__mark prod-depts__mark" aria-hidden="true" />
         <span className="caption-label abt-eyebrow" data-reveal>
           The unit
         </span>

@@ -208,6 +208,13 @@ Phases 1 & 3. What landed here:
 - De-Title-Case mid-sentence caps on Home/About/Contact ("Production House for Feature Films…")
 - De-dupe "every application gets read" (production, twice) and "we read everything and reply fast" (contact, twice)
 - Drop Oxford commas sitewide (UK house style); one canonical format list: "feature films, television and vertical series"
+- Films/TV/Vertical ledes echo their own headings word-for-word ("Vertical series." → "Vertical series made for…") — cut the echo
+- Television meta description "Series and web series" is redundant and reintroduces the dead "web series" term — rewrite
+- Production path labels break parallelism ("Join the crew" / "Sign as cast" / "Sign as a creative") → "Crew / Cast / Creative" (the field label already says "I want to")
+- Twitter vs X inconsistency: footer says "Twitter", contact links @AngryTigerX → x.com — pick one platform name sitewide
+- Membership "Your all-access pass to all things Angry Tiger" doubles "all" — rewrite (audit suggests "Inside the house…")
+- Nav search placeholder "Type to search" is the one generic string in a voiced component — give it voice
+- Redaction bars are `aria-label` on generic `<span>`s (ignored by screen readers) — add `role="img"` so AT users hear "Title withheld"
 - About closing line → canonical "Every memorable story begins with a fearless idea."
 - Missing full stop: "Add it in account settings" (`src/app/account/page.tsx:29`)
 - Remove dead `filter` from `.btn` / `.cart__checkout` / `.account__signin` transition lists
@@ -237,10 +244,12 @@ Phases 1 & 3. What landed here:
 
 ## Future Enhancements (after launch)
 
-- Consolidations: `GateShell` (AccountShell+AdminShell), `useProtectedSubmit()`, `lib/server/form-defense.ts`, `formatDate()`, `rupees()` → `lib/format.ts`
-- Replace the `.full.tsx` parking pattern with env-flag switches
-- Wire or delete the unreferenced `src/design/*.ts` token files
-- ESLint + typecheck script + unit tests (rate-limit window, cart merge, API routes)
+- **Home manifesto beat** (§2 Home) — one overscaled Bebas statement between the three rows and the footer ("EVERY MEMORABLE STORY BEGINS WITH A FEARLESS IDEA.") with a marker-scrub underline; the flagship page currently ends thin after hero → story → three rows
+- **"Now shooting" ticker slot** (§5.6) — a single accent line on Home when production begins ("NOW SHOOTING · SLATE F01 · MUMBAI"); build the slot now, populate later
+- **BTS moving-image loop** (§5.1) — *owner-deferred ("not yet")*: 20–30s muted B&W loop in the Home story slot, `<video muted loop playsinline poster>` with reduced-motion + data-saver fallback to the current still
+- **Press kit page `/press`** (§5.2) — *owner-deferred ("not yet")*: logo suite, approved stills, boilerplate, contact
+- **`useProtectedSubmit()` hook** — *held in Phase 6* (the 5 forms differ enough that it's a weak dedup and re-plumbing live forms risks unverifiable regressions); revisit if a 6th form lands
+- Replace the `.full.tsx` parking pattern with env-flag switches — *held in Phase 6* (only benefits parked pages; per-page metadata makes it fiddlier than the rename dance is worth now)
 - Cart: atomic qty RPC (race on rapid clicks); `setDefaultAddress` as one RPC; build the cart drawer before un-parking the shop
 - Zod validation at the Supabase trust boundary
 - Account/admin pages: distinguish error from empty state; add loading skeletons (or move to server components)
@@ -269,7 +278,7 @@ Phases 1 & 3. What landed here:
 - **Console call sheet** — a crew call sheet printed in devtools console with a hiring link
 - **Slate-clap page transitions** — sound off by default; silence belongs to the house, sound belongs to the work
 - **Vertical-first mobile** — the mobile site treats 9:16 as its native cinema, because Vertical is a format the house actually makes
-- **Film-grain overlay** — tiled ~3% opacity grain unifying the digital surface with the print identity
+- ~~**Film-grain overlay**~~ — *tried and declined by the owner (do not reintroduce without asking).* Tiled ~3% grain unifying the digital surface with the print identity; kept here only as a record of the decision
 
 ## R&D Lab concepts (Phase 3 — see the R&D document for full treatments)
 

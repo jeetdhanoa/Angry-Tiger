@@ -88,7 +88,11 @@ export default function Contact() {
         <span className="contact-hero__script">let&apos;s shoot something</span>
       </section>
 
-      <section className="contact-body">
+      <section className="contact-body gfx-disrupt">
+        {/* §5.04 hand-drawn chair, faint behind the columns — pull up a
+            chair. Same ghost-mark device as About (manifesto AT / principles
+            umbrella), in Signal Red. */}
+        <span className="gfx-disrupt__mark contact-body__mark" aria-hidden="true" />
         <div className="contact-info">
           {PATHS.map((p) => (
             <div key={p.key} className="contact-block">
