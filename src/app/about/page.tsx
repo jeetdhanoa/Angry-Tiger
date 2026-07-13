@@ -125,7 +125,8 @@ export default function About() {
           sits in the bottom-right corner like a printer's mark. */}
       <section className="abt-quote" data-reveal>
         <p className="script abt-quote__line">
-          &ldquo;We&apos;re not here to take part, we&apos;re here to take over.&rdquo;
+          <span className="abt-quote__clause">&ldquo;We&apos;re not here to take part,</span>{" "}
+          <span className="abt-quote__clause">we&apos;re here to take over.&rdquo;</span>
         </p>
         <span className="caption-label abt-quote__attr">Jeet Dhanoa, Founder</span>
         <img
