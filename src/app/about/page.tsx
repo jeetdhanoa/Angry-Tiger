@@ -98,8 +98,10 @@ export default function About() {
         </p>
       </section>
 
-      {/* Creative principles (§1.02) — a numbered editorial list. */}
-      <section className="abt-principles">
+      {/* Creative principles (§1.02) — a numbered editorial list, with a
+          faint §5.04 hand-drawn object filling the empty right column. */}
+      <section className="abt-principles gfx-disrupt">
+        <span className="gfx-disrupt__mark abt-principles__mark" aria-hidden="true" />
         <span className="caption-label abt-eyebrow" data-reveal>
           Creative principles
         </span>
