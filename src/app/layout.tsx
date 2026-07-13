@@ -20,6 +20,24 @@ const siteUrl =
 const description =
   "Angry Tiger is an independent Bollywood production house making feature films, web series and vertical series. Don't follow the formula. Independent since 2026.";
 
+// Organization structured data — makes the house eligible for a Google
+// knowledge panel and ties the brand to its social profiles. Always the
+// canonical production domain, not a preview URL.
+const orgJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Angry Tiger",
+  url: "https://angrytiger.in",
+  logo: "https://angrytiger.in/logos/at-brand-symbol-red.png",
+  description,
+  foundingDate: "2026",
+  sameAs: [
+    "https://instagram.com/angrytigerstudios",
+    "https://youtube.com/@angrytigerstudios",
+    "https://x.com/AngryTigerX",
+  ],
+};
+
 // Tints browser chrome where supported (Safari's tab bar, Android Chrome's
 // URL bar) so the transparent favicon sits on Jet Black, not white.
 export const viewport: Viewport = {
@@ -65,6 +83,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${bebasNeue.variable} ${inter.variable} ${homemadeApple.variable}`}
     >
       <body>
+        <script
+          type="application/ld+json"
+          // Static, trusted JSON we control — safe to inline.
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
+        />
         {/* Keyboard/screen-reader users can skip the nav straight to the
             page's <main id="main-content">. Visually hidden until focused. */}
         <a href="#main-content" className="skip-link">

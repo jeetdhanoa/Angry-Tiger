@@ -3399,7 +3399,8 @@ select.input-dark option {
   width: clamp(64px, 14%, 128px);
   height: 100%;
   pointer-events: none;
-  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.35));
+  /* No drop shadow — the brand's Common Errors page (2.08) forbids shadows on
+     its marks; the red bar sits flat on the B&W image by design. */
 }
 .intervention__bar--left {
   justify-self: start;
@@ -3427,7 +3428,8 @@ select.input-dark option {
   justify-items: end;
 }
 .intervention__overlay .illustration {
-  filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.45));
+  /* No drop shadow (brand forbids shadows on marks) — the red object reads
+     against the desaturated photo on its own. */
 }
 
 /* --- 5.01/5.02 Composition + Disruption: oversized grid-breaking mark --- */
