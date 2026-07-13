@@ -217,7 +217,7 @@ export default function Contact() {
             card, anchored to the bottom-right of the contact section, so it
             fills existing whitespace instead of adding a block. */}
         <div className="contact-chair" data-reveal>
-          <Illustration name="chair-dining" width={84} />
+          <Illustration name="chair-dining" width={124} />
         </div>
         </div>
       </section>

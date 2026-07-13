@@ -197,7 +197,7 @@ export default function Production() {
           {/* §5.04 AT Chair 2 — sits in the dead space at the bottom of this
               column (the form opposite is much taller), anchored bottom-left. */}
           <div className="prod-chair" data-reveal>
-            <Illustration name="chair-office" width={110} />
+            <Illustration name="chair-office" width={158} />
           </div>
         </div>
 

@@ -25,7 +25,7 @@ export default function FormatBlock({
             {heading}
           </h1>
         ) : (
-          <h2 className="display" data-parallax-rel="0.08" data-letter-hover>
+          <h2 className="display" data-letter-hover>
             {heading}
           </h2>
         )}

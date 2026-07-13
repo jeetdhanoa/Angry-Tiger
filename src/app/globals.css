@@ -2579,6 +2579,8 @@ button {
 .contact-chair {
   margin-top: auto;
   padding-top: 48px;
+  /* nudged in from the right edge so it doesn't hug the page side */
+  padding-right: clamp(0px, 5vw, 72px);
   display: flex;
   justify-content: flex-end;
 }
@@ -2724,11 +2726,14 @@ button {
   }
 }
 
-@media (max-width: 379px) {
-  /* Keep the outlined poster line inside very small screens */
+@media (max-width: 719px) {
+  /* On phones the outlined poster line can't stay a single nowrap line — a
+     long title like "Vertical series." runs off the right edge and gets
+     clipped. Let it wrap and scale down so the whole title shows. */
   .projects-hero h1,
   .format-stack h2 {
-    font-size: clamp(56px, 21vw, 80px);
+    font-size: clamp(52px, 15vw, 96px);
+    white-space: normal;
   }
 }
 
@@ -3588,25 +3593,6 @@ select.input-dark option {
 .prod-still img {
   display: block;
   object-fit: cover;
-  /* Slow filmic push-in on hover — a production house's stills should feel
-     like they're breathing, not static. Long + gentle, on the brand's cut
-     ease (no spring). */
-  transition: transform 1200ms var(--ease-cut);
-}
-
-.zoomable:hover .prod-still img,
-.zoomable:focus-visible .prod-still img {
-  transform: scale(1.03);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .prod-still img {
-    transition: none;
-  }
-  .zoomable:hover .prod-still img,
-  .zoomable:focus-visible .prod-still img {
-    transform: none;
-  }
 }
 
 /* Click-to-enlarge — wraps every photo on the site. It's a <button> (was a
@@ -3726,9 +3712,22 @@ select.input-dark option {
   justify-content: space-between;
   align-items: baseline;
   gap: 8px 32px;
-  padding: 22px 0;
+  /* Full-bleed padding + negative margin so the red hover fill runs edge to
+     edge, matching the home "Coming soon" rows. */
+  padding: 22px clamp(20px, 4vw, 40px);
+  margin: 0 calc(-1 * clamp(20px, 4vw, 40px));
   border-top: 1px solid var(--hairline);
   text-decoration: none;
+  transition: background var(--duration-fast) var(--ease-cut);
+}
+
+/* Whole row goes red on hover — the same move as the Coming soon section. */
+.prod-dept:hover {
+  background: var(--at-red);
+}
+.prod-dept:hover .prod-dept__name,
+.prod-dept:hover .prod-dept__status {
+  color: var(--at-black);
 }
 
 /* §5.04 AT Chair 2 — fills the dead space at the bottom of the join section's
@@ -3740,6 +3739,8 @@ select.input-dark option {
 }
 .prod-chair {
   margin-top: auto;
+  /* nudged in from the left edge so it doesn't hug the page side */
+  padding-left: clamp(0px, 5vw, 72px);
   display: flex;
   justify-content: flex-start;
 }
@@ -3765,16 +3766,13 @@ select.input-dark option {
   transition: color var(--duration-fast) var(--ease-cut);
 }
 
-.prod-dept:hover .prod-dept__name {
-  color: var(--at-red);
-}
-
 .prod-dept__status {
   font-family: var(--font-display);
   font-size: 19px;
   letter-spacing: var(--tracking-display);
   text-transform: uppercase;
   color: var(--text-muted);
+  transition: color var(--duration-fast) var(--ease-cut);
 }
 
 .prod-join {
