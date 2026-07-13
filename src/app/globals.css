@@ -2533,24 +2533,24 @@ button {
 }
 
 .contact-body {
-  flex: 1;
-  padding: 0 clamp(20px, 4vw, 40px) 96px;
+  padding: 0 clamp(20px, 4vw, 40px) 44px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
   gap: 72px;
   align-items: start;
 }
 
-/* §5.04 — full-opacity red dining chair, sized to sit in the gap between the
-   contact box and the footer's newsletter line. The contact-body already
-   carries 96px below it and the footer 56px above "First to know"; the chair
-   drops into that whitespace with just a small margin, so it fills the gap
-   rather than adding a new block. */
+/* §5.04 — full-opacity red dining chair in the gap between the contact box and
+   the footer. This section (not the contact box) carries flex:1, so on tall
+   screens the extra height grows BELOW the chair, keeping it tucked under the
+   contact box with a consistent small gap instead of being shoved down onto
+   the "First to know" line. Right-aligned. */
 .contact-chair {
+  flex: 1;
   display: flex;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-end;
   padding: 0 clamp(20px, 4vw, 40px);
-  margin-top: -40px;
 }
 
 .contact-info {
@@ -3701,14 +3701,15 @@ select.input-dark option {
   text-decoration: none;
 }
 
-/* §5.04 AT Chair 2 (office chair) — full-opacity red, left-aligned, sized to
-   sit in the gap above the footer's newsletter line (same treatment as the
-   contact chair). */
+/* §5.04 AT Chair 2 (office chair) — full-opacity red, left-aligned, same
+   gap-filling treatment as the contact chair (flex:1 grows below the chair so
+   it stays tucked under the join box, not shoved onto "First to know"). */
 .prod-chair {
+  flex: 1;
   display: flex;
+  align-items: flex-start;
   justify-content: flex-start;
   padding: 0 clamp(20px, 4vw, 40px);
-  margin-top: -40px;
 }
 
 .prod-dept:last-child {
