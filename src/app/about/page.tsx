@@ -120,30 +120,18 @@ export default function About() {
         </div>
       </section>
 
-      {/* From the founder — the declaration behind the house, set as a title
-          card and signed by hand (the script face's designated job: signature
-          sign-offs, §4.04). The Extended Monogram — the tiger advancing
-          between the A and T — walks into the statement from the right;
-          the mark is the meaning. */}
-      <section className="abt-quote">
-        <div className="abt-quote__text" data-seq>
-          <span className="caption-label abt-eyebrow">From the founder</span>
-          <h2 className="display abt-quote__line">
-            <span className="abt-hero__line">We&apos;re not here to take part.</span>
-            <span className="abt-hero__line abt-hero__line--red">
-              We&apos;re here to take over.
-            </span>
-          </h2>
-          <div className="abt-quote__sig">
-            <span className="script abt-quote__name">Jeet Dhanoa</span>
-            <span className="abt-quote__role">Founder · Angry Tiger</span>
-          </div>
-        </div>
+      {/* Founder's line — the one voice on the site that isn't the brand's.
+          The Extended Monogram (the tiger advancing between the A and T)
+          sits in the bottom-right corner like a printer's mark. */}
+      <section className="abt-quote" data-reveal>
+        <p className="script abt-quote__line">
+          &ldquo;We&apos;re not here to take part, we&apos;re here to take over.&rdquo;
+        </p>
+        <span className="caption-label abt-quote__attr">Jeet Dhanoa, Founder</span>
         <img
           src="/logos/at-extended-monogram-white.svg"
           alt=""
           className="abt-quote__monogram"
-          data-reveal
         />
       </section>
 
