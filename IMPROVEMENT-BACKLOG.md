@@ -151,6 +151,53 @@ don't paint-advance headless).
 - All reduced-motion guarded (engine early-returns → nothing hidden; CSS
   media queries disable the keyframes/transitions).
 
+**Phase 6 shipped (2026-07-13) — new surface area + engineering cleanups.**
+Owner-scoped to §4 (brand arsenal), §5 (JobPosting — see decision), §6 (eng
+cleanups). Note: the §6 *performance* list (Inter→woff2, next/image,
+middleware short-circuit, Auth/Cart provider scoping) was already done in
+Phases 1 & 3. What landed here:
+- **ESLint** (`eslint-config-next`, pinned to 15.x; ESLint 8 because 9's flat
+  config hits a circular-ref bug with the Next config) + `typecheck` + `test`
+  scripts. Fixed the 6 real lint errors it surfaced; lint is clean.
+- **Branded error boundaries**: `app/error.tsx` (route-level, "That take
+  didn't roll" + retry) and `app/global-error.tsx` (self-contained root-layout
+  catch, "The reel jammed"). Skipped `loading.tsx` (static site, no suspends).
+- **Admin defense-in-depth**: middleware redirects `/admin/*` to home when
+  there's no session cookie (RLS + is_admin() are still the real gate).
+- **Consolidations**: `rupees`→`lib/format` (admin bundles stop pulling the
+  cart); `EMAIL_RE`/`validEmail`→`lib/validation` (client+server share one
+  rule); `db`/`captchaOk`→`lib/server/form-defense` (were copy-pasted across
+  both API routes); `AccountShell`+`AdminShell`→one `GateShell` (were ~90%
+  identical).
+- **Deleted the dead design token files** (colors/spacing/radius/shadows/
+  typography/index — imported by nothing, mirrors of CSS that could drift).
+  Kept motion/graphics/icons (actually consumed).
+- **Vitest + 13 unit tests**: rate-limit sliding window (fake timers),
+  validEmail, rupees grouping, legacySlug (extracted the pure piece of the
+  DB-coupled cart merge to test it).
+- **Organization JSON-LD** in the root layout (knowledge-panel eligibility).
+- Removed the two forbidden **drop-shadow** filters on the Intervention device.
+- **Brand arsenal**: one §5.04 illustration (faint umbrella) deployed into the
+  About-principles empty column, matching the accepted ghost-mark device.
+
+**Held / deferred from Phase 6 (with reasons):**
+- **JobPosting structured data — NOT added.** The /production rows are
+  deliberately open calls, not real listings; Google's JobPosting policy needs
+  real dated postings, and marking generic ones risks a site-wide manual
+  action. Add when there are real openings.
+- **Rest of the brand arsenal** (Intervention over a dedicated B&W photo, the
+  extended monogram, more illustrations on Films/TV) — held for the owner to
+  look at the one shipped instance on the live deploy first. The aesthetic
+  can't be verified here (headless screenshots come back black on scrolled
+  sections), and this is subjective territory (contrast + grain were both
+  reverted). One reversible instance beats a blind batch.
+- **`useProtectedSubmit` hook** — the 5 forms differ enough (Nav auth is
+  nothing like the honeypot submissions forms) that it's a weak dedup, and
+  re-plumbing verified-working live forms risks regressions unverifiable here.
+- **Env-flag the `.full.tsx` parking** — only benefits parked (non-launching)
+  pages; per-page metadata handling makes it fiddlier than the rename dance is
+  worth now.
+
 ---
 
 ## Quick Wins (under 30 minutes each)
