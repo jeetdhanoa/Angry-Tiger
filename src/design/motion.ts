@@ -32,10 +32,17 @@ export const disabledOpacity = 0.4;
  *  is the fail-safe — anything still unrevealed by then is shown regardless,
  *  so content is never stranded invisible if geometry/observer misbehaves. */
 export const reveal = {
-  distancePx: 26,
-  transitionMs: 820,
-  staggerMs: 110,
+  // Bigger rise + a much larger gap between siblings so the sequence actually
+  // reads as beats. At 110ms/820ms the children overlapped ~87% and looked
+  // simultaneous; 210ms stagger means each starts when the previous is ~23%
+  // in, so you see them arrive one at a time.
+  distancePx: 48,
+  transitionMs: 900,
+  staggerMs: 210,
   ease: easeCinematic,
+  // The net only starts groups that never fired; it returns early for any
+  // group already revealing, so it never truncates an in-progress cascade —
+  // 2s stays the right fail-safe window.
   safetyMs: 2000,
 } as const;
 
