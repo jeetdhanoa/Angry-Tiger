@@ -1,11 +1,15 @@
 /* Angry Tiger — motion layer.
    Brand spec: hard cuts and quick fades (120–200ms, --ease-cut). No bounces, no springs.
-   - initReveals: sections quick-fade up on viewport entry; batches cascade 70ms apart.
+   - initReveals: sections quick-fade up on viewport entry; batches cascade apart.
    - initParallax: [data-parallax] elements drift on scroll (poster-crop clipping is intended).
-   - initLetterHover: [data-letter-hover] text lifts letter by letter, cascading 24ms apart.
-   All respect prefers-reduced-motion. */
+   - initLetterHover: [data-letter-hover] text lifts letter by letter, cascading apart.
+   All respect prefers-reduced-motion.
 
-const EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
+   Timings/easing come from the shared design tokens (src/design/motion.ts),
+   so CSS custom properties and this engine can't drift apart. */
+
+import { easeCut, reveal, letterHover } from "@/design/motion";
+
 const reduced = () =>
   window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -40,22 +44,23 @@ export function initReveals() {
           el.style.transform = "none";
           setTimeout(() => {
             el.style.willChange = "auto";
-          }, 260);
-        }, i * 70 + extra);
+          }, reveal.transitionMs + 80);
+        }, i * reveal.staggerMs + extra);
       });
     },
     { threshold: 0.06 }
   );
 
+  const ms = reveal.transitionMs;
   const prep = (el: HTMLElement) => {
     if (prepped.has(el)) return;
     prepped.add(el);
     const existing = el.style.transition;
     el.style.opacity = "0";
-    el.style.transform = "translateY(14px)";
+    el.style.transform = "translateY(" + reveal.distancePx + "px)";
     el.style.transition =
       (existing ? existing + ", " : "") +
-      "opacity 180ms var(--ease-cut, " + EASE + "), transform 180ms var(--ease-cut, " + EASE + ")";
+      "opacity " + ms + "ms var(--ease-cut, " + easeCut + "), transform " + ms + "ms var(--ease-cut, " + easeCut + ")";
     el.style.willChange = "opacity, transform";
     io.observe(el);
   };
@@ -231,8 +236,6 @@ export function initLetterHover() {
   letterHoverStarted = true;
   if (reduced()) return;
 
-  const EASE_SPRING = "cubic-bezier(0.34, 1.4, 0.5, 1)";
-
   const split = (host: LhHost) => {
     if (host._lhDone) return;
     host._lhDone = true;
@@ -265,8 +268,11 @@ export function initLetterHover() {
               s.setAttribute("data-lh", "1");
               s.textContent = ch;
               s.style.display = "inline-block";
-              s.style.transition = "transform 220ms " + EASE_SPRING;
-              s.style.willChange = "transform";
+              // Brand's hard-cut ease, not the old overshoot spring.
+              s.style.transition = "transform " + letterHover.transitionMs + "ms " + letterHover.ease;
+              // will-change is set only while hovering (see set()), not
+              // permanently — otherwise every letter on the page keeps a
+              // compositor layer alive for a hover that may never happen.
               s._i = spans.length;
               spans.push(s);
               word.appendChild(s);
@@ -285,11 +291,21 @@ export function initLetterHover() {
     recur(host);
     if (!spans.length) return;
     const n = spans.length;
+    let clearTimer: ReturnType<typeof setTimeout> | undefined;
     const set = (hover: boolean) => {
+      if (clearTimer) clearTimeout(clearTimer);
+      if (hover) spans.forEach((s) => (s.style.willChange = "transform"));
       spans.forEach((s) => {
-        s.style.transitionDelay = (hover ? s._i! : n - 1 - s._i!) * 24 + "ms";
+        s.style.transitionDelay = (hover ? s._i! : n - 1 - s._i!) * letterHover.cascadeMs + "ms";
         s.style.transform = hover ? "translateY(-3px) scale(1.08)" : "none";
       });
+      // Drop the compositor layers once the cascade finishes settling back.
+      if (!hover) {
+        const settle = letterHover.transitionMs + (n - 1) * letterHover.cascadeMs + 40;
+        clearTimer = setTimeout(() => {
+          spans.forEach((s) => (s.style.willChange = "auto"));
+        }, settle);
+      }
     };
     host.addEventListener("mouseenter", () => set(true));
     host.addEventListener("mouseleave", () => set(false));

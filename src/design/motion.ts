@@ -26,10 +26,12 @@ export const reveal = {
   staggerMs: 70,
 } as const;
 
-/** Letter-hover cascade (nav links, headline hovers). */
+/** Letter-hover cascade (nav links, headline hovers). Eases on the brand's
+ *  hard-cut curve — the old value overshot (a spring), which the brand's own
+ *  motion rule forbids ("no bounces, no springs"). */
 export const letterHover = {
   cascadeMs: 24,
-  easeSpring: "cubic-bezier(0.34, 1.4, 0.5, 1)",
+  ease: easeCut,
   transitionMs: 220,
 } as const;
 

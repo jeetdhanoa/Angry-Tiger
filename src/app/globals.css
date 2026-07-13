@@ -3458,11 +3458,32 @@ select.input-dark option {
      inline position:absolute/inset:0), so the aspect-ratio that used to
      live on the img now has to live on its container instead. */
   aspect-ratio: 16 / 9;
+  /* Clip the slow push-in on hover. */
+  overflow: hidden;
 }
 
 .prod-still img {
   display: block;
   object-fit: cover;
+  /* Slow filmic push-in on hover — a production house's stills should feel
+     like they're breathing, not static. Long + gentle, on the brand's cut
+     ease (no spring). */
+  transition: transform 1200ms var(--ease-cut);
+}
+
+.zoomable:hover .prod-still img,
+.zoomable:focus-visible .prod-still img {
+  transform: scale(1.03);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prod-still img {
+    transition: none;
+  }
+  .zoomable:hover .prod-still img,
+  .zoomable:focus-visible .prod-still img {
+    transform: none;
+  }
 }
 
 /* Click-to-enlarge — wraps every photo on the site. It's a <button> (was a
@@ -3502,6 +3523,8 @@ select.input-dark option {
   padding: clamp(20px, 5vw, 64px);
   background: rgba(0, 0, 0, 0.92);
   cursor: zoom-out;
+  /* Mounts on open — quick backdrop fade so it doesn't just pop. */
+  animation: at-lightbox-in var(--duration-base) var(--ease-cut) both;
 }
 
 .lightbox__img {
@@ -3510,6 +3533,35 @@ select.input-dark option {
   max-height: 88vh;
   width: auto;
   height: auto;
+  /* The image settles in a touch after the backdrop. */
+  animation: at-lightbox-img-in 320ms var(--ease-cut) 40ms both;
+}
+
+@keyframes at-lightbox-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes at-lightbox-img-in {
+  from {
+    opacity: 0;
+    transform: scale(0.965);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox,
+  .lightbox__img {
+    animation: none;
+  }
 }
 
 .lightbox__close {

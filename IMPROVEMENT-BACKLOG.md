@@ -88,6 +88,35 @@ bundle-splitting or font optimization.
   169–172 kB for `/account/*` and `/admin/*` — a ~55–60 kB difference,
   exactly matching the Supabase chunk now loading only where it's used.
 
+**Phase 4 shipped (2026-07-13) — motion, the correctness/brand-aligned
+half.** The audit's motion section splits into "fix what's wrong/off-brand"
+(shipped) and "add cinematic flourish" (held for sign-off — see below), the
+split drawn at the brand's own documented spec: *hard cuts and quick fades,
+120–200ms, no springs*. Verified in the browser (computed easing/will-change,
+lightbox animation on open, splash render states).
+- **Tokens are no longer decorative**: `lib/motion.ts` now imports easing +
+  reveal + letter-hover timings from `src/design/motion.ts` instead of
+  hardcoding a stray Material-Design curve. One source of truth for CSS and
+  the JS engine.
+- **Letter-hover spring killed**: was `cubic-bezier(0.34,1.4,0.5,1)` (an
+  overshoot — a spring, which the brand's own rule forbids); now the brand's
+  hard-cut ease. Verified: the 45 nav letter spans compute
+  `cubic-bezier(0.65,0,0.35,1)`, no overshoot.
+- **will-change hygiene**: letter spans no longer each hold a permanent
+  compositor layer (~191 promoted elements on Home). `will-change:transform`
+  is now set on hover and cleared after the retract settles. Verified the
+  full at-rest → hover → leave → cleared lifecycle.
+- **Splash returning-visitor flash fixed**: starts in `done` so the SSR HTML
+  and first client render carry no splash at all — a returning visitor never
+  gets a frame of it (was rendered-by-default and flashed away in an effect).
+  Only a genuine first-of-session visitor flips it on post-mount, over the
+  already-black page. Honors `prefers-reduced-motion` (skips). Verified: no
+  `.splash` node for returning visitors.
+- **Lightbox open animation**: quick backdrop fade (200ms) + image settle-in
+  (320ms, slight scale), reduced-motion guarded. Was a hard pop.
+- **Production/About still hover**: slow filmic scale push-in (1.03 over
+  1200ms on the brand ease), `overflow:hidden` clip, reduced-motion guarded.
+
 ---
 
 ## Quick Wins (under 30 minutes each)
@@ -115,18 +144,21 @@ bundle-splitting or font optimization.
 - **Organization JSON-LD** in root layout (canonicals shipped in Phase 1)
 - **Rewrite the five About principles** — the one AI-sounding block on the site
 - Home body: kill "audiences of every demographic"
-- **Motion foundation**: wire `design/motion.ts` tokens into `lib/motion.ts`; kill the letter-hover spring (brand says no springs); add entrance easing (`cubic-bezier(0.22,1,0.36,1)`, ~800ms); child stagger via `data-reveal-seq`; fix the post-hydration flicker (hide-before-paint via `data-js` stamp)
-- **Film-frame clip-path wipes** on production stills (letterbox/slate wipe instead of fade)
-- Lightbox open/close animation + slow filmic push-in hover on stills
-- Splash: skippable on input, reduced-motion skip, fix returning-visitor flash (read sessionStorage in state initializer)
+- **Motion — cinematic additions, HELD FOR OWNER SIGN-OFF (Phase 4 decision).** These conflict with the brand's own documented motion spec ("hard cuts and quick fades, 120–200ms, no springs"), so they weren't shipped unilaterally — the owner reverted the last taste-driven change (contrast) and this is squarely a taste call:
+  - Lengthen entrance reveals to a ~800ms decelerating tail (`cubic-bezier(0.22,1,0.36,1)`) — directly contradicts the 120–200ms spec. Decide whether the brand spec bends for entrances.
+  - `data-reveal-seq` child stagger inside sections (eyebrow→headline→lede→CTA cascade). Additive, but **the reveal system is unverifiable in this environment** (zero-height viewport, throttled rAF/IntersectionObserver) and the reviewer already saw "content stuck invisible" once — risky to change blind. Do with a real device in the loop.
+  - **Film-frame clip-path wipes** on production stills (letterbox/slate wipe instead of fade) — same scroll-driven unverifiability.
+  - **View Transitions crossfade** between pages — needs an experimental Next flag that intercepts core navigation; unverifiable here, so deferred to do on the live deploy where it can be checked. A hard cut is the brand default and already the graceful-degradation baseline.
+  - Reduce letter-hover deployment from ~40 sites to nav + home rows (subjective — "a signature everywhere is a tic").
+  - Pre-paint FOUC fix for the first-paint reveal flicker (`data-js` stamp, hide-before-paint) — same "could strand content invisible if JS fails, can't see it here" risk.
+- **Splash: skippable on any input** (click/key dismisses early) — small, do anytime.
 - Branded `global-error.tsx` (the 404 proves the voice exists)
-- Remove permanent `will-change` from letter spans (191 promoted layers measured on home); debounce the whole-body MutationObservers
+- Debounce the whole-body MutationObservers (they re-query the DOM on every keystroke in the search field)
 - Admin defense-in-depth: middleware redirect for `/admin/*` without a session
 - Rate-limit before parsing the 4MB multipart body in `/api/careers`
 
 ## Future Enhancements (after launch)
 
-- View Transitions API page cuts (200ms crossfade; degrades gracefully)
 - Consolidations: `GateShell` (AccountShell+AdminShell), `useProtectedSubmit()`, `lib/server/form-defense.ts`, `formatDate()`, `rupees()` → `lib/format.ts`
 - Replace the `.full.tsx` parking pattern with env-flag switches
 - Wire or delete the unreferenced `src/design/*.ts` token files
