@@ -398,13 +398,19 @@ export function initLetterHover() {
     recur(host);
     if (!spans.length) return;
     const n = spans.length;
+    // Per-element lift override (small nav type wants a gentler rise than big
+    // headline type); falls back to the shared token default.
+    const riseAttr = host.getAttribute("data-lh-rise");
+    const scaleAttr = host.getAttribute("data-lh-scale");
+    const rise = riseAttr != null ? parseFloat(riseAttr) : letterHover.risePx;
+    const scale = scaleAttr != null ? parseFloat(scaleAttr) : letterHover.scale;
     let clearTimer: ReturnType<typeof setTimeout> | undefined;
     const set = (hover: boolean) => {
       if (clearTimer) clearTimeout(clearTimer);
       if (hover) spans.forEach((s) => (s.style.willChange = "transform"));
       spans.forEach((s) => {
         s.style.transitionDelay = (hover ? s._i! : n - 1 - s._i!) * letterHover.cascadeMs + "ms";
-        s.style.transform = hover ? "translateY(-3px) scale(1.08)" : "none";
+        s.style.transform = hover ? "translateY(" + rise + "px) scale(" + scale + ")" : "none";
       });
       // Drop the compositor layers once the cascade finishes settling back.
       if (!hover) {

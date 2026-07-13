@@ -176,6 +176,9 @@ export default function Nav() {
                 key={link.key}
                 href={link.href}
                 className={`nav__link${isActive(link.href) ? " nav__link--active" : ""}`}
+                data-letter-hover="1"
+                data-lh-rise="-2"
+                data-lh-scale="1"
               >
                 {link.label}
               </Link>

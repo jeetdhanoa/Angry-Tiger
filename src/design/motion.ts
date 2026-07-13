@@ -62,11 +62,15 @@ export const routeTransition = {
 } as const;
 
 /** Letter-hover cascade (nav links, headline hovers). An interaction, so it
- *  stays on the decisive cut ease — no spring. */
+ *  stays on the decisive cut ease — no spring. `risePx`/`scale` are the default
+ *  lift; an element can dial it down with data-lh-rise / data-lh-scale (the nav
+ *  uses a gentler rise since its type is small and a full lift reads as jumpy). */
 export const letterHover = {
   cascadeMs: 24,
   ease: easeCut,
   transitionMs: 220,
+  risePx: -3,
+  scale: 1.08,
 } as const;
 
 export const motion = {
