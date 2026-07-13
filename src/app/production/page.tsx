@@ -151,7 +151,7 @@ export default function Production() {
         </span>
         <p className="prod-depts__lede" data-reveal>
           Productions are spinning up, and the house crews for every department.
-          No listings, no gatekeeping. If you're good, we want to know you exist.
+          No listings, no gatekeeping. If you&apos;re good, we want to know you exist.
         </p>
         <div className="prod-depts__list" data-seq>
           {DEPARTMENTS.map((d) => (
@@ -186,7 +186,7 @@ export default function Production() {
           <div className="contact-block">
             <CaptionLabel>Hiring the house?</CaptionLabel>
             <p className="contact-block__body">
-              If you're here to bring us something to shoot instead, that door is on
+              If you&apos;re here to bring us something to shoot instead, that door is on
               the contact page.
             </p>
             <Link href="/contact" className="contact-block__link" data-letter-hover="1">
@@ -279,7 +279,7 @@ export default function Production() {
                 {busy ? "Sending…" : "Send it"}
               </Button>
               <p className="contact-form__note">
-                Every application gets read. If it's a fit, you'll hear from us.
+                Every application gets read. If it&apos;s a fit, you&apos;ll hear from us.
               </p>
               <Turnstile onToken={setCaptcha} />
               {error && (
@@ -292,7 +292,7 @@ export default function Production() {
             <div className="contact-form__sent" role="status">
               <p className="contact-form__sent-title">Received.</p>
               <p className="contact-form__sent-body">
-                Your application is in the house. If it's a fit, you'll hear from
+                Your application is in the house. If it&apos;s a fit, you&apos;ll hear from
                 production@angrytiger.in.
               </p>
             </div>

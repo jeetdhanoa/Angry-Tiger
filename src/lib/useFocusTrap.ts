@@ -58,7 +58,9 @@ export function useFocusTrap<T extends HTMLElement>(
       container.removeEventListener("keydown", onKeyDown);
       previouslyFocused.current?.focus();
     };
-  }, [active]);
+    // initialFocusRef is a ref (stable identity) — listed to satisfy the
+    // exhaustive-deps rule; it never actually causes a re-run.
+  }, [active, initialFocusRef]);
 
   return ref;
 }
