@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Button from "@/components/Button";
-import { rupees } from "@/lib/cart";
+import { rupees } from "@/lib/format";
 import {
   createProduct,
   deleteProduct,

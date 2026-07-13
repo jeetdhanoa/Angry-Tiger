@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
-import { rupees } from "@/lib/cart";
+import { rupees } from "@/lib/format";
 import { listOrders, type Order } from "@/lib/account";
 
 const orderDate = (iso: string) =>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { rupees } from "@/lib/cart";
+import { rupees } from "@/lib/format";
 import {
   listAllOrders,
   listProfiles,

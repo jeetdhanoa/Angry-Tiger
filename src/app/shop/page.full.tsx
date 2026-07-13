@@ -5,7 +5,8 @@ import Footer from "@/components/Footer";
 import Button from "@/components/Button";
 import ImageSlot from "@/components/ImageSlot";
 import MarkerStroke from "@/components/MarkerStroke";
-import { useCart, rupees } from "@/lib/cart";
+import { useCart } from "@/lib/cart";
+import { rupees } from "@/lib/format";
 import { fetchProducts, FALLBACK_PRODUCTS, type Product } from "@/lib/products";
 
 const CATS: [string, string][] = [

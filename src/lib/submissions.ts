@@ -5,6 +5,9 @@
    to Supabase. The forms keep the design's confirmation states. */
 
 import { resetTurnstiles } from "@/components/Turnstile";
+import { validEmail } from "@/lib/validation";
+
+export { validEmail };
 
 export type SubmitResult = {
   ok: boolean;
@@ -22,12 +25,6 @@ export type FormExtras = {
 
 const GENERIC_FAIL =
   "That didn't go through. Try again, or email hello@angrytiger.in.";
-
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-export function validEmail(email: string): boolean {
-  return EMAIL_RE.test(email.trim());
-}
 
 async function post(payload: Record<string, unknown>): Promise<SubmitResult> {
   try {

@@ -65,10 +65,6 @@ function legacySlug(id: string): string | null {
   return m ? (LEGACY_SLUGS[m[1].toLowerCase()] ?? null) : null;
 }
 
-export function rupees(n: number): string {
-  return "₹" + n.toLocaleString("en-IN");
-}
-
 /* ---------- localStorage (guest mode) ---------- */
 
 function readLocal(): CartItem[] {
