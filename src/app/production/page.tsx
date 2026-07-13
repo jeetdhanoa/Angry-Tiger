@@ -194,6 +194,11 @@ export default function Production() {
               Work with the house →
             </Link>
           </div>
+          {/* §5.04 AT Chair 2 — sits in the dead space at the bottom of this
+              column (the form opposite is much taller), anchored bottom-left. */}
+          <div className="prod-chair" data-reveal>
+            <Illustration name="chair-office" width={110} />
+          </div>
         </div>
 
         <div className="contact-form">
@@ -299,13 +304,6 @@ export default function Production() {
             </div>
           )}
         </div>
-      </section>
-
-      {/* §5.04 AT Chair 2 (office chair) — full-opacity red, left-aligned,
-          same height as the contact chair, sitting in the gap above the
-          footer's newsletter signup. */}
-      <section className="prod-chair" data-reveal>
-        <Illustration name="chair-office" width={110} />
       </section>
 
       <Footer />

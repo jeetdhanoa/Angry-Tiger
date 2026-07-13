@@ -2533,24 +2533,31 @@ button {
 }
 
 .contact-body {
-  padding: 0 clamp(20px, 4vw, 40px) 44px;
+  flex: 1;
+  padding: 0 clamp(20px, 4vw, 40px) 96px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
   gap: 72px;
   align-items: start;
 }
 
-/* §5.04 — full-opacity red dining chair in the gap between the contact box and
-   the footer. This section (not the contact box) carries flex:1, so on tall
-   screens the extra height grows BELOW the chair, keeping it tucked under the
-   contact box with a consistent small gap instead of being shoved down onto
-   the "First to know" line. Right-aligned. */
-.contact-chair {
-  flex: 1;
+/* Right column: the bordered form card plus the chair below it. Stretches to
+   the row's full height so the chair can anchor to the section's bottom edge
+   (the info column opposite is the taller one). */
+.contact-formcol {
+  align-self: stretch;
   display: flex;
-  align-items: flex-start;
+  flex-direction: column;
+}
+
+/* §5.04 — pull up a chair. Fills the dead space under the form card,
+   anchored bottom-right, level with the end of the info column. The
+   section's own 96px padding keeps it well clear of the footer. */
+.contact-chair {
+  margin-top: auto;
+  padding-top: 48px;
+  display: flex;
   justify-content: flex-end;
-  padding: 0 clamp(20px, 4vw, 40px);
 }
 
 .contact-info {
@@ -3701,15 +3708,24 @@ select.input-dark option {
   text-decoration: none;
 }
 
-/* §5.04 AT Chair 2 (office chair) — full-opacity red, left-aligned, same
-   gap-filling treatment as the contact chair (flex:1 grows below the chair so
-   it stays tucked under the join box, not shoved onto "First to know"). */
+/* §5.04 AT Chair 2 — fills the dead space at the bottom of the join section's
+   info column (the form opposite is much taller), anchored bottom-left. The
+   column stretches so margin-top:auto can push the chair down level with the
+   form's bottom edge. */
+.prod-join .contact-info {
+  align-self: stretch;
+}
 .prod-chair {
-  flex: 1;
+  margin-top: auto;
   display: flex;
-  align-items: flex-start;
   justify-content: flex-start;
-  padding: 0 clamp(20px, 4vw, 40px);
+}
+/* When the grid stacks to one column the chair would land mid-page between
+   the info blocks and the form — hide it there. */
+@media (max-width: 949px) {
+  .prod-chair {
+    display: none;
+  }
 }
 
 .prod-dept:last-child {

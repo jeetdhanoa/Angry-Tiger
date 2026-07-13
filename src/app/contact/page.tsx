@@ -138,6 +138,7 @@ export default function Contact() {
           </div>
         </div>
 
+        <div className="contact-formcol">
         <div className="contact-form">
           {!sent ? (
             <form className="contact-form__fields" onSubmit={send}>
@@ -212,12 +213,13 @@ export default function Contact() {
             </div>
           )}
         </div>
-      </section>
-
-      {/* §5.04 — pull up a chair. Full-opacity red, sized to sit in the gap
-          between the contact box and the footer's newsletter signup. */}
-      <section className="contact-chair" data-reveal>
-        <Illustration name="chair-dining" width={84} />
+        {/* §5.04 — pull up a chair. Sits in the dead space under the form
+            card, anchored to the bottom-right of the contact section, so it
+            fills existing whitespace instead of adding a block. */}
+        <div className="contact-chair" data-reveal>
+          <Illustration name="chair-dining" width={84} />
+        </div>
+        </div>
       </section>
 
       <Footer />
