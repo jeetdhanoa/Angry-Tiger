@@ -302,9 +302,10 @@ export default function Production() {
       </section>
 
       {/* §5.04 AT Chair 2 (office chair) — full-opacity red, left-aligned,
-          above the footer's newsletter signup. */}
+          same height as the contact chair, sitting in the gap above the
+          footer's newsletter signup. */}
       <section className="prod-chair" data-reveal>
-        <Illustration name="chair-office" width={220} />
+        <Illustration name="chair-office" width={110} />
       </section>
 
       <Footer />

@@ -2541,12 +2541,16 @@ button {
   align-items: start;
 }
 
-/* §5.04 — full-opacity red dining chair, between the contact box and the
-   footer's newsletter signup. */
+/* §5.04 — full-opacity red dining chair, sized to sit in the gap between the
+   contact box and the footer's newsletter line. The contact-body already
+   carries 96px below it and the footer 56px above "First to know"; the chair
+   drops into that whitespace with just a small margin, so it fills the gap
+   rather than adding a new block. */
 .contact-chair {
   display: flex;
   justify-content: center;
-  padding: 0 clamp(20px, 4vw, 40px) 88px;
+  padding: 0 clamp(20px, 4vw, 40px);
+  margin-top: -40px;
 }
 
 .contact-info {
@@ -3697,12 +3701,14 @@ select.input-dark option {
   text-decoration: none;
 }
 
-/* §5.04 AT Chair 2 (office chair) — full-opacity red, left-aligned, above
-   the footer's newsletter signup. */
+/* §5.04 AT Chair 2 (office chair) — full-opacity red, left-aligned, sized to
+   sit in the gap above the footer's newsletter line (same treatment as the
+   contact chair). */
 .prod-chair {
   display: flex;
   justify-content: flex-start;
-  padding: 0 clamp(20px, 4vw, 40px) 88px;
+  padding: 0 clamp(20px, 4vw, 40px);
+  margin-top: -40px;
 }
 
 .prod-dept:last-child {

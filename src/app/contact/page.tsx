@@ -214,10 +214,10 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* §5.04 — pull up a chair. Full-opacity red, between the contact box
-          and the footer's newsletter signup. */}
+      {/* §5.04 — pull up a chair. Full-opacity red, sized to sit in the gap
+          between the contact box and the footer's newsletter signup. */}
       <section className="contact-chair" data-reveal>
-        <Illustration name="chair-dining" width={220} />
+        <Illustration name="chair-dining" width={84} />
       </section>
 
       <Footer />
