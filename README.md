@@ -22,26 +22,26 @@ npm run dev     # http://localhost:3000
 npm run build   # production build
 ```
 
-## Design system ([src/design/](src/design))
+## Design system
 
 Source of truth: the official **Brand Guidelines** (Shanaya.Studio, July 2026 PDF)
 — not the earlier design-handoff prototypes, which predate it and were
 superseded where the two disagree (see below).
 
-- **[colors.ts](src/design/colors.ts)** — the 3-color brand palette (Signal Red
-  `#C90E0E`, Jet Black `#000000`, White `#F4F1E7`), plus documented UI-only
-  extensions (hover/pressed red, utility greys) the guideline doesn't cover
-- **[typography.ts](src/design/typography.ts)** — Bebas Neue (primary), Inter
-  (secondary + uppercase accent), Homemade Apple (decorative); **-3% letter-spacing**
-  on Bebas Neue and Inter alike, per the guideline (tighter than the site's
-  original tracking — corrected sitewide)
-- **[spacing.ts](src/design/spacing.ts)**, **[radius.ts](src/design/radius.ts)**,
-  **[shadows.ts](src/design/shadows.ts)** — this codebase's own implementation of
-  the guideline's layout *principles* (disciplined grid, square corners,
-  generous negative space); the PDF doesn't specify literal values here
-- **[motion.ts](src/design/motion.ts)** — the hard-cut motion language's existing
-  durations/easings, centralized as the single source `src/lib/motion.ts` and CSS
-  both read from
+The palette, type, spacing, radius and motion values live as **CSS custom
+properties in [globals.css](src/app/globals.css)** (`--at-red #C90E0E`,
+`--at-black #000000`, `--at-white #F4F1E7`; Bebas Neue / Inter / Homemade Apple
+via `next/font/local` in [fonts.ts](src/app/fonts.ts) with -3% tracking on Bebas
+and Inter, Homemade Apple exempt; square corners; the hard-cut + cinematic
+easings). Earlier there were typed `src/design/*.ts` mirrors of these, but they
+weren't imported anywhere and could drift from the CSS, so they were deleted.
+What remains in [src/design/](src/design) is only what's actually consumed at
+runtime:
+
+- **[motion.ts](src/design/motion.ts)** — motion tokens (easings, reveal/frame
+  durations, stagger) that both CSS and the JS engine [lib/motion.ts](src/lib/motion.ts)
+  read from, so they can't drift
+- **[graphics.ts](src/design/graphics.ts)** — the §5 graphic-system asset registry
 - **[icons.ts](src/design/icons.ts)** + **[components/Icon.tsx](src/components/Icon.tsx)**
   — every nav icon as a typed registry + renderer, replacing inline SVGs
 
