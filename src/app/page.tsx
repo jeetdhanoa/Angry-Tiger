@@ -1,8 +1,19 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import Footer from "@/components/Footer";
 import MarkerStroke from "@/components/MarkerStroke";
 import Zoomable from "@/components/Zoomable";
+
+// The homepage's own title — the bare "Angry Tiger" default carried no
+// category, wasting the most valuable disambiguation slot on the site (the
+// phrase collides with unrelated uses). The root layout's "%s" template
+// passes it through unchanged.
+export const metadata: Metadata = {
+  title: "Angry Tiger — Independent Bollywood Production House",
+  openGraph: { title: "Angry Tiger — Independent Bollywood Production House" },
+  twitter: { title: "Angry Tiger — Independent Bollywood Production House" },
+};
 
 export default function Home() {
   return (

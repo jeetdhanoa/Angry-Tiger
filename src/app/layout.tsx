@@ -27,10 +27,17 @@ const orgJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "Angry Tiger",
+  legalName: "Angry Tiger Production House",
   url: "https://angrytiger.in",
   logo: "https://angrytiger.in/logos/at-brand-symbol-red.png",
   description,
   foundingDate: "2026",
+  founder: { "@type": "Person", name: "Jeet Dhanoa" },
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "General",
+    email: "hello@angrytiger.in",
+  },
   sameAs: [
     "https://instagram.com/angrytigerstudios",
     "https://youtube.com/@angrytigerstudios",
@@ -56,11 +63,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "./",
   },
-  // Transparent red tiger symbol (no background). ?v=3 busts stubborn caches
-  // from the earlier red-square version some browsers still hold.
-  icons: {
-    icon: [{ url: "/logos/at-brand-symbol-red.png?v=3", type: "image/png" }],
-  },
+  // Favicon + apple-touch-icon come from src/app/icon.png and
+  // src/app/apple-icon.png (Next's file convention) — square, red tiger on
+  // black. Replaces the old non-square 952x1229 logo used as a favicon.
   openGraph: {
     title: "Angry Tiger",
     description,
