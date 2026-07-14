@@ -40,6 +40,14 @@ const field = (fd: FormData, name: string, max: number) => {
 };
 
 export async function POST(req: NextRequest) {
+  // Rate-limit BEFORE parsing the body. formData() buffers the whole
+  // multipart payload (up to a 4MB CV) into memory, so checking the limit
+  // first means a flooding client never gets us to read that payload at all.
+  const ip = (req.headers.get("x-forwarded-for") ?? "unknown").split(",")[0].trim();
+  if (!rateLimit(`careers:${ip}`, 4)) {
+    return bad("Too many tries. Give it a few minutes.", 429);
+  }
+
   let fd: FormData;
   try {
     fd = await req.formData();
@@ -50,11 +58,6 @@ export async function POST(req: NextRequest) {
   // Honeypot: real visitors never see this field. Pretend success, store nothing.
   if (field(fd, "website", 200)) {
     return NextResponse.json({ ok: true });
-  }
-
-  const ip = (req.headers.get("x-forwarded-for") ?? "unknown").split(",")[0].trim();
-  if (!rateLimit(`careers:${ip}`, 4)) {
-    return bad("Too many tries. Give it a few minutes.", 429);
   }
 
   const kind = field(fd, "kind", 20) as (typeof KINDS)[number];
