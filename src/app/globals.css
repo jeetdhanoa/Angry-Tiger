@@ -1349,6 +1349,18 @@ button {
   }
 }
 
+/* Holds the hero closed while the splash is actually showing (see the
+   blocking script in layout.tsx) — otherwise this animation starts at first
+   paint regardless of the splash, and was ~73% through its 1500ms reveal by
+   the time the splash used to fade away. Absent entirely for returning
+   visitors / reduced-motion / no-JS, so their hero still plays immediately
+   exactly as before. */
+html.at-splash-pending .home-hero__logo {
+  animation: none;
+  opacity: 0;
+  clip-path: inset(50% 0 50% 0);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .home-hero__logo {
     animation: none;

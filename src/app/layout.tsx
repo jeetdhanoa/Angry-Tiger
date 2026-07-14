@@ -81,8 +81,39 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="en"
       className={`${bebasNeue.variable} ${inter.variable} ${homemadeApple.variable}`}
+      // The blocking script below stamps .at-splash-pending on this element
+      // before hydration — the same "no-flash" pattern next-themes uses for
+      // dark mode. React hydrates <html>'s own attributes too, so without
+      // this it logs a (harmless but noisy) mismatch warning every load.
+      suppressHydrationWarning
     >
       <body>
+        {/* Runs synchronously before the hero paints — pure vanilla JS, no
+            React dependency, so it can't be delayed by hydration. Stamps
+            .at-splash-pending on <html> only when Splash.tsx is actually
+            about to show (first-of-session, motion not reduced); globals.css
+            holds the home hero's film-frame reveal closed while that class
+            is present, so the two signature animations run in sequence
+            instead of racing (the hero was ~73% open by the time the splash
+            used to fade away). The 1100ms timeout mirrors Splash.tsx's own
+            "show" phase exactly — keep them in sync if either changes. Fails
+            open: any error here just skips the gate, hero plays immediately
+            as it always has. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){
+  var d=document.documentElement;
+  try{
+    var seen=sessionStorage.getItem('at-splash-seen')==='1';
+    var reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(!seen&&!reduced){
+      d.classList.add('at-splash-pending');
+      setTimeout(function(){d.classList.remove('at-splash-pending');},1100);
+    }
+  }catch(e){d.classList.remove('at-splash-pending');}
+})();`,
+          }}
+        />
         <script
           type="application/ld+json"
           // Static, trusted JSON we control — safe to inline.
