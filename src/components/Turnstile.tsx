@@ -65,6 +65,9 @@ export default function Turnstile({ onToken }: { onToken: (token: string) => voi
       widgetId = window.turnstile.render(ref.current, {
         sitekey: TURNSTILE_SITE_KEY,
         theme: "dark",
+        // Responsive width — fills the container instead of a fixed 300px
+        // iframe that overflowed the auth drawer / form cards on phones.
+        size: "flexible",
         callback: onToken,
         "expired-callback": () => onToken(""),
         "error-callback": () => onToken(""),
@@ -81,5 +84,5 @@ export default function Turnstile({ onToken }: { onToken: (token: string) => voi
   }, [onToken]);
 
   if (!TURNSTILE_SITE_KEY) return null;
-  return <div ref={ref} />;
+  return <div className="turnstile-slot" ref={ref} />;
 }

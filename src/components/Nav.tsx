@@ -8,6 +8,7 @@ import { requestPasswordReset } from "@/lib/account";
 import Turnstile from "@/components/Turnstile";
 import Icon from "@/components/Icon";
 import { useFocusTrap } from "@/lib/useFocusTrap";
+import { useScrollLock } from "@/lib/useScrollLock";
 
 const LINKS = [
   { key: "films", label: "Films", href: "/films" },
@@ -70,6 +71,7 @@ export default function Nav() {
   const searchTrapRef = useFocusTrap<HTMLDivElement>(searchOpen, searchRef);
   const drawerTrapRef = useFocusTrap<HTMLElement>(accountOpen);
   const menuTrapRef = useFocusTrap<HTMLDivElement>(menuOpen);
+  useScrollLock(searchOpen || accountOpen || menuOpen);
 
   const closeAll = useCallback(() => {
     setSearchOpen(false);

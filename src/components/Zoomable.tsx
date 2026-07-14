@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useFocusTrap } from "@/lib/useFocusTrap";
+import { useScrollLock } from "@/lib/useScrollLock";
 
 export default function Zoomable({
   src,
@@ -18,6 +19,10 @@ export default function Zoomable({
 }) {
   const [open, setOpen] = useState(false);
   const dialogRef = useFocusTrap<HTMLDivElement>(open);
+  // Shared counter-based lock (composes with the Nav overlays) instead of
+  // writing document.body.style directly, which could clobber another
+  // overlay's lock.
+  useScrollLock(open);
 
   useEffect(() => {
     if (!open) return;
@@ -25,11 +30,7 @@ export default function Zoomable({
       if (e.key === "Escape") setOpen(false);
     };
     window.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
-    };
+    return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
   return (

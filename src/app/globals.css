@@ -615,6 +615,7 @@ button {
   flex-direction: column;
   padding: 16px clamp(20px, 4vw, 40px) 40px;
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .menu__top {
@@ -684,6 +685,8 @@ button {
   flex-direction: column;
   padding: 32px clamp(20px, 4vw, 40px) 40px;
   color: var(--at-white);
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .search__top {
@@ -790,6 +793,8 @@ button {
   flex-direction: column;
   padding: 24px 28px;
   color: var(--at-white);
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .drawer__head {
@@ -2758,6 +2763,15 @@ html.at-splash-pending .home-hero__logo {
   }
 }
 
+/* Cloudflare Turnstile slot — never let the widget force horizontal
+   overflow inside a narrow container (auth drawer / form card on phones). */
+.turnstile-slot {
+  max-width: 100%;
+}
+.turnstile-slot iframe {
+  max-width: 100%;
+}
+
 /* Inline form feedback (footer signup, waitlist, contact form) */
 .form-error {
   font-family: var(--font-body);
@@ -3659,6 +3673,7 @@ select.input-dark option {
   padding: clamp(20px, 5vw, 64px);
   background: rgba(0, 0, 0, 0.92);
   cursor: zoom-out;
+  overscroll-behavior: contain;
   /* Mounts on open — quick backdrop fade so it doesn't just pop. */
   animation: at-lightbox-in var(--duration-base) var(--ease-cut) both;
 }
