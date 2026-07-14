@@ -249,10 +249,15 @@ button {
 }
 
 /* Bebas Neue eyebrow label, red by default. Bigger and more present than the
-   old Inter caps — the brand-owner's call; only true body copy stays in Inter. */
+   old Inter caps — the brand-owner's call; only true body copy stays in Inter.
+   24px (not 21px) so red-on-black clears WCAG's "large text" line — at 24px
+   normal weight the site's 3.55:1 red/black ratio passes the 3:1 large-text
+   bar, where it fails the 4.5:1 small-text bar below 24px. Every place this
+   class gets a bigger override already clears 24px; this only moves the bare
+   default. */
 .caption-label {
   font-family: var(--font-display);
-  font-size: 21px;
+  font-size: 24px;
   letter-spacing: var(--tracking-display);
   text-transform: uppercase;
   font-weight: 400;
@@ -1038,7 +1043,8 @@ button {
 .account__error {
   font-family: var(--font-body);
   font-size: var(--text-caption);
-  color: var(--at-red-bright);
+  /* Paper, not red — same AA fix as .form-error (3.55:1 -> 15.8:1). */
+  color: var(--at-white);
 }
 
 .account__join {
@@ -1744,7 +1750,9 @@ button {
 
 .abt-principle__n {
   font-family: var(--font-display);
-  font-size: clamp(22px, 3vw, 34px);
+  /* Min raised 22->24px: below 24px this red-on-black number drops out of
+     WCAG's large-text exemption (same fix as .caption-label above). */
+  font-size: clamp(24px, 3vw, 34px);
   line-height: 1;
   color: var(--at-red);
   padding-top: 8px;
@@ -2741,7 +2749,11 @@ button {
 .form-error {
   font-family: var(--font-body);
   font-size: var(--text-caption);
-  color: var(--at-red-bright);
+  /* Paper, not red: red-on-black at 12px is 3.55:1, below AA's 4.5:1 for
+     text this size (WCAG 1.4.3) — the exact failure the brand's "one red"
+     rule can't fix by tinting, since a lighter red would mint a fourth
+     colour. Paper-on-black is 15.8:1 and stays inside the 3-colour system. */
+  color: var(--at-white);
   flex-basis: 100%;
 }
 
@@ -2924,7 +2936,9 @@ button {
 
 .acct-order__total {
   font-family: var(--font-display);
-  font-size: var(--text-h4);
+  /* 24px, not the shared 22px --text-h4 token: red-on-black below 24px fails
+     WCAG AA (see .form-error above); this is a live, signed-in-facing number. */
+  font-size: 24px;
   line-height: 1;
   color: var(--at-red);
 }
