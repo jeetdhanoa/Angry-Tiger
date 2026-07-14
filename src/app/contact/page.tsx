@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
 import { Input, Textarea } from "@/components/Input";
@@ -54,6 +54,13 @@ export default function Contact() {
   const [busy, setBusy] = useState(false);
   const [hp, setHp] = useState("");
   const [captcha, setCaptcha] = useState("");
+  const sentRef = useRef<HTMLDivElement>(null);
+
+  // Move focus to the confirmation once the form is replaced by it, so a
+  // keyboard user isn't left on a submit button that no longer exists.
+  useEffect(() => {
+    if (sent) sentRef.current?.focus();
+  }, [sent]);
 
   const activePath = PATHS.find((p) => p.key === type) ?? PATHS[0];
 
@@ -144,12 +151,13 @@ export default function Contact() {
             <form className="contact-form__fields" onSubmit={send}>
               <div className="field">
                 <span>I&apos;m here to</span>
-                <div className="contact-type-row">
+                <div className="contact-type-row" role="group" aria-label="I'm here to">
                   {PATHS.map((p) => (
                     <button
                       key={p.key}
                       type="button"
                       className={`contact-type${type === p.key ? " contact-type--active" : ""}`}
+                      aria-pressed={type === p.key}
                       onClick={() => setType(p.key)}
                     >
                       {p.key}
@@ -160,6 +168,7 @@ export default function Contact() {
               <Input
                 label="Name"
                 type="text"
+                autoComplete="name"
                 placeholder="Your name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -167,6 +176,7 @@ export default function Contact() {
               <Input
                 label="Email"
                 type="email"
+                autoComplete="email"
                 placeholder="your@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -205,7 +215,7 @@ export default function Contact() {
               )}
             </form>
           ) : (
-            <div className="contact-form__sent" role="status">
+            <div className="contact-form__sent" role="status" tabIndex={-1} ref={sentRef}>
               <p className="contact-form__sent-title">Received.</p>
               <p className="contact-form__sent-body">
                 We read everything. You&apos;ll hear from {activePath.email}.

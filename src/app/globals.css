@@ -217,6 +217,7 @@ body {
 .contact-type--active:focus-visible,
 .account__signin:focus-visible,
 .cart__checkout:focus-visible,
+.home-story__link:focus-visible,
 .skip-link:focus-visible {
   outline-color: var(--at-black);
 }

@@ -243,6 +243,15 @@ export default function Nav() {
             placeholder="Type to search"
             aria-label="Search the site"
           />
+          {/* Announces the result count as the user types — otherwise a
+              screen-reader user gets no feedback that the list changed. */}
+          <p className="visually-hidden" role="status" aria-live="polite">
+            {q.length === 0
+              ? ""
+              : results.length === 0
+                ? "No results."
+                : `${results.length} result${results.length === 1 ? "" : "s"}.`}
+          </p>
           <div className="search__results">
             {results.map((r, i) => (
               <Link key={i} href={r.href} className="search__result">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Footer from "@/components/Footer";
@@ -64,6 +64,12 @@ export default function Production() {
   const [busy, setBusy] = useState(false);
   const [hp, setHp] = useState("");
   const [captcha, setCaptcha] = useState("");
+  const sentRef = useRef<HTMLDivElement>(null);
+
+  // Move focus to the confirmation once it replaces the form.
+  useEffect(() => {
+    if (sent) sentRef.current?.focus();
+  }, [sent]);
 
   const activePath = PATHS.find((p) => p.key === kind) ?? PATHS[0];
 
@@ -206,12 +212,13 @@ export default function Production() {
             <form className="contact-form__fields" onSubmit={send}>
               <div className="field">
                 <span>I want to</span>
-                <div className="contact-type-row">
+                <div className="contact-type-row" role="group" aria-label="I want to">
                   {PATHS.map((p) => (
                     <button
                       key={p.key}
                       type="button"
                       className={`contact-type${kind === p.key ? " contact-type--active" : ""}`}
+                      aria-pressed={kind === p.key}
                       onClick={() => setKind(p.key)}
                     >
                       {p.label}
@@ -222,6 +229,7 @@ export default function Production() {
               <Input
                 label="Name"
                 type="text"
+                autoComplete="name"
                 placeholder="Your name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -229,6 +237,7 @@ export default function Production() {
               <Input
                 label="Email"
                 type="email"
+                autoComplete="email"
                 placeholder="your@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -295,7 +304,7 @@ export default function Production() {
               )}
             </form>
           ) : (
-            <div className="contact-form__sent" role="status">
+            <div className="contact-form__sent" role="status" tabIndex={-1} ref={sentRef}>
               <p className="contact-form__sent-title">Received.</p>
               <p className="contact-form__sent-body">
                 Your application is in the house. If it&apos;s a fit, you&apos;ll hear from

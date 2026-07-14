@@ -39,6 +39,7 @@ export default function Footer() {
           <form className="footer__signup" onSubmit={signUp}>
             <Input
               type="email"
+              autoComplete="email"
               placeholder="your@email.com"
               aria-label="Email address"
               aria-invalid={!!error}

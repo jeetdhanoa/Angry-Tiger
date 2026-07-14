@@ -42,20 +42,42 @@ export default function FormatBlock({
                 <span className="slate-row__code">Slate {s.code}</span>
                 <span className="slate-row__status">Status: In development</span>
               </div>
+              {/* role="img" is what actually makes aria-label announce on a
+                  generic element — without it a screen reader skips these
+                  bars entirely and the classified slate reads as blank. */}
               <span
                 className="redact"
                 style={{ width: s.titleBar }}
+                role="img"
                 aria-label="Title withheld"
               />
               <div className="slate-row__specs">
                 <span>
-                  Genre: <span className="redact--inline" style={{ width: s.genreBar }} />
+                  Genre:{" "}
+                  <span
+                    className="redact--inline"
+                    style={{ width: s.genreBar }}
+                    role="img"
+                    aria-label="withheld"
+                  />
                 </span>
                 <span>
-                  Director: <span className="redact--inline" style={{ width: 84 }} />
+                  Director:{" "}
+                  <span
+                    className="redact--inline"
+                    style={{ width: 84 }}
+                    role="img"
+                    aria-label="withheld"
+                  />
                 </span>
                 <span>
-                  Logline: <span className="redact--inline" style={{ width: 140 }} />
+                  Logline:{" "}
+                  <span
+                    className="redact--inline"
+                    style={{ width: 140 }}
+                    role="img"
+                    aria-label="withheld"
+                  />
                 </span>
               </div>
             </div>
