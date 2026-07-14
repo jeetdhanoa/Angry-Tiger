@@ -1286,14 +1286,13 @@ button {
   display: block;
 }
 
-/* The house tagline — the last word on every page. */
+/* The house tagline — the last word on every page. Handwritten script
+   (Homemade Apple), matching the About hero's "Stay Angry." line. */
 .footer__tagline {
   margin: 56px 0 0;
   text-align: center;
-  font-family: var(--font-display);
-  font-size: 24px;
-  letter-spacing: var(--tracking-display);
-  text-transform: uppercase;
+  font-family: var(--font-script);
+  font-size: 28px;
   color: var(--at-red);
 }
 

@@ -52,7 +52,7 @@ export default function About() {
           <span className="abt-hero__line abt-hero__line--red">Refined through craft.</span>
         </h1>
         {/* The line off the back of the business card — the house tagline. */}
-        <span className="script abt-hero__script">Stay Angry</span>
+        <span className="script abt-hero__script">Stay Angry.</span>
       </section>
 
       {/* On-set proof — a full-bleed still, dropped in above the philosophy.

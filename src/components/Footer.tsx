@@ -144,7 +144,7 @@ export default function Footer() {
           </a>
         </div>
       </div>
-      <p className="footer__tagline">Stay Angry</p>
+      <p className="footer__tagline">Stay Angry.</p>
       <p className="footer__credit">© 2026 Angry Tiger. All Rights Reserved.</p>
     </footer>
   );
