@@ -58,9 +58,9 @@ export default function Home() {
             </span>
           </h2>
           <p>
-            Angry Tiger is a Production House for Feature Films, Web Series and Vertical
-            Series, built for audiences of every demographic who deserve better than more
-            of the same. Independent since 2026.
+            Angry Tiger is a Production House for Feature Films, Television and Vertical
+            Series, built for anyone who deserves better than more of the same.
+            Independent since 2026.
           </p>
           <Link href="/about" className="home-story__link">
             <span data-letter-hover="1">About the house →</span>

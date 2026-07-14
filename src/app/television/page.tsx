@@ -3,7 +3,7 @@ import FormatBlock from "@/components/FormatBlock";
 import Footer from "@/components/Footer";
 
 const description =
-  "Series and web series from Angry Tiger. Our first television slate is in development.";
+  "Television from Angry Tiger — series built to break the pattern. Our first slate is in development.";
 
 export const metadata: Metadata = {
   title: "Television — Angry Tiger",

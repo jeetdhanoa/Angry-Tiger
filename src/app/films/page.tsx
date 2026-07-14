@@ -3,7 +3,7 @@ import FormatBlock from "@/components/FormatBlock";
 import Footer from "@/components/Footer";
 
 const description =
-  "Feature films and short features from Angry Tiger. Our first slate is in development, and new films get announced here first.";
+  "Feature films and short films from Angry Tiger. Our first slate is in development, and new films get announced here first.";
 
 export const metadata: Metadata = {
   title: "Films — Angry Tiger",
@@ -32,8 +32,8 @@ export default function Films() {
         full
       />
       <FormatBlock
-        heading="Short features."
-        lede="Short features made for festivals and our channel. Raw and in development now."
+        heading="Short films."
+        lede="Short films made for festivals and our channel. Raw and in development now."
         slates={SHORTS}
       />
       <Footer />

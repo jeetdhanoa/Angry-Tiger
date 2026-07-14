@@ -6,6 +6,7 @@
    "mine" must still filter by the signed-in user's id explicitly. */
 
 import { createClient } from "@/lib/supabase/client";
+import { houseError } from "@/lib/auth";
 
 export type Profile = {
   id: string;
@@ -83,7 +84,7 @@ export async function updateName(userId: string, name: string): Promise<string |
 
 export async function changePassword(password: string): Promise<string | null> {
   const { error } = await createClient().auth.updateUser({ password });
-  if (error) return error.message;
+  if (error) return houseError(error.message);
   return null;
 }
 
@@ -94,7 +95,7 @@ export async function requestPasswordReset(email: string): Promise<string | null
   const { error } = await createClient().auth.resetPasswordForEmail(email, {
     redirectTo: `${window.location.origin}/reset-password`,
   });
-  if (error) return error.message;
+  if (error) return houseError(error.message);
   return null;
 }
 

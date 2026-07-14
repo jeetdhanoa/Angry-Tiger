@@ -36,6 +36,26 @@ const AuthContext = createContext<AuthValue | null>(null);
 
 const NOT_CONFIGURED = "Sign-in isn't connected yet. Check back soon.";
 
+/* Supabase Auth returns technical, vendor-worded errors ("Invalid login
+   credentials", "User already registered", …). This is the only place the
+   site would otherwise speak in a vendor voice — map the ones users actually
+   hit to the house voice, and fall back to a plain generic for the rest
+   (never surface a raw Supabase string). */
+export function houseError(raw: string): string {
+  const m = raw.toLowerCase();
+  if (m.includes("invalid login")) return "That email and password don't match.";
+  if (m.includes("email not confirmed"))
+    return "Confirm your email first — check your inbox for the link.";
+  if (m.includes("already registered") || m.includes("already been registered"))
+    return "There's already an account on that email. Try signing in.";
+  if (m.includes("password should be")) return "Use at least 6 characters.";
+  if (m.includes("rate limit") || m.includes("too many"))
+    return "Too many tries. Give it a few minutes.";
+  if (m.includes("unable to validate email") || m.includes("invalid email"))
+    return "Enter a real email.";
+  return "That didn't go through. Try again.";
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [supabase, setSupabase] = useState<SupabaseBrowserClient | null>(null);
   const [user, setUser] = useState<User | null>(null);
@@ -77,7 +97,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         password,
         options: { captchaToken },
       });
-      return { error: error?.message ?? null };
+      return { error: error ? houseError(error.message) : null };
     },
     signUp: async (email, password, captchaToken) => {
       if (!supabase) return { error: NOT_CONFIGURED };
@@ -86,7 +106,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         password,
         options: { captchaToken },
       });
-      if (error) return { error: error.message };
+      if (error) return { error: houseError(error.message) };
       // With email confirmation on, there's no session until the link is clicked.
       return { error: null, needsConfirmation: !data.session };
     },
