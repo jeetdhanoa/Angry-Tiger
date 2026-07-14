@@ -307,3 +307,8 @@ Phases 1 & 3. What landed here:
 - **The One-Take Site** (near future) — entire site as one continuous WebGPU camera move; routes are marks
 - **Second-screen premieres** (near future) — timecode-synced companion mode during screenings
 - **The Production OS → public window** (long-term) — internal production tooling with designed public-facing panes
+
+## Opening-sequence direction (Phase 4)
+
+- **THE MATCH — selected concept**: darkness → a match strikes (the sonic logo) → the flame burns a tiger-shaped hole through paper → the beam of the projector ignites → hard cut to the house. One ritual across web, film idents, and the physical matchbox merch. Returning visitors: strike-sound + one-frame flash only.
+- Shortlist held in reserve: The Certificate (premiere/festival mode), Housefull (premiere-night takeover), The Latecomer (usher-torch, campaign film), The Formula Torn (launch-campaign stunt, not a permanent ritual), The Breath (member vault entrance)

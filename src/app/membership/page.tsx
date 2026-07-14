@@ -7,6 +7,7 @@ import ComingSoon from "@/components/ComingSoon";
 export const metadata: Metadata = {
   title: "The Ambush — Coming soon",
   description: "Angry Tiger membership opens alongside our first release.",
+  robots: { index: false, follow: true },
 };
 
 export default function MembershipPage() {

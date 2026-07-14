@@ -6,6 +6,11 @@ import ComingSoon from "@/components/ComingSoon";
 export const metadata: Metadata = {
   title: "The Shop — Coming soon",
   description: "The Angry Tiger shop opens with our first release.",
+  // Parked pages shouldn't compete with real routes for a Google spot — the
+  // sitemap already omits them, but robots.ts only blocks /admin /account
+  // /api, so this page was crawlable and indexable with a "Coming soon"
+  // title until now.
+  robots: { index: false, follow: true },
 };
 
 export default function ShopPage() {

@@ -4,10 +4,14 @@ import Footer from "@/components/Footer";
 import MarkerStroke from "@/components/MarkerStroke";
 import Zoomable from "@/components/Zoomable";
 
+const description =
+  "Built on instinct. Refined through craft. Angry Tiger is an independent Bollywood production house making feature films, television and vertical series.";
+
 export const metadata: Metadata = {
   title: "About — Angry Tiger",
-  description:
-    "Built on instinct. Refined through craft. Angry Tiger is an independent Bollywood production house making feature films, television and vertical series.",
+  description,
+  openGraph: { title: "About — Angry Tiger", description, url: "/about" },
+  twitter: { title: "About — Angry Tiger", description },
 };
 
 // §1.02 of the Brand Guidelines — the five creative principles.

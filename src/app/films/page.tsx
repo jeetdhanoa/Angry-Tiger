@@ -2,10 +2,14 @@ import type { Metadata } from "next";
 import FormatBlock from "@/components/FormatBlock";
 import Footer from "@/components/Footer";
 
+const description =
+  "Feature films and short features from Angry Tiger. Our first slate is in development, and new films get announced here first.";
+
 export const metadata: Metadata = {
   title: "Films — Angry Tiger",
-  description:
-    "Feature films and short features from Angry Tiger. Our first slate is in development, and new films get announced here first.",
+  description,
+  openGraph: { title: "Films — Angry Tiger", description, url: "/films" },
+  twitter: { title: "Films — Angry Tiger", description },
 };
 
 const FEATURES = [

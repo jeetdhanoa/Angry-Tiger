@@ -2,10 +2,14 @@ import type { Metadata } from "next";
 import FormatBlock from "@/components/FormatBlock";
 import Footer from "@/components/Footer";
 
+const description =
+  "Series and web series from Angry Tiger. Our first television slate is in development.";
+
 export const metadata: Metadata = {
   title: "Television — Angry Tiger",
-  description:
-    "Series and web series from Angry Tiger. Our first television slate is in development.",
+  description,
+  openGraph: { title: "Television — Angry Tiger", description, url: "/television" },
+  twitter: { title: "Television — Angry Tiger", description },
 };
 
 const SLATES = [

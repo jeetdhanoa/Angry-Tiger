@@ -2,10 +2,14 @@ import type { Metadata } from "next";
 import FormatBlock from "@/components/FormatBlock";
 import Footer from "@/components/Footer";
 
+const description =
+  "Vertical series from Angry Tiger, made for the way people actually watch. In development now.";
+
 export const metadata: Metadata = {
   title: "Vertical — Angry Tiger",
-  description:
-    "Vertical series from Angry Tiger, made for the way people actually watch. In development now.",
+  description,
+  openGraph: { title: "Vertical — Angry Tiger", description, url: "/vertical" },
+  twitter: { title: "Vertical — Angry Tiger", description },
 };
 
 const SLATES = [

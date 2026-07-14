@@ -6,6 +6,7 @@ import ComingSoon from "@/components/ComingSoon";
 export const metadata: Metadata = {
   title: "Notes — Coming soon",
   description: "Letters, conversations and the Angry Tiger podcast. Coming soon.",
+  robots: { index: false, follow: true },
 };
 
 export default function NotesPage() {
