@@ -108,11 +108,14 @@ export default function Footer() {
             </Link>
           </div>
         </div>
-        <img
-          src="/logos/at-brand-symbol-red.svg"
-          alt="Angry Tiger tiger mark"
-          className="footer__mark"
-        />
+        <div className="footer__center">
+          <img
+            src="/logos/at-brand-symbol-red.svg"
+            alt="Angry Tiger tiger mark"
+            className="footer__mark"
+          />
+          <p className="footer__tagline">Stay Angry.</p>
+        </div>
         <div className="footer__col footer__col--right">
           <span className="footer__col-title">Follow</span>
           <a
@@ -144,7 +147,6 @@ export default function Footer() {
           </a>
         </div>
       </div>
-      <p className="footer__tagline">Stay Angry.</p>
       <p className="footer__credit">© 2026 Angry Tiger. All Rights Reserved.</p>
     </footer>
   );

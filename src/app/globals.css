@@ -1281,15 +1281,25 @@ button {
   color: var(--at-red-bright);
 }
 
+/* Centre column of the footer grid: the tiger mark with the tagline tucked
+   into the space beneath it (the mark is shorter than the link columns
+   either side, so this fills the middle instead of adding a row). */
+.footer__center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
 .footer__mark {
   height: 120px;
   display: block;
 }
 
-/* The house tagline — the last word on every page. Handwritten script
-   (Homemade Apple), matching the About hero's "Stay Angry." line. */
+/* The house tagline — handwritten script (Homemade Apple), matching the
+   About hero's "Stay Angry." line. */
 .footer__tagline {
-  margin: 56px 0 0;
+  margin: 0;
   text-align: center;
   font-family: var(--font-script);
   font-size: 28px;
