@@ -61,6 +61,16 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   // Don't advertise the framework/version in the response headers.
   poweredByHeader: false,
+  images: {
+    // Serve AVIF (then WebP) where supported — the four B&W stills are the
+    // heaviest content on the pages they appear on, and AVIF roughly halves
+    // them again over the default JPEG/WebP.
+    formats: ["image/avif", "image/webp"],
+    // The stills carry a ?v= cache-buster, so every version is a distinct
+    // URL — safe to let the optimizer cache each optimised variant for a
+    // long time instead of the 60s default (a new image = a new ?v=).
+    minimumCacheTTL: 2678400, // 31 days
+  },
   async headers() {
     return [{ source: "/(.*)", headers: securityHeaders }];
   },

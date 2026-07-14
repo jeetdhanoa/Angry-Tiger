@@ -7,6 +7,15 @@ import Zoomable from "@/components/Zoomable";
 export default function Home() {
   return (
     <main className="page" id="main-content">
+      {/* The hero lockup is the LCP element (a plain SVG <img>, not next/image,
+          so it gets no automatic preload). Preload it at high priority so it
+          paints as early as possible; React hoists this <link> into <head>. */}
+      <link
+        rel="preload"
+        as="image"
+        href="/logos/at-primary-lockup-white.svg"
+        fetchPriority="high"
+      />
       <section className="home-hero" data-no-reveal>
         {/* The visible "heading" here is the wordmark graphic below — this
             gives the page a real <h1> for screen readers/SEO without
@@ -21,6 +30,7 @@ export default function Home() {
           data-parallax="0.12"
           src="/logos/at-primary-lockup-white.svg"
           alt="Angry Tiger"
+          fetchPriority="high"
         />
       </section>
 
@@ -32,13 +42,14 @@ export default function Home() {
           revealFrame
         >
           <div className="home-story__photo">
+            {/* Below the full-height hero — lazy, not priority, so the hero
+                lockup owns the LCP/preload budget instead of this still. */}
             <Image
               src="/photos/home-story.jpg?v=7"
               alt="Black and white shot of a camera crew on the back of a tracking truck, three cinema cameras rigged side by side under an umbrella. Watermarked Production Still 09."
               className="home-story__img"
               fill
               sizes="(max-width: 719px) 100vw, 60vw"
-              priority
             />
           </div>
         </Zoomable>
