@@ -1286,8 +1286,19 @@ button {
   display: block;
 }
 
-.footer__credit {
+/* The house tagline — the last word on every page. */
+.footer__tagline {
   margin: 56px 0 0;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 24px;
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+  color: var(--at-red);
+}
+
+.footer__credit {
+  margin: 12px 0 0;
   text-align: center;
   font-size: var(--text-micro);
   letter-spacing: var(--tracking-wide);

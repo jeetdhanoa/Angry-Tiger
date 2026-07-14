@@ -51,10 +51,8 @@ export default function About() {
           <span className="abt-hero__line">Built on instinct.</span>
           <span className="abt-hero__line abt-hero__line--red">Refined through craft.</span>
         </h1>
-        {/* The line off the back of the business card. */}
-        <span className="script abt-hero__script">
-          the path less taken makes better cinema
-        </span>
+        {/* The line off the back of the business card — the house tagline. */}
+        <span className="script abt-hero__script">Stay Angry</span>
       </section>
 
       {/* On-set proof — a full-bleed still, dropped in above the philosophy.
@@ -130,10 +128,10 @@ export default function About() {
       <section className="abt-quote" data-reveal>
         <p className="script abt-quote__line">
           <span className="abt-quote__clause">
-            &ldquo;We didn&apos;t build this house to remake the same film twice,
+            &ldquo;We didn&apos;t start this house to play it safe,
           </span>{" "}
           <span className="abt-quote__clause">
-            we built it to make the one nobody else would.&rdquo;
+            we started it because safe was killing everything worth watching.&rdquo;
           </span>
         </p>
         <span className="caption-label abt-quote__attr">Jeet Dhanoa, Founder</span>
