@@ -452,3 +452,27 @@ create policy "anon can upload cvs" on storage.objects
 -- (run together with the other revokes above):
 -- revoke insert on public.careers from anon, authenticated;
 -- drop policy "anon can upload cvs" on storage.objects;
+
+-- ------------------------------------------------------------
+-- 12. careers admin access — same read/delete pattern as
+--     newsletter/contact/waitlist above (§9), plus a matching read
+--     policy for the CV files themselves. Without this, applications
+--     landed in the table with no way for anyone (including admins)
+--     to see them — RLS default-denies with no policy present.
+-- ------------------------------------------------------------
+drop policy if exists "admin reads careers" on public.careers;
+create policy "admin reads careers" on public.careers
+  for select to authenticated using (public.is_admin());
+drop policy if exists "admin deletes careers" on public.careers;
+create policy "admin deletes careers" on public.careers
+  for delete to authenticated using (public.is_admin());
+grant select, delete on public.careers to authenticated;
+
+-- storage.objects has RLS on by default; the grant is table-wide but the
+-- policy's `bucket_id = 'cvs'` condition keeps this scoped to CVs only —
+-- admins don't get read access to any other bucket through this.
+drop policy if exists "admin reads cvs" on storage.objects;
+create policy "admin reads cvs" on storage.objects
+  for select to authenticated
+  using (bucket_id = 'cvs' and public.is_admin());
+grant select on storage.objects to authenticated;

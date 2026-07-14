@@ -51,6 +51,19 @@ export type ContactRow = {
   story: string;
 };
 
+export type CareerRow = {
+  id: string;
+  created_at: string;
+  kind: "crew" | "cast" | "creative";
+  name: string;
+  email: string;
+  discipline: string;
+  link: string;
+  message: string;
+  cv_path: string | null;
+  cv_name: string | null;
+};
+
 const FAIL = "That didn't go through. Try again.";
 
 export async function fetchIsAdmin(): Promise<boolean> {
@@ -66,6 +79,7 @@ export type Counts = {
   newsletter: number;
   waitlist: number;
   contact: number;
+  careers: number;
 };
 
 export async function fetchCounts(): Promise<Counts> {
@@ -76,15 +90,16 @@ export async function fetchCounts(): Promise<Counts> {
       .select("*", { count: "exact", head: true });
     return n ?? 0;
   };
-  const [products, orders, users, newsletter, waitlist, contact] = await Promise.all([
+  const [products, orders, users, newsletter, waitlist, contact, careers] = await Promise.all([
     count("products"),
     count("orders"),
     count("profiles"),
     count("newsletter"),
     count("waitlist"),
     count("contact"),
+    count("careers"),
   ]);
-  return { products, orders, users, newsletter, waitlist, contact };
+  return { products, orders, users, newsletter, waitlist, contact, careers };
 }
 
 /* ---------- products ---------- */
@@ -206,8 +221,31 @@ export async function listContactMessages(): Promise<ContactRow[]> {
   return data ?? [];
 }
 
+export async function listCareerApplications(): Promise<CareerRow[]> {
+  const { data, error } = await createClient()
+    .from("careers")
+    .select("id, created_at, kind, name, email, discipline, link, message, cv_path, cv_name")
+    .order("created_at", { ascending: false });
+  if (error) {
+    console.error("[admin careers]", error.message);
+    return [];
+  }
+  return data ?? [];
+}
+
+/** CVs live in a private bucket — a signed URL is the only way to read one,
+ *  and it expires (10 min is plenty for opening one application's CV). */
+export async function getCvUrl(path: string): Promise<string | null> {
+  const { data, error } = await createClient().storage.from("cvs").createSignedUrl(path, 600);
+  if (error) {
+    console.error("[admin careers cv]", error.message);
+    return null;
+  }
+  return data.signedUrl;
+}
+
 export async function deleteRow(
-  table: "newsletter" | "waitlist" | "contact",
+  table: "newsletter" | "waitlist" | "contact" | "careers",
   id: string
 ): Promise<string | null> {
   const { error } = await createClient().from(table).delete().eq("id", id);

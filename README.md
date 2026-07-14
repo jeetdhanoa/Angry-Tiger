@@ -163,20 +163,25 @@ Admins also get a "The office →" link in the /account rail.
 Do these before (or at) the moment the site is announced — each one closes a
 real hole that the code alone cannot close:
 
-1. **Set `SUPABASE_SERVICE_ROLE_KEY` in Vercel** (server-only env var). Until
-   it exists, `/api/forms` and `/api/careers` insert with the public anon key.
-   Both routes log a `production is running on the anon key` warning when this
-   is the case.
-2. **Run the anon-INSERT revoke blocks in the Supabase SQL editor** — the
-   commented-out `revoke` statements in §7 and §11 of
-   [supabase/setup.sql](supabase/setup.sql). Until they run, anyone with the
-   public anon key can POST rows straight to Supabase REST, bypassing the
-   honeypot, rate limit and Turnstile entirely. **All form defenses are
-   decorative until this step.**
+1. ~~Set `SUPABASE_SERVICE_ROLE_KEY` in Vercel~~ — **done (2026-07-14)**.
+2. ~~Run the anon-INSERT revoke blocks (§7 and §11 of
+   [supabase/setup.sql](supabase/setup.sql))~~ — **done (2026-07-14)**.
 3. **Set the Turnstile keys** (`NEXT_PUBLIC_TURNSTILE_SITE_KEY` +
-   `TURNSTILE_SECRET_KEY`) so CAPTCHA verification goes live.
-4. **Run setup.sql §11** (careers table + private `cvs` bucket) if not already
-   run — the Production page application form 500s gracefully without it.
+   `TURNSTILE_SECRET_KEY`) so CAPTCHA verification goes live. Still open.
+4. ~~Run setup.sql §11 (careers table + private `cvs` bucket)~~ — confirmed
+   already run (table and bucket exist).
+5. **Run setup.sql §12 (careers admin access)** — new. `/admin/careers` was
+   built without a prerequisite: the `careers` table had RLS enabled but *no*
+   read policy for anyone, admin included, and the private `cvs` bucket had
+   no read policy at all — applications were landing with nowhere to view
+   them. §12 adds the same admin read/delete pattern already used for
+   newsletter/contact/waitlist, plus a scoped admin-read policy on the `cvs`
+   bucket so CV downloads work from `/admin/careers`. Run it once in the
+   Supabase SQL editor — until then the new admin page will load but show
+   nothing (RLS default-denies with no policy present, it won't error).
+6. **Redirect URL for password reset** — Supabase Dashboard → Authentication
+   → URL Configuration must allow `https://angrytiger.in/reset-password`, or
+   the emailed reset link will be rejected.
 
 ## Prototype state → production TODO
 

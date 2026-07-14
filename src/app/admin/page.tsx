@@ -11,6 +11,7 @@ const STATS: { key: keyof Counts; label: string; href: string }[] = [
   { key: "newsletter", label: "On the list", href: "/admin/newsletter" },
   { key: "waitlist", label: "In the Ambush queue", href: "/admin/waitlist" },
   { key: "contact", label: "Stories received", href: "/admin/contact" },
+  { key: "careers", label: "Join the house", href: "/admin/careers" },
 ];
 
 export default function AdminOverview() {

@@ -14,6 +14,7 @@ const SECTIONS = [
   { label: "Newsletter", href: "/admin/newsletter" },
   { label: "Contact", href: "/admin/contact" },
   { label: "Waitlist", href: "/admin/waitlist" },
+  { label: "Careers", href: "/admin/careers" },
 ];
 
 export default function AdminShell({ children }: { children: React.ReactNode }) {
