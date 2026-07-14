@@ -87,6 +87,17 @@ export async function changePassword(password: string): Promise<string | null> {
   return null;
 }
 
+/** Sends a password-reset email. The link lands on /reset-password, which
+ *  establishes a temporary recovery session and calls changePassword() above
+ *  to finish the job — same updateUser() call, two different entry points. */
+export async function requestPasswordReset(email: string): Promise<string | null> {
+  const { error } = await createClient().auth.resetPasswordForEmail(email, {
+    redirectTo: `${window.location.origin}/reset-password`,
+  });
+  if (error) return error.message;
+  return null;
+}
+
 export async function listOrders(userId: string): Promise<Order[]> {
   const { data, error } = await createClient()
     .from("orders")

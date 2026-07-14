@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useAuth } from "@/lib/auth";
+import { requestPasswordReset } from "@/lib/account";
 import Turnstile from "@/components/Turnstile";
 import Icon from "@/components/Icon";
 import { useFocusTrap } from "@/lib/useFocusTrap";
@@ -57,7 +58,7 @@ export default function Nav() {
 
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [mode, setMode] = useState<"signin" | "signup" | "reset">("signin");
   const [authError, setAuthError] = useState("");
   const [notice, setNotice] = useState("");
   const [busy, setBusy] = useState(false);
@@ -117,6 +118,27 @@ export default function Nav() {
   const submitAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     const em = email.trim();
+
+    if (mode === "reset") {
+      if (!em) {
+        setAuthError("Enter your email.");
+        return;
+      }
+      setAuthError("");
+      setNotice("");
+      setBusy(true);
+      const err = await requestPasswordReset(em);
+      setBusy(false);
+      setCaptcha("");
+      setCaptchaNonce((n) => n + 1);
+      if (err) {
+        setAuthError(err);
+        return;
+      }
+      setNotice("Check your email for a reset link.");
+      return;
+    }
+
     if (!em || !pw) {
       setAuthError("Enter your email and password.");
       return;
@@ -271,7 +293,9 @@ export default function Nav() {
                 <p className="account__intro">
                   {mode === "signup"
                     ? "Create your Angry Tiger account to stay close to what we're building."
-                    : "Sign in to your Angry Tiger account."}
+                    : mode === "reset"
+                      ? "Enter your email and we'll send you a link to reset your password."
+                      : "Sign in to your Angry Tiger account."}
                 </p>
                 <form onSubmit={submitAuth}>
                   <label className="field">
@@ -285,17 +309,19 @@ export default function Nav() {
                       autoComplete="email"
                     />
                   </label>
-                  <label className="field">
-                    <span>Password</span>
-                    <input
-                      type="password"
-                      className="input-dark"
-                      value={pw}
-                      onChange={(e) => setPw(e.target.value)}
-                      placeholder="••••••••"
-                      autoComplete={mode === "signup" ? "new-password" : "current-password"}
-                    />
-                  </label>
+                  {mode !== "reset" && (
+                    <label className="field">
+                      <span>Password</span>
+                      <input
+                        type="password"
+                        className="input-dark"
+                        value={pw}
+                        onChange={(e) => setPw(e.target.value)}
+                        placeholder="••••••••"
+                        autoComplete={mode === "signup" ? "new-password" : "current-password"}
+                      />
+                    </label>
+                  )}
                   <Turnstile key={captchaNonce} onToken={setCaptcha} />
                   <button
                     type="submit"
@@ -306,7 +332,9 @@ export default function Nav() {
                       ? "One moment…"
                       : mode === "signup"
                         ? "Create account"
-                        : "Sign in"}
+                        : mode === "reset"
+                          ? "Send reset link"
+                          : "Sign in"}
                   </button>
                   {authError && (
                     <span className="account__error" role="alert">
@@ -319,18 +347,45 @@ export default function Nav() {
                     </span>
                   )}
                 </form>
-                <button
-                  type="button"
-                  className="account__toggle"
-                  onClick={() => {
-                    setMode(mode === "signin" ? "signup" : "signin");
-                    resetAuthForm();
-                  }}
-                >
-                  {mode === "signin"
-                    ? "New here? Create an account →"
-                    : "Have an account? Sign in →"}
-                </button>
+                {mode === "reset" ? (
+                  <button
+                    type="button"
+                    className="account__toggle"
+                    onClick={() => {
+                      setMode("signin");
+                      resetAuthForm();
+                    }}
+                  >
+                    ← Back to sign in
+                  </button>
+                ) : (
+                  <>
+                    <button
+                      type="button"
+                      className="account__toggle"
+                      onClick={() => {
+                        setMode(mode === "signin" ? "signup" : "signin");
+                        resetAuthForm();
+                      }}
+                    >
+                      {mode === "signin"
+                        ? "New here? Create an account →"
+                        : "Have an account? Sign in →"}
+                    </button>
+                    {mode === "signin" && (
+                      <button
+                        type="button"
+                        className="account__toggle"
+                        onClick={() => {
+                          setMode("reset");
+                          resetAuthForm();
+                        }}
+                      >
+                        Forgot password? →
+                      </button>
+                    )}
+                  </>
+                )}
               </div>
             ) : (
               <div className="account__in">
