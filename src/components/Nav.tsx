@@ -35,6 +35,16 @@ const SEARCH_INDEX = [
     sub: "Join the crew, sign as cast or creative · open call",
     href: "/production",
   },
+  {
+    label: "Commercials",
+    sub: "Hire the unit · same crew, same standard",
+    href: "/production",
+  },
+  {
+    label: "Music videos",
+    sub: "Hire the unit · same crew, same standard",
+    href: "/production",
+  },
   { label: "Contact", sub: "Talk to the tiger · hello@angrytiger.in", href: "/contact" },
   {
     label: "Work with the house",

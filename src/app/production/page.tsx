@@ -39,6 +39,17 @@ const PATHS = [
   },
 ];
 
+/* The five formats the unit shoots. The first three are the house's own
+   slate (each has its own page); commercials and music videos are client
+   work, so they point at the hiring door on the contact page. */
+const FORMATS = [
+  { label: "Feature films", status: "The slate", href: "/films" },
+  { label: "Television", status: "The slate", href: "/television" },
+  { label: "Vertical series", status: "The slate", href: "/vertical" },
+  { label: "Commercials", status: "Hire the unit", href: "/contact" },
+  { label: "Music videos", status: "Hire the unit", href: "/contact" },
+];
+
 const DEPARTMENTS = [
   "Direction",
   "Writing",
@@ -148,6 +159,29 @@ export default function Production() {
             />
           </figure>
         </Zoomable>
+      </section>
+
+      {/* What the house shoots — the five formats as full-bleed rows, same
+          language as the department list below. Slate rows go to their format
+          pages; commercials and music videos go to the hiring door. */}
+      <section className="prod-depts">
+        <span className="caption-label abt-eyebrow" data-reveal>
+          What the house shoots
+        </span>
+        <p className="prod-depts__lede" data-reveal>
+          Three formats are the house&apos;s own slate. Commercials and music videos
+          are where you hire the unit — same crew, same standard.
+        </p>
+        <div className="prod-depts__list" data-seq>
+          {FORMATS.map((f) => (
+            <Link key={f.label} href={f.href} className="prod-dept">
+              <span className="prod-dept__name" data-letter-hover="1">
+                {f.label}
+              </span>
+              <span className="prod-dept__status">{f.status} →</span>
+            </Link>
+          ))}
+        </div>
       </section>
 
       {/* The unit — open call by department, honest version of a jobs board.
