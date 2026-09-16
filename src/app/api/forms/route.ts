@@ -30,7 +30,15 @@ const GENERIC = "That didn't go through. Try again, or email hello@angrytiger.in
  *  can't retry past; anything else is the generic 500. */
 const writeFailed = (tag: string, err: { code?: string; message?: string }) => {
   console.error(tag, err.code ?? "", err.message);
-  return notConnected(err) ? bad(NOT_CONNECTED, 503) : bad(GENERIC, 500);
+  // `code` is a diagnostic the UI ignores: a Postgres/API error code such as
+  // 42501 (permission denied → anon key in use) or "invalid_api_key" is not
+  // secret, and it lets a curl against production say WHY a write failed.
+  const code = err.code ?? (/invalid api key/i.test(err.message ?? "") ? "invalid_api_key" : "unknown");
+  const status = notConnected(err) ? 503 : 500;
+  return NextResponse.json(
+    { ok: false, error: status === 503 ? NOT_CONNECTED : GENERIC, code },
+    { status }
+  );
 };
 
 export async function POST(req: NextRequest) {

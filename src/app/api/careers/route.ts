@@ -27,7 +27,15 @@ const NOT_CONNECTED = "Applications aren't connected yet. Email production@angry
 /** Write/upload failure → honest status (see /api/forms). */
 const writeFailed = (tag: string, err: { code?: string; message?: string }) => {
   console.error(tag, err.code ?? "", err.message);
-  return notConnected(err) ? bad(NOT_CONNECTED, 503) : bad(GENERIC, 500);
+  // `code` is a diagnostic the UI ignores: a Postgres/API error code such as
+  // 42501 (permission denied → anon key in use) or "invalid_api_key" is not
+  // secret, and it lets a curl against production say WHY a write failed.
+  const code = err.code ?? (/invalid api key/i.test(err.message ?? "") ? "invalid_api_key" : "unknown");
+  const status = notConnected(err) ? 503 : 500;
+  return NextResponse.json(
+    { ok: false, error: status === 503 ? NOT_CONNECTED : GENERIC, code },
+    { status }
+  );
 };
 
 const KINDS = ["crew", "cast", "creative"] as const;
