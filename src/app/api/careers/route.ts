@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { randomUUID } from "node:crypto";
 import { rateLimit } from "@/lib/rate-limit";
-import { db, captchaOk } from "@/lib/server/form-defense";
+import { db, captchaOk, notConnected } from "@/lib/server/form-defense";
 import { EMAIL_RE } from "@/lib/validation";
 
 /* The Production page's join-the-house application (crew / cast / creative),
@@ -23,6 +23,12 @@ const bad = (error: string, status = 400) =>
 
 const GENERIC =
   "That didn't go through. Try again, or email production@angrytiger.in with your CV.";
+const NOT_CONNECTED = "Applications aren't connected yet. Email production@angrytiger.in.";
+/** Write/upload failure → honest status (see /api/forms). */
+const writeFailed = (tag: string, err: { code?: string; message?: string }) => {
+  console.error(tag, err.code ?? "", err.message);
+  return notConnected(err) ? bad(NOT_CONNECTED, 503) : bad(GENERIC, 500);
+};
 
 const KINDS = ["crew", "cast", "creative"] as const;
 
@@ -81,7 +87,7 @@ export async function POST(req: NextRequest) {
 
   const client = db("careers");
   if (!client) {
-    return bad("Applications aren't connected yet. Email production@angrytiger.in.", 503);
+    return bad(NOT_CONNECTED, 503);
   }
 
   // Optional CV. Random storage name; the visitor's filename is data, not a path.
@@ -100,10 +106,7 @@ export async function POST(req: NextRequest) {
       .upload(path, await cv.arrayBuffer(), {
         contentType: CV_TYPES.has(cv.type) ? cv.type : "application/pdf",
       });
-    if (upErr) {
-      console.error("[careers/upload]", upErr.message);
-      return bad(GENERIC, 500);
-    }
+    if (upErr) return writeFailed("[careers/upload]", upErr);
     cv_path = path;
     cv_name = cv.name.slice(0, 140);
   }
@@ -111,9 +114,6 @@ export async function POST(req: NextRequest) {
   const { error } = await client
     .from("careers")
     .insert({ kind, name, email, discipline, link, message, cv_path, cv_name });
-  if (error) {
-    console.error("[careers]", error.message);
-    return bad(GENERIC, 500);
-  }
+  if (error) return writeFailed("[careers]", error);
   return NextResponse.json({ ok: true });
 }

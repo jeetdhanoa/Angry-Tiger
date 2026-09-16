@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { rateLimit } from "@/lib/rate-limit";
-import { db, captchaOk } from "@/lib/server/form-defense";
+import { db, captchaOk, notConnected } from "@/lib/server/form-defense";
 import { EMAIL_RE } from "@/lib/validation";
 
 /* All public form submissions (newsletter / waitlist / contact) come through
@@ -23,6 +23,15 @@ type Kind = (typeof KINDS)[number];
 
 const bad = (error: string, status = 400) =>
   NextResponse.json({ ok: false, error }, { status });
+
+const NOT_CONNECTED = "Sending isn't connected yet. Email hello@angrytiger.in instead.";
+const GENERIC = "That didn't go through. Try again, or email hello@angrytiger.in.";
+/** Write failure → the honest status: a key problem is a 503 the visitor
+ *  can't retry past; anything else is the generic 500. */
+const writeFailed = (tag: string, err: { code?: string; message?: string }) => {
+  console.error(tag, err.code ?? "", err.message);
+  return notConnected(err) ? bad(NOT_CONNECTED, 503) : bad(GENERIC, 500);
+};
 
 export async function POST(req: NextRequest) {
   let body: Record<string, unknown>;
@@ -57,7 +66,7 @@ export async function POST(req: NextRequest) {
 
   const client = db("forms");
   if (!client) {
-    return bad("Sending isn't connected yet. Email hello@angrytiger.in instead.", 503);
+    return bad(NOT_CONNECTED, 503);
   }
 
   if (kind === "contact") {
@@ -67,10 +76,7 @@ export async function POST(req: NextRequest) {
     if (story.length > 5000) return bad("Keep it under 5,000 characters for now.");
     if (name.length > 120) return bad("That name looks too long.");
     const { error } = await client.from("contact").insert({ name, email, story });
-    if (error) {
-      console.error("[forms/contact]", error.message);
-      return bad("That didn't go through. Try again, or email hello@angrytiger.in.", 500);
-    }
+    if (error) return writeFailed("[forms/contact]", error);
     return NextResponse.json({ ok: true });
   }
 
@@ -85,18 +91,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: true, position });
     }
     const { error: insErr } = await client.from("waitlist").insert({ email });
-    if (insErr && insErr.code !== "23505") {
-      console.error("[forms/waitlist]", (error ?? insErr).message);
-      return bad("That didn't go through. Try again, or email hello@angrytiger.in.", 500);
-    }
+    if (insErr && insErr.code !== "23505") return writeFailed("[forms/waitlist]", insErr);
     return NextResponse.json({ ok: true });
   }
 
   const { error } = await client.from(kind).insert({ email });
   // Unique violation = already subscribed — that reads as success.
-  if (error && error.code !== "23505") {
-    console.error(`[forms/${kind}]`, error.message);
-    return bad("That didn't go through. Try again, or email hello@angrytiger.in.", 500);
-  }
+  if (error && error.code !== "23505") return writeFailed(`[forms/${kind}]`, error);
   return NextResponse.json({ ok: true });
 }

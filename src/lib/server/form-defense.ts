@@ -42,3 +42,12 @@ export async function captchaOk(token: string, ip: string): Promise<boolean> {
     return false;
   }
 }
+
+/** True when a Supabase write failed because the route is on the wrong key —
+ *  Postgres 42501 (permission denied: the anon key after the INSERT revokes)
+ *  or an invalid/rotated API key. Retrying can never succeed, so callers
+ *  should answer with the "isn't connected yet" 503, not "try again". */
+export function notConnected(err: { code?: string; message?: string } | null): boolean {
+  if (!err) return false;
+  return err.code === "42501" || /invalid api key|jwt/i.test(err.message ?? "");
+}
