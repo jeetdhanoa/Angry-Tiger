@@ -36,7 +36,15 @@ const writeFailed = (tag: string, err: { code?: string; message?: string }) => {
   const code = err.code ?? (/invalid api key/i.test(err.message ?? "") ? "invalid_api_key" : "unknown");
   const status = notConnected(err) ? 503 : 500;
   return NextResponse.json(
-    { ok: false, error: status === 503 ? NOT_CONNECTED : GENERIC, code, ...keyDiagnostic() },
+    {
+      ok: false,
+      error: status === 503 ? NOT_CONNECTED : GENERIC,
+      code,
+      // Postgres permission messages name the object ("permission denied for
+      // table x" / "for schema public") — diagnostic, never secret.
+      detail: status === 503 ? err.message : undefined,
+      ...keyDiagnostic(),
+    },
     { status }
   );
 };
