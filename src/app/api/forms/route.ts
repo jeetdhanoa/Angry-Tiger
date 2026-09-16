@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { rateLimit } from "@/lib/rate-limit";
-import { db, captchaOk, notConnected } from "@/lib/server/form-defense";
+import { db, captchaOk, notConnected, keyDiagnostic } from "@/lib/server/form-defense";
 import { EMAIL_RE } from "@/lib/validation";
 
 /* All public form submissions (newsletter / waitlist / contact) come through
@@ -36,7 +36,7 @@ const writeFailed = (tag: string, err: { code?: string; message?: string }) => {
   const code = err.code ?? (/invalid api key/i.test(err.message ?? "") ? "invalid_api_key" : "unknown");
   const status = notConnected(err) ? 503 : 500;
   return NextResponse.json(
-    { ok: false, error: status === 503 ? NOT_CONNECTED : GENERIC, code },
+    { ok: false, error: status === 503 ? NOT_CONNECTED : GENERIC, code, ...keyDiagnostic() },
     { status }
   );
 };

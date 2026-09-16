@@ -51,3 +51,20 @@ export function notConnected(err: { code?: string; message?: string } | null): b
   if (!err) return false;
   return err.code === "42501" || /invalid api key|jwt/i.test(err.message ?? "");
 }
+
+/** Non-secret diagnostic for a failed write: is the server-only key present,
+ *  and which Postgres role is it minted for? Supabase keys are JWTs whose
+ *  payload carries `role` (anon | service_role); new-style `sb_secret_` keys
+ *  aren't JWTs but are always service-role. Only the role NAME is exposed. */
+export function keyDiagnostic(): { serverKey: boolean; role: string } {
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!key) return { serverKey: false, role: "none (fell back to anon key)" };
+  if (key.startsWith("sb_secret_")) return { serverKey: true, role: "service_role (sb_secret)" };
+  if (key.startsWith("sb_publishable_")) return { serverKey: true, role: "anon (sb_publishable!)" };
+  try {
+    const payload = JSON.parse(Buffer.from(key.split(".")[1], "base64url").toString("utf8"));
+    return { serverKey: true, role: String(payload.role ?? "unknown") };
+  } catch {
+    return { serverKey: true, role: `not a JWT (length ${key.length})` };
+  }
+}
