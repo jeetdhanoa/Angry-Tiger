@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import Image from "next/image";
 import Footer from "@/components/Footer";
 import MarkerStroke from "@/components/MarkerStroke";
@@ -7,12 +8,7 @@ import Zoomable from "@/components/Zoomable";
 const description =
   "Built on instinct. Refined through craft. Angry Tiger is an independent Bollywood production house making feature films, television and vertical series.";
 
-export const metadata: Metadata = {
-  title: "About — Angry Tiger",
-  description,
-  openGraph: { title: "About — Angry Tiger", description, url: "/about" },
-  twitter: { title: "About — Angry Tiger", description },
-};
+export const metadata: Metadata = pageMeta("About — Angry Tiger", description, "/about");
 
 // §1.02 of the Brand Guidelines — the five creative principles.
 const PRINCIPLES = [

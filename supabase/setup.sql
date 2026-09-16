@@ -497,3 +497,15 @@ grant all privileges on all functions in schema public to service_role;
 alter default privileges in schema public grant all on tables    to service_role;
 alter default privileges in schema public grant all on sequences to service_role;
 alter default privileges in schema public grant all on functions to service_role;
+
+-- ---------------------------------------------------------------------------
+-- §14  Close the join_waitlist() side door — 2026-09-17
+--
+-- join_waitlist(text) is SECURITY DEFINER and was granted to anon so the
+-- waitlist form could call it before the server routes existed. The routes
+-- now write with service_role (§13), and a hygiene probe confirmed the public
+-- key can still call this function directly — inserting into waitlist while
+-- skipping the honeypot, rate limit and CAPTCHA that /api/forms enforces.
+-- service_role keeps EXECUTE via the §13 default-privilege grant.
+-- ---------------------------------------------------------------------------
+revoke execute on function public.join_waitlist(text) from anon, authenticated;

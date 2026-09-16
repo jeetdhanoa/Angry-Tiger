@@ -1,16 +1,12 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import FormatBlock from "@/components/FormatBlock";
 import Footer from "@/components/Footer";
 
 const description =
   "Television from Angry Tiger — series built to break the pattern. Our first slate is in development.";
 
-export const metadata: Metadata = {
-  title: "Television — Angry Tiger",
-  description,
-  openGraph: { title: "Television — Angry Tiger", description, url: "/television" },
-  twitter: { title: "Television — Angry Tiger", description },
-};
+export const metadata: Metadata = pageMeta("Television — Angry Tiger", description, "/television");
 
 const SLATES = [
   { code: "T01", titleBar: "min(300px, 56vw)", genreBar: 88 },

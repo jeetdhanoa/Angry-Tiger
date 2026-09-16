@@ -1,16 +1,12 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import FormatBlock from "@/components/FormatBlock";
 import Footer from "@/components/Footer";
 
 const description =
   "Feature films and short films from Angry Tiger. Our first slate is in development, and new films get announced here first.";
 
-export const metadata: Metadata = {
-  title: "Films — Angry Tiger",
-  description,
-  openGraph: { title: "Films — Angry Tiger", description, url: "/films" },
-  twitter: { title: "Films — Angry Tiger", description },
-};
+export const metadata: Metadata = pageMeta("Films — Angry Tiger", description, "/films");
 
 const FEATURES = [
   { code: "F01", titleBar: "min(340px, 60vw)", genreBar: 72 },

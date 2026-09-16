@@ -1,16 +1,12 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import FormatBlock from "@/components/FormatBlock";
 import Footer from "@/components/Footer";
 
 const description =
   "Vertical series from Angry Tiger, made for the way people actually watch. In development now.";
 
-export const metadata: Metadata = {
-  title: "Vertical — Angry Tiger",
-  description,
-  openGraph: { title: "Vertical — Angry Tiger", description, url: "/vertical" },
-  twitter: { title: "Vertical — Angry Tiger", description },
-};
+export const metadata: Metadata = pageMeta("Vertical — Angry Tiger", description, "/vertical");
 
 const SLATES = [
   { code: "V01", titleBar: "min(260px, 50vw)", genreBar: 76 },
