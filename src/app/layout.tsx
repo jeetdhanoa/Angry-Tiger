@@ -63,9 +63,13 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "./",
   },
-  // Favicon + apple-touch-icon come from src/app/icon.png and
-  // src/app/apple-icon.png (Next's file convention) — square, red tiger on
-  // black. Replaces the old non-square 952x1229 logo used as a favicon.
+  // Icons come from Next's file convention: src/app/icon1.svg (the red tiger
+  // symbol, transparent, crisp at any size — modern browsers prefer it) with
+  // src/app/icon2.png as a transparent raster fallback. The numeric suffixes
+  // matter: an un-suffixed icon.svg + icon.png emits only ONE <link>; numbered
+  // files emit both, vector first. apple-icon.png is a
+  // Signal Red tile with the paper tiger, because iOS fills transparency with
+  // black — a transparent touch icon would bring the black square back.
   openGraph: {
     title: "Angry Tiger",
     description,
