@@ -128,10 +128,10 @@ export default function About() {
       <section className="abt-quote" data-reveal>
         <p className="script abt-quote__line">
           <span className="abt-quote__clause">
-            &ldquo;Safe was killing it.
+            &ldquo;Safe was killing Cinema.
           </span>{" "}
           <span className="abt-quote__clause">
-            So we got Angry.&rdquo;
+            That made us Angry.&rdquo;
           </span>
         </p>
         <span className="caption-label abt-quote__attr">Jeet Dhanoa, Founder</span>
