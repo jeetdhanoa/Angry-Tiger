@@ -179,8 +179,8 @@ real hole that the code alone cannot close:
    bucket so CV downloads work from `/admin/careers`. Run it once in the
    Supabase SQL editor — until then the new admin page will load but show
    nothing (RLS default-denies with no policy present, it won't error).
-6. **If every form answers "isn't connected yet" with a valid service key** —
-   run setup.sql §13. Production hit this on 2026-09-17: `service_role` had
+6. ~~Run setup.sql §13 (restore `service_role` table privileges)~~ — **done
+   (2026-09-17)**; all three forms verified writing on production. Production hit this on 2026-09-17: `service_role` had
    lost its table privileges (`42501 permission denied for table …`), so the
    routes fell to the honest 503. A failed write now returns `code`, `detail`
    and the key's role in its JSON, so `curl -X POST …/api/forms` says why.
