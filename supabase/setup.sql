@@ -476,3 +476,24 @@ create policy "admin reads cvs" on storage.objects
   for select to authenticated
   using (bucket_id = 'cvs' and public.is_admin());
 grant select on storage.objects to authenticated;
+
+-- ---------------------------------------------------------------------------
+-- §13  service_role table privileges (restore) — 2026-09-17
+--
+-- The form routes (/api/forms, /api/careers) write with the server-only
+-- SUPABASE_SERVICE_ROLE_KEY. service_role is expected to hold ALL privileges
+-- on every public table (Supabase grants this by default), but production was
+-- answering every write with `42501 permission denied for table <name>` while
+-- presenting a valid service_role JWT — the role's grants had been stripped
+-- (a schema-wide revoke aimed at anon/authenticated swept it up). Idempotent;
+-- safe to re-run. Grants NOTHING to anon/authenticated — the §7/§11 revokes
+-- stay in force and the routes remain the only write path.
+-- ---------------------------------------------------------------------------
+grant usage on schema public to service_role;
+grant all privileges on all tables    in schema public to service_role;
+grant all privileges on all sequences in schema public to service_role;
+grant all privileges on all functions in schema public to service_role;
+-- …and for any table created after this runs:
+alter default privileges in schema public grant all on tables    to service_role;
+alter default privileges in schema public grant all on sequences to service_role;
+alter default privileges in schema public grant all on functions to service_role;
